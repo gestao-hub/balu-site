@@ -1116,6 +1116,89 @@ section.tight { padding: 64px 0; }
   position: relative;
   overflow: hidden;
   border-bottom: 1px solid var(--border);
+  background: var(--bg-2);
+}
+.work-preview > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+  display: block;
+}
+.work:hover .work-preview > img {
+  transform: scale(1.05);
+  filter: brightness(1.08);
+}
+.work-preview::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 50%, rgba(7,10,18,0.65) 100%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-spring);
+}
+.work:hover .work-preview::after { opacity: 1; }
+.work-preview .live-badge {
+  position: absolute;
+  top: 14px; right: 14px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(7,10,18,0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.4s var(--ease-spring), transform 0.4s var(--ease-spring);
+}
+.work:hover .work-preview .live-badge {
+  opacity: 1;
+  transform: translateY(0);
+}
+.work-preview .live-badge::before {
+  content: "";
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--highlight);
+  box-shadow: 0 0 8px var(--highlight);
+}
+.work-preview .visit-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 22px;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-spring);
+}
+.work:hover .work-preview .visit-overlay { opacity: 1; }
+.work-preview .visit-overlay span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.95);
+  color: #0F1320;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: -0.005em;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
 }
 .work-meta { padding: 20px 22px; display: flex; flex-direction: column; gap: 4px; }
 .work-meta .cat { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent-2); }
