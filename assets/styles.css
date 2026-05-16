@@ -2502,20 +2502,37 @@ details.card[open] summary::after { transform: rotate(45deg); }
   .showcase-row p { font-size: 13px; }
 }
 
-/* ============ Location Map (footer) ============ */
+/* ============ Location Map (footer — canto inferior direito) ============ */
 .footer-location {
+  position: absolute;
+  right: 32px;
+  bottom: 96px;
+  z-index: 25;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 14px;
-  padding: 24px 0 8px;
+  align-items: flex-end;
+  gap: 8px;
 }
 .footer-location-label {
   font-family: var(--font-mono);
-  font-size: 10.5px;
+  font-size: 10px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--text-3);
+}
+
+/* Ensure expanded card grows toward the top-left so it never overflows the viewport */
+.location-map { transform-origin: bottom right; }
+
+@media (max-width: 880px) {
+  .footer-location {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    align-items: center;
+    padding: 16px 0 8px;
+    margin-top: 8px;
+  }
 }
 
 .location-map {
