@@ -271,14 +271,17 @@
     });
   });
 
-  // ---- 9e) LocationMap (footer) — tilt + click-to-expand ----
+  // ---- 9e) LocationMap (footer) — tilt + click abre Google Maps ----
+  const MAPS_URL = "https://www.google.com/maps/search/?api=1&query=" +
+    encodeURIComponent("Sapiens Parque, Av. Luiz Boiteux Piazza, 1302 - Canasvieiras, Florianópolis - SC, 88056-000");
+
   document.querySelectorAll("[data-location-map]").forEach((root) => {
     const card = root.querySelector(".location-map-card");
     if (!card) return;
 
-    // Click toggle
+    // Click abre Google Maps em nova aba
     root.addEventListener("click", () => {
-      root.classList.toggle("expanded");
+      window.open(MAPS_URL, "_blank", "noopener,noreferrer");
     });
 
     // 3D tilt on mouse move (desktop only)
