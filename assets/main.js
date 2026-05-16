@@ -326,6 +326,194 @@
     });
   });
 
+  // ===== INTERACTIVE MOCKUPS (drag pipeline, whatsapp typing, project tracker) =====
+
+  // ---- M1) Pipeline drag-and-drop (CRM) ----
+  document.querySelectorAll(".pipeline-animated").forEach((pipeline) => {
+    const cols = pipeline.querySelectorAll(".pipeline-col");
+    const deals = pipeline.querySelectorAll(".deal");
+    if (!cols.length || !deals.length) return;
+
+    function recalc() {
+      cols.forEach((col) => {
+        const colDeals = col.querySelectorAll(".deal");
+        const h4 = col.querySelector("h4");
+        if (!h4) return;
+        let countSpan = h4.querySelector("span");
+        if (countSpan) countSpan.textContent = String(colDeals.length);
+      });
+    }
+
+    deals.forEach((deal) => {
+      deal.setAttribute("draggable", "true");
+      deal.style.cursor = "grab";
+      deal.addEventListener("dragstart", (e) => {
+        deal.classList.add("dragging");
+        try { e.dataTransfer.effectAllowed = "move"; e.dataTransfer.setData("text/plain", "deal"); } catch (_) {}
+        setTimeout(() => deal.style.opacity = "0.35", 0);
+      });
+      deal.addEventListener("dragend", () => {
+        deal.classList.remove("dragging");
+        deal.style.opacity = "";
+        cols.forEach(c => c.classList.remove("dragover"));
+      });
+    });
+
+    cols.forEach((col) => {
+      col.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        try { e.dataTransfer.dropEffect = "move"; } catch (_) {}
+        col.classList.add("dragover");
+      });
+      col.addEventListener("dragleave", (e) => {
+        if (!col.contains(e.relatedTarget)) col.classList.remove("dragover");
+      });
+      col.addEventListener("drop", (e) => {
+        e.preventDefault();
+        col.classList.remove("dragover");
+        const dragging = pipeline.querySelector(".deal.dragging");
+        if (!dragging) return;
+        col.appendChild(dragging);
+        recalc();
+        dragging.animate(
+          [
+            { transform: "scale(1)" },
+            { transform: "scale(1.05)" },
+            { transform: "scale(1)" },
+          ],
+          { duration: 500, easing: "cubic-bezier(.16,1,.3,1)" }
+        );
+      });
+    });
+    recalc();
+  });
+
+  // ---- M2) WhatsApp typing real (CRM) ----
+  const WA_SCENARIOS = [
+    { match: /pre[çc]o|quanto|valor|custa|plano/i, reply: "Os planos vão de R$ 297 (Solo) a R$ 697 (Estúdio). Ticket médio fecha em ~R$ 500/mês. Bora ver qual encaixa pro tamanho da sua agência?" },
+    { match: /demo|agendar|call|conversar|reuni[ãa]o/i, reply: "Bora marcar uma call de 30 min com o Michel? Clica no botão \"Agendar demo\" lá em cima 📅" },
+    { match: /integra[çc][ãa]o|whatsapp|meta|google|stripe|asaas/i, reply: "Integramos nativo: WhatsApp Cloud, Meta Ads, Google Ads, Stripe, Asaas, Notion. Sem Zapier no meio." },
+    { match: /trial|gr[áa]tis|free|teste/i, reply: "14 dias grátis, sem cartão. Pode testar a plataforma inteira — CRM, projetos, financeiro, squads de IA." },
+    { match: /migra[çc][ãa]o|sair|trocar/i, reply: "Migração assistida em 2-5 dias úteis. Importamos do seu CRM, planilhas e ferramenta de projeto." },
+    { match: /ia|inteligencia|agent|gpt|claude/i, reply: "Squads de IA por cliente: atendimento (SDR), copy, briefing, análise. Base de conhecimento isolada por workspace." },
+    { match: /^ol[áa]|oi|bom dia|boa tarde/i, reply: "Oi! Tudo bem? Sou o Balu, agente da Balu CRM. Qual sua dúvida?" },
+  ];
+  const WA_DEFAULT = "Boa pergunta — me conta um pouco mais? Qual o tamanho da sua agência hoje?";
+
+  document.querySelectorAll(".wa-mockup").forEach((mockup) => {
+    const chatBody = mockup.querySelector(".wa-chat-body");
+    const inputZone = mockup.querySelector(".wa-input");
+    const inputField = mockup.querySelector(".wa-input-field");
+    const sendBtn = mockup.querySelector(".wa-input-send");
+    if (!chatBody || !inputZone) return;
+
+    if (inputField && inputField.tagName !== "INPUT") {
+      const realInput = document.createElement("input");
+      realInput.type = "text";
+      realInput.className = "wa-input-field";
+      realInput.placeholder = "Digite sua resposta…";
+      realInput.maxLength = 200;
+      inputField.replaceWith(realInput);
+    }
+    const input = inputZone.querySelector("input.wa-input-field");
+    if (!input) return;
+
+    function mkMsg(cls, text) {
+      const msg = document.createElement("div");
+      msg.className = "wa-msg " + cls;
+      msg.textContent = text;
+      const time = document.createElement("span");
+      time.className = "time";
+      const now = new Date();
+      time.textContent = `${String(now.getHours()).padStart(2,"0")}:${String(now.getMinutes()).padStart(2,"0")}${cls === "outgoing" ? " ✓✓" : ""}`;
+      msg.appendChild(time);
+      chatBody.appendChild(msg);
+      chatBody.scrollTop = chatBody.scrollHeight;
+      return msg;
+    }
+    function showTyping() {
+      const t = document.createElement("div");
+      t.className = "wa-msg incoming wa-typing-indicator";
+      for (let i = 0; i < 3; i++) {
+        const dot = document.createElement("span");
+        dot.className = "wa-dot";
+        t.appendChild(dot);
+      }
+      chatBody.appendChild(t);
+      chatBody.scrollTop = chatBody.scrollHeight;
+      return t;
+    }
+    function findReply(text) {
+      for (const sc of WA_SCENARIOS) if (sc.match.test(text)) return sc.reply;
+      return WA_DEFAULT;
+    }
+
+    let busy = false;
+    function send() {
+      if (busy) return;
+      const text = input.value.trim();
+      if (!text) return;
+      busy = true;
+      mkMsg("outgoing", text);
+      input.value = "";
+      const typing = showTyping();
+      setTimeout(() => {
+        typing.remove();
+        mkMsg("incoming", findReply(text));
+        busy = false;
+        input.focus();
+      }, 1200 + Math.random() * 600);
+    }
+
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") { e.preventDefault(); send(); }
+    });
+    if (sendBtn) {
+      sendBtn.style.cursor = "pointer";
+      sendBtn.addEventListener("click", send);
+    }
+  });
+
+  // ---- M3) Project tracker checkboxes vivos (Criação) ----
+  document.querySelectorAll(".project-tracker").forEach((tracker) => {
+    const tasks = tracker.querySelectorAll(".project-task");
+    const progressBar = tracker.querySelector(".project-progress-bar");
+    const phPct = tracker.querySelector(".ph-pct");
+    const phName = tracker.querySelector(".ph-name");
+    if (!tasks.length || !progressBar) return;
+
+    function recalc() {
+      const done = tracker.querySelectorAll(".project-task.done").length;
+      const total = tasks.length;
+      const pct = Math.round((done / total) * 100);
+      progressBar.style.width = pct + "%";
+      if (phPct) phPct.textContent = `${done} de ${total} tarefas`;
+      if (phName) phName.textContent = `Construção · ${pct}% concluído`;
+      if (pct === 100) {
+        const current = tracker.querySelector(".project-phase.current");
+        const next = current?.nextElementSibling;
+        if (current && next && next.classList.contains("project-phase")) {
+          current.classList.remove("current");
+          current.classList.add("done");
+          const cur_num = current.querySelector(".num");
+          if (cur_num) cur_num.textContent = "✓";
+          next.classList.add("current");
+        }
+      }
+    }
+
+    tasks.forEach((task) => {
+      task.style.cursor = "pointer";
+      task.addEventListener("click", (e) => {
+        if (e.target.classList.contains("owner")) return;
+        task.classList.toggle("done");
+        task.classList.remove("in-progress");
+        recalc();
+      });
+    });
+    recalc();
+  });
+
   // ---- 9e) LocationMap (footer) — tilt + click expande pra mostrar Google Maps embed ----
   document.querySelectorAll("[data-location-map]").forEach((root) => {
     const card = root.querySelector(".location-map-card");

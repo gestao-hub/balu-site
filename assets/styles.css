@@ -2934,6 +2934,92 @@ details.card[open] summary::after { transform: rotate(45deg); }
   .logos-marquee .logo-wordmark { font-size: 22px; height: 28px; }
 }
 
+/* ============ Interactive mockups (drag pipeline + wa typing + project tracker) ============ */
+
+/* Pipeline drag-and-drop states */
+.pipeline-col {
+  transition: background 0.3s var(--ease-spring), border-color 0.3s var(--ease-spring);
+}
+.pipeline-col.dragover {
+  background: rgba(69,118,255,0.10);
+  border-color: rgba(69,118,255,0.50);
+  box-shadow: inset 0 0 0 2px rgba(69,118,255,0.30), inset 0 0 24px rgba(69,118,255,0.15);
+}
+.pipeline-animated .deal {
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+.pipeline-animated .deal:active { cursor: grabbing; }
+.pipeline-animated .deal.dragging {
+  cursor: grabbing;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.4), 0 0 0 1px rgba(69,118,255,0.50);
+  transform: rotate(-1.5deg);
+}
+
+/* WhatsApp input ativo */
+input.wa-input-field {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-size: 13px;
+  font-family: inherit;
+  width: 100%;
+  padding: 0;
+}
+input.wa-input-field::placeholder { color: var(--text-3); }
+.wa-input:focus-within {
+  background: rgba(69,118,255,0.05);
+  border-color: rgba(69,118,255,0.30);
+}
+.wa-typing-indicator {
+  display: inline-flex !important;
+  gap: 5px;
+  padding: 12px 14px !important;
+  align-items: center;
+  width: auto;
+  min-width: 56px;
+}
+.wa-typing-indicator .wa-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent-2);
+  opacity: 0.4;
+  animation: wa-typing-bounce 1.2s ease-in-out infinite;
+}
+.wa-typing-indicator .wa-dot:nth-child(2) { animation-delay: 0.18s; }
+.wa-typing-indicator .wa-dot:nth-child(3) { animation-delay: 0.36s; }
+@keyframes wa-typing-bounce {
+  0%, 60%, 100% { opacity: 0.4; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-3px); }
+}
+
+/* Project tracker checkbox interativo */
+.project-task {
+  transition: background 0.3s var(--ease-spring), transform 0.3s var(--ease-spring);
+  padding: 6px 8px !important;
+  margin: 0 -8px;
+  border-radius: 8px;
+}
+.project-task:hover { background: rgba(255,255,255,0.03); }
+.project-task .checkbox {
+  transition:
+    background 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    border-color 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.project-task:hover .checkbox {
+  border-color: var(--accent-2);
+  transform: scale(1.1);
+}
+.project-progress-bar {
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.project-phases .project-phase {
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
 /* ============ Project Showcase (cursor-follow image preview) ============ */
 .showcase-section { padding: 96px 0; position: relative; }
 .showcase-wrap {
