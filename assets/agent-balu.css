@@ -91,10 +91,10 @@
 }
 .balu-trigger-avatar .balu-u-body,
 .balu-panel-avatar .balu-u-body {
-  stroke-width: 2.8;
+  stroke-width: 2.2;
 }
 .balu-trigger-avatar .balu-u-smile {
-  transform-origin: 16px 25px;
+  transform-origin: 12px 18px;
   transition: transform 0.5s ease;
 }
 /* Quando agente está "falando", sorriso oscila */
