@@ -230,8 +230,8 @@
     let rafId = null;
     let initialized = false;
 
-    const OFFSET_X = 24;
-    const OFFSET_Y = -120;
+    const OFFSET_X = 32;
+    const OFFSET_Y = -200;
 
     function tick() {
       const f = 0.16;
@@ -268,6 +268,38 @@
         preview.classList.remove("visible");
         item.classList.remove("is-hover");
       });
+    });
+  });
+
+  // ---- 9e) LocationMap (footer) — tilt + click-to-expand ----
+  document.querySelectorAll("[data-location-map]").forEach((root) => {
+    const card = root.querySelector(".location-map-card");
+    if (!card) return;
+
+    // Click toggle
+    root.addEventListener("click", () => {
+      root.classList.toggle("expanded");
+    });
+
+    // 3D tilt on mouse move (desktop only)
+    if (!isFinePointer || prefersReducedMotion) return;
+    let rafId = null;
+    root.addEventListener("mousemove", (e) => {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const r = root.getBoundingClientRect();
+        const cx = r.left + r.width / 2;
+        const cy = r.top + r.height / 2;
+        const dx = (e.clientX - cx) / (r.width / 2);
+        const dy = (e.clientY - cy) / (r.height / 2);
+        const rotY = dx * 8;
+        const rotX = -dy * 8;
+        card.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+      });
+    });
+    root.addEventListener("mouseleave", () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      card.style.transform = "rotateX(0deg) rotateY(0deg)";
     });
   });
 
