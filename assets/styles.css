@@ -255,6 +255,220 @@ p { color: var(--text-2); }
 section { padding: 144px 0; }
 section.tight { padding: 96px 0; }
 
+/* ============ Theme switching por section (Apple-style) ============
+   Apple alterna dark/dark-alt/light/light-alt entre seções pra criar ritmo
+   de capítulos. Cada section pode receber uma classe que sobrescreve as
+   variáveis CSS escopadas APENAS pra ela e seus filhos. */
+
+section.theme-dark-alt {
+  --bg: #0B1120;
+  --bg-2: #0F1729;
+  --surface: #161E33;
+  --surface-2: #1E2945;
+  --surface-3: #283254;
+  background: var(--bg);
+  position: relative;
+  z-index: 2;
+}
+
+section.theme-light {
+  --bg: #F5F7FA;
+  --bg-2: #EDF1F7;
+  --surface: #FFFFFF;
+  --surface-2: #F0F3F8;
+  --surface-3: #E5EBF3;
+  --border: rgba(15, 19, 32, 0.08);
+  --border-strong: rgba(15, 19, 32, 0.16);
+  --text: #101729;
+  --text-2: #3D4760;
+  --text-3: #6F7991;
+  --muted: #9CA3B5;
+  --accent-deep: #1E4FCC;
+  --shadow-glass:
+    0 4px 16px rgba(15, 19, 32, 0.06),
+    inset 0 1px 1px rgba(255,255,255,0.50);
+  --shadow-glass-strong:
+    0 12px 32px rgba(15, 19, 32, 0.10),
+    inset 0 1px 1px rgba(255,255,255,0.60);
+  --shadow-glow: 0 0 0 1px rgba(69,118,255,0.20), 0 12px 60px rgba(69,118,255,0.14);
+  background: var(--bg);
+  color: var(--text);
+  position: relative;
+  z-index: 2;
+}
+
+section.theme-light-alt {
+  --bg: #EDF1F7;
+  --bg-2: #E5EBF3;
+  --surface: #F8FAFC;
+  --surface-2: #ECF1F7;
+  --surface-3: #E0E7F1;
+  --border: rgba(15, 19, 32, 0.08);
+  --border-strong: rgba(15, 19, 32, 0.16);
+  --text: #101729;
+  --text-2: #3D4760;
+  --text-3: #6F7991;
+  --muted: #9CA3B5;
+  --accent-deep: #1E4FCC;
+  --shadow-glass:
+    0 4px 16px rgba(15, 19, 32, 0.06),
+    inset 0 1px 1px rgba(255,255,255,0.50);
+  --shadow-glass-strong:
+    0 12px 32px rgba(15, 19, 32, 0.10),
+    inset 0 1px 1px rgba(255,255,255,0.60);
+  --shadow-glow: 0 0 0 1px rgba(69,118,255,0.20), 0 12px 60px rgba(69,118,255,0.14);
+  background: var(--bg);
+  color: var(--text);
+  position: relative;
+  z-index: 2;
+}
+
+/* ========= Light theme component overrides =========
+   Componentes que usam rgba(255,255,255,X) precisam virar rgba(0,0,0,X)
+   ou usar tokens neutros pra ficarem visíveis em fundo claro */
+
+section.theme-light .glass,
+section.theme-light-alt .glass,
+section.theme-light .card,
+section.theme-light-alt .card,
+section.theme-light .feature,
+section.theme-light-alt .feature,
+section.theme-light .step,
+section.theme-light-alt .step,
+section.theme-light .testimonial,
+section.theme-light-alt .testimonial,
+section.theme-light .plan,
+section.theme-light-alt .plan,
+section.theme-light .vs-table,
+section.theme-light-alt .vs-table,
+section.theme-light .intg-item,
+section.theme-light-alt .intg-item {
+  background: linear-gradient(145deg, #FFFFFF 0%, #F8FAFC 100%);
+  border: 1px solid rgba(15, 19, 32, 0.08);
+  box-shadow:
+    0 4px 16px rgba(15, 19, 32, 0.06),
+    inset 0 1px 1px rgba(255, 255, 255, 0.8);
+}
+section.theme-light .glass:hover,
+section.theme-light-alt .glass:hover,
+section.theme-light .feature:hover,
+section.theme-light-alt .feature:hover,
+section.theme-light .step:hover,
+section.theme-light-alt .step:hover,
+section.theme-light .testimonial:hover,
+section.theme-light-alt .testimonial:hover {
+  background: linear-gradient(145deg, #FFFFFF 0%, #FFFFFF 100%);
+  border-color: rgba(15, 19, 32, 0.14);
+  box-shadow:
+    0 16px 36px rgba(15, 19, 32, 0.10),
+    inset 0 1px 1px rgba(255, 255, 255, 1);
+}
+
+/* Plano destacado (featured) no light tem aurora azul mais sutil */
+section.theme-light .plan.featured,
+section.theme-light-alt .plan.featured {
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(69,118,255,0.10), transparent 60%),
+    linear-gradient(145deg, #FFFFFF, #F8FAFC);
+  border-color: rgba(69, 118, 255, 0.30);
+  box-shadow:
+    0 0 0 1px rgba(69,118,255,0.10),
+    0 16px 40px rgba(69,118,255,0.12);
+}
+
+/* Eyebrow no light fica mais escuro */
+section.theme-light .eyebrow,
+section.theme-light-alt .eyebrow {
+  background: rgba(69,118,255,0.10);
+  border-color: rgba(69, 118, 255, 0.30);
+  color: var(--accent-deep);
+}
+
+/* Display glow nas headlines do light mantém gradient azul (legível) */
+section.theme-light .display-glow,
+section.theme-light-alt .display-glow {
+  background: linear-gradient(135deg, #1E4FCC 0%, #4576FF 50%, #6B8FFF 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 20px rgba(69, 118, 255, 0.15));
+}
+
+/* Btn-ghost no light vira branco com border escura */
+section.theme-light .btn-ghost,
+section.theme-light-alt .btn-ghost {
+  background: linear-gradient(145deg, #FFFFFF, #F5F7FA);
+  border: 1px solid rgba(15, 19, 32, 0.14);
+  color: var(--text);
+}
+section.theme-light .btn-ghost:hover,
+section.theme-light-alt .btn-ghost:hover {
+  background: #FFFFFF;
+  border-color: rgba(15, 19, 32, 0.24);
+}
+
+/* Tag pills no light */
+section.theme-light .tag,
+section.theme-light-alt .tag {
+  background: rgba(69,118,255,0.10);
+  color: var(--accent-deep);
+  border-color: rgba(69,118,255,0.20);
+}
+
+/* Section-band no light usa tint sutil em vez de gradient escuro */
+section.theme-light.section-band,
+section.theme-light-alt.section-band {
+  border-top: 1px solid rgba(15,19,32,0.06);
+  border-bottom: 1px solid rgba(15,19,32,0.06);
+  background:
+    radial-gradient(60% 100% at 50% 0%, rgba(69,118,255,0.06), transparent 70%),
+    var(--bg);
+}
+
+/* Avatar mantém gradient — fica visível em qualquer tema */
+/* CTA-final no light */
+section.theme-light .cta-final,
+section.theme-light-alt .cta-final {
+  background:
+    radial-gradient(80% 100% at 50% 0%, rgba(69,118,255,0.16), transparent 70%),
+    linear-gradient(180deg, #FFFFFF 0%, #F5F7FA 100%);
+  border: 1px solid rgba(69,118,255,0.20);
+  box-shadow:
+    0 30px 80px rgba(15,19,32,0.10),
+    inset 0 1px 1px rgba(255,255,255,1);
+}
+
+/* Plan badge no light */
+section.theme-light .plan-badge,
+section.theme-light-alt .plan-badge {
+  background: rgba(69,118,255,0.12);
+  color: var(--accent-deep);
+  border-color: rgba(69,118,255,0.30);
+}
+
+/* List checkmarks no light usam verde mais saturado */
+section.theme-light .plan li::before,
+section.theme-light-alt .plan li::before {
+  background: rgba(34, 197, 94, 0.16);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'><path d='M3.5 7.5l2.2 2.2L10.5 4.5' stroke='%2316A34A' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+}
+
+/* VS table no light */
+section.theme-light .vs-row,
+section.theme-light-alt .vs-row { border-bottom-color: rgba(15,19,32,0.06); }
+section.theme-light .vs-row.header,
+section.theme-light-alt .vs-row.header {
+  background: rgba(15,19,32,0.03);
+  color: var(--text-3);
+}
+
+/* Live badge no light */
+section.theme-light .work-preview .live-badge,
+section.theme-light-alt .work-preview .live-badge {
+  background: rgba(255,255,255,0.92);
+  color: var(--text);
+}
+
 @media (max-width: 768px) {
   section { padding: 96px 0; }
   section.tight { padding: 72px 0; }
