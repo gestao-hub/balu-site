@@ -1248,48 +1248,104 @@ details.card[open] summary::after { transform: rotate(45deg); }
   pointer-events: none;
   border-radius: inherit;
 }
-.cpu-architecture-svg {
+/* CPU stage — SVG + 8 pins on the outer endpoints */
+.cpu-stage {
+  position: relative;
+  max-width: 920px;
+  margin: 32px auto 0;
+  aspect-ratio: 2 / 1;
+  padding: 0;
+}
+.cpu-stage .cpu-architecture-svg {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: auto;
-  max-width: 800px;
-  margin: 0 auto;
+  height: 100%;
   display: block;
-  position: relative;
   z-index: 1;
 }
-.cpu-labels {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  margin-top: 24px;
-  position: relative;
-  z-index: 1;
-}
-@media (max-width: 720px) { .cpu-labels { grid-template-columns: repeat(2, 1fr); } }
-.cpu-label {
-  display: flex;
+
+.cpu-pin {
+  position: absolute;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 14px;
+  padding: 8px 14px;
   border-radius: 999px;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid var(--border);
+  background: linear-gradient(145deg,
+    color-mix(in oklch, white 16%, transparent),
+    color-mix(in oklch, white 5%, transparent));
+  border: 1px solid color-mix(in oklch, white 20%, transparent);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  font-family: var(--font-display);
+  font-weight: 600;
   font-size: 12.5px;
-  color: var(--text-2);
+  color: var(--text);
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  z-index: 3;
+  transition: border-color 0.4s var(--ease-spring), background 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-spring);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.45), inset 0 1px 1px rgba(255,255,255,0.12);
 }
-.cpu-label .dot {
-  width: 8px; height: 8px; border-radius: 50%;
+.cpu-pin:hover {
+  border-color: rgba(69,118,255,0.45);
+  background: linear-gradient(145deg, rgba(69,118,255,0.22), rgba(107,143,255,0.06));
+  box-shadow: 0 10px 30px rgba(69,118,255,0.30), inset 0 1px 1px rgba(255,255,255,0.20);
+}
+.cpu-pin .dot {
+  width: 9px; height: 9px; border-radius: 50%;
   flex-shrink: 0;
-  box-shadow: 0 0 12px currentColor;
+  box-shadow: 0 0 14px currentColor;
 }
-.cpu-label.c-1 .dot { background: #00E8ED; color: #00E8ED; }
-.cpu-label.c-2 .dot { background: #FFD800; color: #FFD800; }
-.cpu-label.c-3 .dot { background: #FF008B; color: #FF008B; }
-.cpu-label.c-4 .dot { background: #ffffff; color: #ffffff; }
-.cpu-label.c-5 .dot { background: #22c55e; color: #22c55e; }
-.cpu-label.c-6 .dot { background: #f97316; color: #f97316; }
-.cpu-label.c-7 .dot { background: #06b6d4; color: #06b6d4; }
-.cpu-label.c-8 .dot { background: #f43f5e; color: #f43f5e; }
+
+.cpu-pin.c-1 .dot { background: #00E8ED; color: #00E8ED; }
+.cpu-pin.c-2 .dot { background: #FFD800; color: #FFD800; }
+.cpu-pin.c-3 .dot { background: #FF008B; color: #FF008B; }
+.cpu-pin.c-4 .dot { background: #ffffff; color: #ffffff; }
+.cpu-pin.c-5 .dot { background: #22c55e; color: #22c55e; }
+.cpu-pin.c-6 .dot { background: #f97316; color: #f97316; }
+.cpu-pin.c-7 .dot { background: #06b6d4; color: #06b6d4; }
+.cpu-pin.c-8 .dot { background: #f43f5e; color: #f43f5e; }
+
+/* Positions: each pin sits on the outer endpoint of its path (viewBox 200×100) */
+/* P1 (10,20)   P2 (180,10)   P3 (130,20)   P4 (170,80) */
+/* P5 (135,65)  P6 (94.8,95)  P7 (88,88)    P8 (30,30)  */
+
+.cpu-pin.pos-1 { left: 5%;    top: 20%;  transform: translate(-100%, -50%) translateX(-14px); }
+.cpu-pin.pos-2 { left: 90%;   top: 10%;  transform: translate(0,     -50%) translateX(14px);  }
+.cpu-pin.pos-3 { left: 65%;   top: 20%;  transform: translate(-50%, -100%) translateY(-16px); }
+.cpu-pin.pos-4 { left: 85%;   top: 80%;  transform: translate(0,     -50%) translateX(14px);  }
+.cpu-pin.pos-5 { left: 67.5%; top: 65%;  transform: translate(0,     -50%) translateX(16px);  }
+.cpu-pin.pos-6 { left: 47.4%; top: 95%;  transform: translate(-50%,   0)   translateY(16px);  }
+.cpu-pin.pos-7 { left: 30%;   top: 88%;  transform: translate(-100%,  0)   translate(-12px, 16px); }
+.cpu-pin.pos-8 { left: 15%;   top: 30%;  transform: translate(-100%, -50%) translateX(-14px); }
+
+/* Mobile: stack pins below the SVG */
+@media (max-width: 760px) {
+  .cpu-stage {
+    aspect-ratio: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 16px;
+  }
+  .cpu-stage .cpu-architecture-svg {
+    position: relative;
+    inset: auto;
+    flex: 0 0 100%;
+    width: 100%;
+    height: 180px;
+    margin-bottom: 12px;
+  }
+  .cpu-pin {
+    position: static;
+    transform: none !important;
+    font-size: 11px;
+    padding: 6px 12px;
+  }
+}
 
 .cpu-architecture {
   offset-anchor: 10px 0px;

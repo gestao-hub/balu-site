@@ -354,6 +354,7 @@
     </div>
 
     <div class="cpu-architecture-wrap" data-reveal>
+     <div class="cpu-stage">
       <svg class="cpu-architecture-svg" viewBox="0 0 200 100">
         <!-- Paths -->
         <g stroke="currentColor" fill="none" stroke-width="0.3" stroke-dasharray="100 100" pathLength="100" marker-start="url(#cpu-circle-marker)" style="color:#7C849A">
@@ -434,16 +435,16 @@
         </defs>
       </svg>
 
-      <div class="cpu-labels">
-        <div class="cpu-label c-1"><span class="dot"></span> Captação · LPs e forms</div>
-        <div class="cpu-label c-2"><span class="dot"></span> Mídia · Meta e Google Ads</div>
-        <div class="cpu-label c-3"><span class="dot"></span> Calendário editorial</div>
-        <div class="cpu-label c-4"><span class="dot"></span> CRM · Pipeline + propostas</div>
-        <div class="cpu-label c-5"><span class="dot"></span> Squad IA · Atendimento</div>
-        <div class="cpu-label c-6"><span class="dot"></span> Projetos · Demandas + SLA</div>
-        <div class="cpu-label c-7"><span class="dot"></span> Financeiro · Billing recorrente</div>
-        <div class="cpu-label c-8"><span class="dot"></span> Insight · Dashboard Eugência</div>
-      </div>
+      <!-- 8 pins posicionados em cada ponta externa dos paths, convergindo pro chip BALU -->
+      <div class="cpu-pin c-1 pos-1"><span class="dot"></span>Captação</div>
+      <div class="cpu-pin c-8 pos-8"><span class="dot"></span>Insight</div>
+      <div class="cpu-pin c-3 pos-3"><span class="dot"></span>Calendário</div>
+      <div class="cpu-pin c-2 pos-2"><span class="dot"></span>Mídia</div>
+      <div class="cpu-pin c-5 pos-5"><span class="dot"></span>Squad IA</div>
+      <div class="cpu-pin c-4 pos-4"><span class="dot"></span>CRM</div>
+      <div class="cpu-pin c-6 pos-6"><span class="dot"></span>Projetos</div>
+      <div class="cpu-pin c-7 pos-7"><span class="dot"></span>Financeiro</div>
+     </div>
     </div>
   </div>
 </section>
