@@ -98,15 +98,40 @@
     const trigger = dd.querySelector("[data-login-trigger]");
     const menu = dd.querySelector("[data-login-menu]");
     if (!trigger || !menu) return;
+
+    // Posiciona o menu via JS (position:fixed) pra não ser clipado pelo overflow:hidden do header
+    const positionMenu = () => {
+      const tRect = trigger.getBoundingClientRect();
+      const mRect = menu.getBoundingClientRect();
+      const margin = 12;
+      const minMenuW = 240;
+      const mWidth = mRect.width || minMenuW;
+      let left = tRect.right - mWidth;
+      // Margens laterais da viewport
+      const pad = 8;
+      if (left < pad) left = pad;
+      if (left + mWidth > window.innerWidth - pad) left = window.innerWidth - mWidth - pad;
+      const top = tRect.bottom + margin;
+      menu.style.top = `${Math.round(top)}px`;
+      menu.style.left = `${Math.round(left)}px`;
+    };
+
     const closeMenu = () => {
       dd.classList.remove("open");
       menu.removeAttribute("data-open");
       trigger.setAttribute("aria-expanded", "false");
+      window.removeEventListener("resize", positionMenu);
+      window.removeEventListener("scroll", positionMenu, true);
     };
     const openMenu = () => {
       dd.classList.add("open");
       menu.setAttribute("data-open", "true");
       trigger.setAttribute("aria-expanded", "true");
+      positionMenu();
+      // Reposiciona após o reflow do menu (caso width mude)
+      requestAnimationFrame(positionMenu);
+      window.addEventListener("resize", positionMenu);
+      window.addEventListener("scroll", positionMenu, true);
     };
     trigger.addEventListener("click", (e) => {
       e.stopPropagation();
@@ -114,7 +139,7 @@
     });
     menu.addEventListener("click", (e) => e.stopPropagation());
     document.addEventListener("click", (e) => {
-      if (!dd.contains(e.target)) closeMenu();
+      if (!dd.contains(e.target) && !menu.contains(e.target)) closeMenu();
     });
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && dd.classList.contains("open")) {

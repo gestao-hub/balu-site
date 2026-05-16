@@ -588,16 +588,16 @@ section.theme-light-alt .work-preview .live-badge {
 }
 .login-dropdown.open > .btn .chev { transform: rotate(180deg); }
 .login-menu {
-  position: absolute;
-  top: calc(100% + 12px);
-  right: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
   min-width: 280px;
   padding: 8px;
   border-radius: 18px;
   display: flex;
   flex-direction: column;
   gap: 4px;
-  z-index: 80;
+  z-index: 9999;
   opacity: 0;
   transform: translateY(-6px) scale(0.97);
   pointer-events: none;
@@ -664,7 +664,7 @@ section.theme-light-alt .work-preview .live-badge {
   .site-header { top: 12px; }
   .nav-links { display: none; }
   .nav { padding: 8px 8px 8px 16px; }
-  .login-menu { min-width: 240px; right: -8px; }
+  .login-menu { min-width: 240px; }
 }
 
 /* ============ Buttons — glass pills ============ */
