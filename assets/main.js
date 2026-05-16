@@ -99,7 +99,14 @@
     const menu = dd.querySelector("[data-login-menu]");
     if (!trigger || !menu) return;
 
-    // Posiciona o menu via JS (position:fixed) pra não ser clipado pelo overflow:hidden do header
+    // Move o menu pra fora do header — backdrop-filter no .site-header cria
+    // containing block que faz position:fixed ser clipado pelo overflow:hidden.
+    // Mover pro body resolve sem perder o glass effect do header.
+    if (menu.parentElement !== document.body) {
+      document.body.appendChild(menu);
+    }
+
+    // Posiciona o menu via JS (position:fixed) ancorado ao trigger
     const positionMenu = () => {
       const tRect = trigger.getBoundingClientRect();
       const mRect = menu.getBoundingClientRect();
