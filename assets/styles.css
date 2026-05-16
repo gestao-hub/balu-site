@@ -2227,6 +2227,207 @@ details.card[open] summary::after { transform: rotate(45deg); }
   display: flex; flex-direction: column; align-items: flex-end; gap: 4px;
 }
 
+/* ---- Project Tracker (timeline de construção, hero Criação) ---- */
+.project-tracker { padding: 22px; }
+.project-tracker-head {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 14px; margin-bottom: 22px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+}
+.project-tracker-head .title {
+  font-family: var(--font-display); font-weight: 600;
+  font-size: 19px; letter-spacing: -0.02em;
+  color: var(--text); margin-bottom: 4px;
+}
+.project-tracker-head .meta {
+  font-family: var(--font-mono); font-size: 11px; color: var(--text-3);
+}
+.project-status-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 12px; border-radius: 999px;
+  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase;
+  background: rgba(255,181,71,0.10); color: #FFC872;
+  border: 1px solid rgba(255,181,71,0.30);
+}
+.project-status-pill::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%;
+  background: #FFB547; box-shadow: 0 0 8px #FFB547;
+  animation: pulse 1.6s infinite;
+}
+
+/* Timeline horizontal das fases */
+.project-phases {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 0; margin-bottom: 22px;
+  position: relative;
+}
+.project-phase {
+  display: flex; flex-direction: column;
+  align-items: flex-start; gap: 6px;
+  padding: 14px 12px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid var(--border);
+  position: relative;
+  z-index: 1;
+}
+.project-phase + .project-phase { margin-left: -1px; }
+.project-phase.done { background: rgba(125,216,183,0.06); border-color: rgba(125,216,183,0.25); }
+.project-phase.current {
+  background: linear-gradient(145deg, rgba(69,118,255,0.18), rgba(107,143,255,0.04));
+  border-color: rgba(69,118,255,0.45);
+  box-shadow: 0 0 0 1px rgba(69,118,255,0.20), 0 8px 24px rgba(69,118,255,0.20);
+  z-index: 2;
+}
+.project-phase .num {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  font-family: var(--font-mono); font-size: 10.5px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  color: var(--text-3);
+  flex-shrink: 0;
+}
+.project-phase.done .num {
+  background: var(--highlight); color: #0F1320;
+  border-color: var(--highlight);
+}
+.project-phase.current .num {
+  background: var(--accent); color: #fff;
+  border-color: var(--accent);
+}
+.project-phase .name {
+  font-family: var(--font-display); font-weight: 600;
+  font-size: 13px; color: var(--text);
+  letter-spacing: -0.005em;
+}
+.project-phase .when {
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--text-3);
+  letter-spacing: 0.04em;
+}
+.project-phase.current .when { color: var(--accent-2); }
+.project-phase.done .when { color: var(--highlight); }
+
+/* Fase atual destacada com progress + checklist */
+.project-current-card {
+  padding: 16px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid var(--border);
+}
+.project-current-card .ph-head {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 12px;
+}
+.project-current-card .ph-name {
+  font-family: var(--font-display); font-weight: 600;
+  font-size: 14px; color: var(--text);
+  letter-spacing: -0.005em;
+}
+.project-current-card .ph-pct {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--accent-2);
+}
+.project-progress {
+  height: 4px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 14px;
+  position: relative;
+}
+.project-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border-radius: 999px;
+  box-shadow: 0 0 10px rgba(69,118,255,0.6);
+  transition: width 0.8s var(--ease-spring);
+}
+.project-progress-bar::after {
+  content: ""; position: absolute;
+  top: 0; bottom: 0; right: 0;
+  width: 30px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5));
+}
+.project-checklist { display: grid; gap: 6px; }
+.project-task {
+  display: flex; align-items: center; gap: 10px;
+  padding: 6px 0;
+  font-size: 12.5px;
+  color: var(--text-2);
+}
+.project-task .checkbox {
+  width: 16px; height: 16px;
+  flex-shrink: 0;
+  border-radius: 5px;
+  border: 1.5px solid rgba(255,255,255,0.18);
+  background: transparent;
+  display: grid; place-items: center;
+}
+.project-task.done .checkbox {
+  background: var(--highlight); border-color: var(--highlight);
+}
+.project-task.done .checkbox::after {
+  content: ""; width: 8px; height: 4px;
+  border-left: 1.6px solid #0F1320;
+  border-bottom: 1.6px solid #0F1320;
+  transform: rotate(-45deg) translate(1px, -1px);
+}
+.project-task.done { color: var(--text-3); text-decoration: line-through; text-decoration-color: rgba(255,255,255,0.15); }
+.project-task.in-progress .checkbox {
+  border-color: var(--accent);
+  background: rgba(69,118,255,0.15);
+  position: relative;
+}
+.project-task.in-progress .checkbox::after {
+  content: ""; width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent-glow);
+  animation: pulse 1.6s infinite;
+}
+.project-task.in-progress { color: var(--text); font-weight: 500; font-family: var(--font-display); }
+.project-task .owner {
+  margin-left: auto;
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--text-3);
+  padding: 2px 7px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 999px;
+  border: 1px solid var(--border);
+}
+
+/* Quick comments visíveis no rodapé do tracker */
+.project-comments {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(69,118,255,0.06);
+  border: 1px solid rgba(69,118,255,0.20);
+  display: flex; gap: 10px; align-items: flex-start;
+}
+.project-comments .ico {
+  width: 26px; height: 26px;
+  border-radius: 8px;
+  background: var(--grad-balu);
+  display: grid; place-items: center;
+  color: #fff;
+  font-family: var(--font-display); font-weight: 600;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+.project-comments .body { flex: 1; font-size: 12px; color: var(--text); }
+.project-comments .body strong {
+  display: block;
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 0.10em; text-transform: uppercase;
+  color: var(--accent-2);
+  margin-bottom: 2px;
+}
+
 /* ---- Audience picker (Wizard step 2) ---- */
 .audience-summary {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
