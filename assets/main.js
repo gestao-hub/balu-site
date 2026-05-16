@@ -211,6 +211,66 @@
     });
   });
 
+  // ---- 9d) Project showcase — cursor-follow image preview with smooth lerp ----
+  document.querySelectorAll("[data-showcase]").forEach((root) => {
+    const preview = root.querySelector(".showcase-preview");
+    const images = root.querySelectorAll(".preview-img");
+    const items = root.querySelectorAll(".showcase-item");
+    if (!preview || !items.length) return;
+
+    if (!isFinePointer || prefersReducedMotion) {
+      // Hide preview on touch / reduced motion; keep items as plain links
+      preview.style.display = "none";
+      return;
+    }
+
+    let mouseX = 0, mouseY = 0;
+    let smoothX = 0, smoothY = 0;
+    let visible = false;
+    let rafId = null;
+    let initialized = false;
+
+    const OFFSET_X = 24;
+    const OFFSET_Y = -120;
+
+    function tick() {
+      const f = 0.16;
+      smoothX += (mouseX - smoothX) * f;
+      smoothY += (mouseY - smoothY) * f;
+      preview.style.transform =
+        `translate3d(${smoothX + OFFSET_X}px, ${smoothY + OFFSET_Y}px, 0) scale(${visible ? 1 : 0.85})`;
+      rafId = requestAnimationFrame(tick);
+    }
+
+    function onMove(e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      if (!initialized) {
+        smoothX = mouseX;
+        smoothY = mouseY;
+        initialized = true;
+      }
+    }
+
+    root.addEventListener("mousemove", onMove);
+    rafId = requestAnimationFrame(tick);
+
+    items.forEach((item, idx) => {
+      item.addEventListener("mouseenter", () => {
+        visible = true;
+        preview.classList.add("visible");
+        images.forEach((im, i) => im.classList.toggle("active", i === idx));
+        items.forEach((it) => it.classList.remove("is-hover"));
+        item.classList.add("is-hover");
+      });
+      item.addEventListener("mouseleave", () => {
+        visible = false;
+        preview.classList.remove("visible");
+        item.classList.remove("is-hover");
+      });
+    });
+  });
+
   // ---- 10) GSAP integrations (cinematic footer parallax + hero mockup entry + inset scroll reveal) ----
   function initGSAP() {
     if (typeof window.gsap === "undefined" || typeof window.ScrollTrigger === "undefined") return;
