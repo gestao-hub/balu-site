@@ -6,6 +6,57 @@
   const isFinePointer = window.matchMedia("(pointer: fine)").matches;
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  // ---- 0) Counter animations Apple-style (KPI values animam de 0 ao valor real on intersection) ----
+  // Parses "R$ 187k", "+12%", "-18 dias", "32%", "4,2 min" etc preservando prefixos/sufixos
+  function parseNumeric(text) {
+    // Capture: optional sign, integer/decimal number with k/M/, suffix
+    const m = text.match(/^([^\d\-+]*)([-+]?)(\d+(?:[.,]\d+)?)([kMB]?)(.*)$/);
+    if (!m) return null;
+    const [, prefix, sign, num, suffix, rest] = m;
+    const value = parseFloat(num.replace(",", ".")) * (sign === "-" ? -1 : 1);
+    return { prefix, sign, value, suffix, rest, originalText: text };
+  }
+  function formatNumber(value, parsed) {
+    const abs = Math.abs(value);
+    let str;
+    if (Number.isInteger(parsed.value)) str = Math.round(abs).toString();
+    else str = abs.toFixed(1).replace(".", ",");
+    const sign = value < 0 ? "-" : (parsed.sign === "+" ? "+" : "");
+    return parsed.prefix + sign + str + parsed.suffix + parsed.rest;
+  }
+  function animateCounter(el) {
+    if (el.dataset.counterDone) return;
+    // Only animate the leading number text node, preserve <span> children (deltas)
+    const valueNode = [...el.childNodes].find(n => n.nodeType === 3 && n.textContent.trim().length > 0);
+    if (!valueNode) return;
+    const text = valueNode.textContent.trim();
+    const parsed = parseNumeric(text);
+    if (!parsed || isNaN(parsed.value)) return;
+    el.dataset.counterDone = "1";
+    const target = parsed.value;
+    const duration = 1400;
+    const start = performance.now();
+    const ease = (t) => 1 - Math.pow(1 - t, 3); // easeOutCubic
+    function tick(now) {
+      const elapsed = now - start;
+      const t = Math.min(1, elapsed / duration);
+      const v = target * ease(t);
+      valueNode.textContent = formatNumber(v, parsed) + " ";
+      if (t < 1) requestAnimationFrame(tick);
+      else valueNode.textContent = parsed.originalText + " ";
+    }
+    valueNode.textContent = formatNumber(0, parsed) + " ";
+    requestAnimationFrame(tick);
+  }
+  if (!prefersReducedMotion && "IntersectionObserver" in window) {
+    const counterIO = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { animateCounter(e.target); counterIO.unobserve(e.target); }
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll(".kpi .val, .plan-price, .ph-pct").forEach(el => counterIO.observe(el));
+  }
+
   // ---- 1) IntersectionObserver scroll reveal ----
   const reveals = document.querySelectorAll("[data-reveal]");
   if ("IntersectionObserver" in window && reveals.length) {
@@ -130,34 +181,38 @@
     });
   });
 
-  // ---- 7) Perspective marquee depth blur ----
-  // Applies a static graduated blur to spans based on their X position in the track.
-  // Re-runs on resize for responsive correctness.
-  function applyMarqueeDepth() {
-    const tracks = document.querySelectorAll(".perspective-marquee-track");
-    tracks.forEach((track) => {
-      const stage = track.closest(".perspective-marquee");
-      if (!stage) return;
-      const stageRect = stage.getBoundingClientRect();
-      const centerX = stageRect.width / 2;
-      track.querySelectorAll("span").forEach((span) => {
-        const r = span.getBoundingClientRect();
-        const spanCenter = r.left + r.width / 2 - stageRect.left;
-        const dist = Math.min(1, Math.abs(spanCenter - centerX) / (stageRect.width / 2));
-        // edge blur 6px, mid 2px, center 0 — gentle gradient
-        const blur = Math.round(dist * 5);
-        const opacity = 1 - dist * 0.35;
-        span.style.filter = `blur(${blur}px)`;
-        span.style.opacity = String(opacity);
-      });
-    });
+  // ---- 7) Perspective marquee depth blur — per-frame Apple-style parallax ----
+  // RAF loop contínuo recalcula blur/opacity das spans baseado na X position real durante a animação
+  if (!prefersReducedMotion) {
+    const tracks = [...document.querySelectorAll(".perspective-marquee-track")];
+    if (tracks.length) {
+      const trackData = tracks.map((track) => ({
+        track,
+        stage: track.closest(".perspective-marquee"),
+        spans: [...track.querySelectorAll("span")],
+      })).filter(d => d.stage);
+
+      function marqueeTick() {
+        trackData.forEach(({ stage, spans }) => {
+          const stageRect = stage.getBoundingClientRect();
+          if (stageRect.bottom < 0 || stageRect.top > window.innerHeight) return; // skip off-screen
+          const centerX = stageRect.width / 2;
+          const halfW = stageRect.width / 2;
+          spans.forEach((span) => {
+            const r = span.getBoundingClientRect();
+            const spanCenter = r.left + r.width / 2 - stageRect.left;
+            const dist = Math.min(1, Math.abs(spanCenter - centerX) / halfW);
+            const blur = (dist * dist * 5).toFixed(1); // quadratic falloff
+            const opacity = (1 - dist * 0.4).toFixed(2);
+            span.style.filter = `blur(${blur}px)`;
+            span.style.opacity = opacity;
+          });
+        });
+        requestAnimationFrame(marqueeTick);
+      }
+      requestAnimationFrame(marqueeTick);
+    }
   }
-  // Note: track animates continuously, so static initial blur is fine for the
-  // 3D depth feel — full per-frame recalc would be expensive.
-  setTimeout(applyMarqueeDepth, 250);
-  window.addEventListener("resize", () => {
-    requestAnimationFrame(applyMarqueeDepth);
-  });
 
   // ---- 8) Back to top (cinematic footer) ----
   document.querySelectorAll(".back-to-top").forEach((btn) => {
