@@ -94,7 +94,7 @@
   stroke-width: 2.2;
 }
 .balu-trigger-avatar .balu-u-smile {
-  transform-origin: 12px 18px;
+  transform-origin: 12px 20px;
   transition: transform 0.5s ease;
 }
 /* Quando agente está "falando", sorriso oscila */

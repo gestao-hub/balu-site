@@ -99,9 +99,9 @@
   }
 
   // SVG ícones estáticos (constantes do código, OK usar html)
-  // BALU_U: glyph "U" arredondado da wordmark + sorriso embaixo (3D via CSS drop-shadow)
-  // ViewBox 24×24 — conteúdo centralizado entre y=5 e y=20 (centro Y=12.5)
-  const ICON_BOT = '<path class="balu-u-body" d="M7 5 V11 a5 5 0 0 0 10 0 V5" /><path class="balu-u-smile" d="M8 18 q4 2.4 8 0" stroke-width="1.8" />';
+  // BALU_U: glyph "U" arredondado da wordmark + sorriso largo embaixo (igual logo original)
+  // ViewBox 24×24 — sorriso ULTRAPASSA o U pelos lados (x=5 a x=19) e fica AFASTADO (y=18 vs U y=4-14.5)
+  const ICON_BOT = '<path class="balu-u-body" d="M7.5 4 V10 a4.5 4.5 0 0 0 9 0 V4" /><path class="balu-u-smile" d="M5 18 q7 4 14 0" stroke-width="2" />';
   const ICON_X = '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>';
   const ICON_SEND = '<path d="M2 12l20-9-7 9 7 9-20-9z" fill="currentColor"/>';
   const ICON_ARROW = '<path d="M3 7h8m0 0L7 3m4 4l-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>';
