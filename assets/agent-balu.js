@@ -8,17 +8,67 @@
   "use strict";
 
   const CFG = {
-    BACKEND_URL: "https://envsirumquqpmkcayncr.supabase.co/functions/v1/balu-agent",
+    // Endpoint do public-chat do Balu CRM (Supabase envsirumquqpmkcayncr)
+    BACKEND_URL: "https://envsirumquqpmkcayncr.supabase.co/functions/v1/public-chat",
     SUPABASE_ANON: "sb_publishable_g6WyB24Jy7DsL1bELPEGtQ__R_oBN7E",
-    CALENDLY: "https://cal.com/michel-balu/demo",
+    // Widget "Balu LP Widget" criado em chat_widgets — vinculado ao agente "Balu LP"
+    WIDGET_ID: "fc065444-c2d2-40ed-85c6-9ee63b8a15ff",
     SCROLL_TRIGGER_PCT: 0.30,
     SESSION_TTL_MS: 7 * 24 * 60 * 60 * 1000,
     MAX_INPUT_LEN: 1500,
     MIN_INTERVAL_MS: 1500,
-    STORAGE_KEY_LEAD: "balu_widget_lead_v1",
-    STORAGE_KEY_MSGS: "balu_widget_msgs_v1",
-    GREETING: "Oi! Sou o Balu, agente da Balu 🤝 Posso te explicar como a plataforma funciona, te ajudar a escolher o plano certo e marcar uma call com o Michel quando você quiser. Por onde começamos?",
+    STORAGE_KEY_LEAD: "balu_widget_lead_v2",
+    STORAGE_KEY_MSGS: "balu_widget_msgs_v2",
+    GREETING: "Oi! Sou o Balu 🤝 Posso te explicar como a plataforma funciona, te ajudar a escolher o plano certo e marcar uma call com o Michel quando você quiser. Por onde começamos?",
   };
+
+  // Parser de SSE stream do public-chat (formato: "data: {...}\n\ndata: [DONE]\n\n")
+  async function parseSSEStream(resp) {
+    if (!resp.body) {
+      const t = await resp.text();
+      return t || "";
+    }
+    const reader = resp.body.getReader();
+    const decoder = new TextDecoder();
+    let full = "";
+    let buf = "";
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buf += decoder.decode(value, { stream: true });
+      const lines = buf.split("\n");
+      buf = lines.pop() || "";
+      for (const line of lines) {
+        if (!line.startsWith("data: ")) continue;
+        const payload = line.slice(6).trim();
+        if (!payload || payload === "[DONE]") continue;
+        try {
+          const json = JSON.parse(payload);
+          const piece = json?.choices?.[0]?.delta?.content;
+          if (piece) full += piece;
+        } catch (_) { /* ignore parse errors */ }
+      }
+    }
+    return full;
+  }
+
+  async function callPublicChat({ message, visitorId, sessionId }) {
+    const resp = await fetch(CFG.BACKEND_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": CFG.SUPABASE_ANON,
+        "Authorization": `Bearer ${CFG.SUPABASE_ANON}`,
+      },
+      body: JSON.stringify({
+        widget_id: CFG.WIDGET_ID,
+        message,
+        visitor_id: visitorId,
+        session_id: sessionId || undefined,
+      }),
+    });
+    return resp;
+  }
 
   // ---------- Anti-prompt-injection (defesa client-side) ----------
   const INJECTION_PATTERNS = [
@@ -255,26 +305,25 @@
       sourceTitle: document.title,
       createdAt: new Date().toISOString(),
     };
+    // visitorId estável por email (reusa sessão se voltar)
+    lead.visitorId = `lp-${lead.email}`;
 
+    // INIT silenciosa: cria sessão no Balu CRM + injeta dados do lead como user message
+    // pra Michel ver os dados de cara na aba Conversas. public-chat detecta first-turn e
+    // retorna o welcome (que ignoramos — já mostramos local).
+    const initMsg = `[LEAD CAPTURADO via LP] Nome: ${lead.name} · WhatsApp: ${lead.whatsapp} · Email: ${lead.email} · Origem: ${lead.sourceUrl}`;
     try {
-      const resp = await fetch(CFG.BACKEND_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "apikey": CFG.SUPABASE_ANON,
-          "Authorization": `Bearer ${CFG.SUPABASE_ANON}`,
-        },
-        body: JSON.stringify({ action: "create_lead", lead }),
+      const initResp = await callPublicChat({
+        message: initMsg,
+        visitorId: lead.visitorId,
+        sessionId: null,
       });
-      const data = await resp.json().catch(() => ({}));
-      if (!resp.ok || data.error) throw new Error(data.error || `HTTP ${resp.status}`);
-      lead.leadId = data.leadId;
-      lead.conversationId = data.conversationId;
+      lead.sessionId = initResp.headers.get("X-Session-Id") || null;
+      // Drena stream pra completar a request (não usamos a resposta)
+      await parseSSEStream(initResp);
     } catch (err) {
-      console.warn("[balu-agent] create_lead falhou, modo offline:", err);
-      lead.leadId = "offline-" + Math.random().toString(36).slice(2, 10);
-      lead.conversationId = "offline-" + Math.random().toString(36).slice(2, 10);
-      lead._offline = true;
+      console.warn("[balu-agent] init falhou — modo degradado:", err);
+      lead._initFailed = true;
     }
 
     state.lead = lead;
@@ -282,8 +331,8 @@
     const firstName = lead.name.split(" ")[0];
     state.messages = [{
       role: "agent",
-      content: lead._offline
-        ? `Oi, ${firstName}! Tô em manutenção rápida aqui, mas já guardei seus dados. O Michel te chama no WhatsApp em até 1h, beleza? 🤝`
+      content: lead._initFailed
+        ? `Oi, ${firstName}! Tô com instabilidade rápida aqui — já guardei seus dados, mas se eu travar, o Michel te chama no WhatsApp em até 1h 🤝`
         : CFG.GREETING.replace("Oi!", `Oi, ${firstName}!`),
       ts: Date.now(),
     }];
@@ -365,28 +414,27 @@
       root.classList.add("speaking");
 
       try {
-        const resp = await fetch(CFG.BACKEND_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "apikey": CFG.SUPABASE_ANON,
-            "Authorization": `Bearer ${CFG.SUPABASE_ANON}`,
-          },
-          body: JSON.stringify({
-            action: "send_message",
-            leadId: state.lead.leadId,
-            conversationId: state.lead.conversationId,
-            message: text,
-            history: state.messages.slice(-20).map(m => ({ role: m.role, content: m.content })),
-          }),
+        const resp = await callPublicChat({
+          message: text,
+          visitorId: state.lead.visitorId,
+          sessionId: state.lead.sessionId,
         });
-        const data = await resp.json().catch(() => ({}));
-        if (!resp.ok || data.error) throw new Error(data.error || `HTTP ${resp.status}`);
-        appendMsg("agent", data.reply || "Hmm, deixa eu pensar… pode reformular?");
+        if (!resp.ok) {
+          const errBody = await resp.text().catch(() => "");
+          throw new Error(`HTTP ${resp.status}: ${errBody.slice(0, 120)}`);
+        }
+        // Atualiza session_id se o backend devolveu novo (primeira chamada se init falhou)
+        const newSid = resp.headers.get("X-Session-Id");
+        if (newSid && newSid !== state.lead.sessionId) {
+          state.lead.sessionId = newSid;
+          storageSet(CFG.STORAGE_KEY_LEAD, state.lead);
+        }
+        const reply = await parseSSEStream(resp);
+        appendMsg("agent", reply || "Hmm, deixa eu pensar… pode reformular?");
       } catch (err) {
-        console.warn("[balu-agent] send_message falhou:", err);
+        console.warn("[balu-agent] send falhou:", err);
         appendMsg("agent",
-          `Tô com instabilidade aqui no chat 😬 Bora marcar uma call direto com o Michel? ${CFG.CALENDLY}`
+          "Tô com instabilidade rápida aqui 😬 Pode tentar de novo? Se continuar travado, o Michel te chama no WhatsApp em 1h pelos dados que você deixou."
         );
       } finally {
         hideTyping();
@@ -401,25 +449,7 @@
   function messageEl(m) {
     const div = el("div", { class: "balu-msg " + m.role });
     // Conteúdo SEMPRE como text nodes (nunca innerHTML com m.content)
-    // Detecta links Calendly e converte em <a> programaticamente
-    const content = String(m.content || "");
-    const calendlyIdx = content.indexOf(CFG.CALENDLY);
-    if (calendlyIdx !== -1 && m.role === "agent") {
-      const before = content.slice(0, calendlyIdx);
-      const after = content.slice(calendlyIdx + CFG.CALENDLY.length);
-      if (before) div.appendChild(document.createTextNode(before));
-      const link = el("a", {
-        class: "balu-cta",
-        href: CFG.CALENDLY,
-        target: "_blank",
-        rel: "noopener noreferrer",
-        text: "Agendar call →",
-      });
-      div.appendChild(link);
-      if (after) div.appendChild(document.createTextNode(after));
-    } else {
-      div.textContent = content;
-    }
+    div.textContent = String(m.content || "");
     return div;
   }
   function appendMsg(role, content) {
