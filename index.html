@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Balu Agência — Pare de gerenciar planilha. Comece a escalar.</title>
+  <meta name="description" content="A plataforma que substitui 7 ferramentas e devolve o controle da sua agência. Clientes, projetos, entregas, financeiro e equipe em loop fechado." />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css" />
+  <meta property="og:title" content="Balu Agência — A plataforma que escala sua operação" />
+  <meta property="og:description" content="Pare de gerenciar planilha. Comece a escalar. CRM, projetos, financeiro e IA em loop fechado." />
+  <meta property="og:type" content="website" />
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <div class="container nav">
+    <a href="index.html" class="brand" aria-label="Balu — Home">
+      <img src="assets/logo-white.svg" alt="Balu" />
+      <span class="brand-tag">Agência</span>
+    </a>
+    <nav class="nav-links" aria-label="Navegação principal">
+      <a href="index.html" class="active">Agência</a>
+      <a href="crm.html">CRM</a>
+      <a href="criacao.html">Criação</a>
+      <a href="#planos">Planos</a>
+      <a href="#metodo">Método BALU</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#contato" class="btn btn-ghost">Entrar</a>
+      <a href="#contato" class="btn btn-accent">Agendar demo
+        <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7 3m4 4l-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <button class="menu-toggle" aria-label="Menu" aria-expanded="false">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 5h14M2 9h14M2 13h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="blob blob-blue" style="top: -10%; left: -8%;"></div>
+  <div class="blob blob-cyan" style="top: 20%; right: -6%;"></div>
+
+  <div class="container hero-grid">
+    <div class="hero-copy" data-reveal>
+      <span class="eyebrow"><span class="dot"></span> Para donos de agência</span>
+      <h1>Pare de gerenciar planilha. <em>Comece a escalar.</em></h1>
+      <p class="lede">
+        A Balu Agência é a plataforma única que substitui o seu Frankenstack. Clientes, projetos,
+        entregas, financeiro, equipe e IA — costurados em <strong style="color:var(--text)">loop fechado</strong>
+        para você crescer sem terceirizar o caos.
+      </p>
+      <div class="hero-actions">
+        <a href="#contato" class="btn btn-accent">Agendar demo grátis
+          <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7 3m4 4l-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#funcionalidades" class="btn btn-ghost">Ver funcionalidades</a>
+        <span class="meta"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#7DD8B7" stroke-width="1.4"/><path d="M4.5 7l1.7 1.7L9.5 5.5" stroke="#7DD8B7" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg> Sem cartão · Onboarding em <strong>15 min</strong></span>
+      </div>
+    </div>
+
+    <!-- Hero mockup -->
+    <div class="hero-mockup" data-reveal style="--reveal-delay:120ms">
+      <div class="mockup tilt" role="img" aria-label="Painel da Balu Agência">
+        <div class="mockup-bar">
+          <div class="dots"><span></span><span></span><span></span></div>
+          <div class="mockup-url">agencia.balu.com.br · painel</div>
+        </div>
+        <div class="mockup-body">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+            <div>
+              <div style="font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-3);">Dashboard Eugência</div>
+              <div style="font-family:var(--font-display); font-style:italic; font-size:28px; color:var(--text); margin-top:4px;">Bom dia, Eduardo</div>
+            </div>
+            <span class="tag ai">IA monitorando</span>
+          </div>
+
+          <div class="kpis" style="margin-top:0; grid-template-columns: repeat(2, 1fr); gap:10px;">
+            <div class="kpi"><div class="lbl">MRR Agência</div><div class="val">R$ 187k <span class="delta">+12%</span></div></div>
+            <div class="kpi"><div class="lbl">Entregas atrasadas</div><div class="val">3 <span class="delta down">-8</span></div></div>
+            <div class="kpi"><div class="lbl">Clientes ativos</div><div class="val">42</div></div>
+            <div class="kpi"><div class="lbl">Margem Op.</div><div class="val">34% <span class="delta">+3 p.p.</span></div></div>
+          </div>
+
+          <div style="margin-top:18px; padding:14px; border-radius:12px; background:rgba(69,118,255,0.06); border:1px solid rgba(69,118,255,0.20);">
+            <div style="display:flex; gap:10px; align-items:flex-start;">
+              <div style="width:30px;height:30px;border-radius:8px;background:var(--grad-balu);display:grid;place-items:center;color:#fff;font-weight:600;font-size:13px;flex-shrink:0;">B</div>
+              <div style="flex:1;">
+                <div style="font-size:12px; color:var(--accent-2); font-family:var(--font-mono); letter-spacing:.10em; text-transform:uppercase; margin-bottom:4px;">Balu sugere</div>
+                <div style="font-size:13.5px; color:var(--text); line-height:1.4;">
+                  Marmer Butik está 80% do orçamento mensal de mídia consumido com 9 dias restantes.
+                  <strong style="color:var(--text)">Quer que eu prepare uma proposta de upsell?</strong>
+                </div>
+                <div style="display:flex; gap:6px; margin-top:10px;">
+                  <span class="tag">Aplicar</span>
+                  <span class="tag" style="background:transparent;color:var(--text-3);border-color:var(--border)">Mais tarde</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:14px;">
+            <div style="font-family:var(--font-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-3); margin-bottom:10px;">Squad de hoje</div>
+            <div class="ui-row">
+              <div class="ui-avatar">CA</div>
+              <div class="ui-name"><strong>Cia das Águas</strong><span>Calendário de conteúdo · Maio</span></div>
+              <span class="tag warm">Em revisão</span>
+            </div>
+            <div class="ui-row">
+              <div class="ui-avatar">CM</div>
+              <div class="ui-name"><strong>Couro Mania</strong><span>Otimização Meta Ads · Squad IA</span></div>
+              <span class="tag win">Loop fechado</span>
+            </div>
+            <div class="ui-row">
+              <div class="ui-avatar">VI</div>
+              <div class="ui-name"><strong>Vivacqua</strong><span>Reunião mensal · 14h00</span></div>
+              <span class="tag">Hoje</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MARQUEE - Agências e clientes ============ -->
+<section class="tight" style="padding-top:0;">
+  <div class="container">
+    <p style="text-align:center; font-family:var(--font-mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-3); margin-bottom:20px;">
+      Agências e operações que rodam na Balu
+    </p>
+  </div>
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span class="marquee-item">Marmer Butik</span>
+      <span class="marquee-item">·</span>
+      <span class="marquee-item">Cia das Águas</span>
+      <span class="marquee-item">·</span>
+      <span class="marquee-item">Couro Mania</span>
+      <span class="marquee-item">·</span>
+      <span class="marquee-item">Vivacqua</span>
+      <span class="marquee-item">·</span>
+      <span class="marquee-item">Nuvi</span>
+      <span class="marquee-item">·</span>
+      <span class="marquee-item">Sea Hop</span>
+      <span class="marquee-item">·</span>
+      <span class="marquee-item">King Farm</span>
+      <span class="marquee-item">·</span>
+      <span class="marquee-item">Excluvia</span>
+      <span class="marquee-item">·</span>
+      <!-- duplicado para loop infinito -->
+      <span class="marquee-item">Marmer Butik</span>
+      <span class="marquee-item">·</span>
+      <span class="marquee-item">Cia das Águas</span>
+      <span class="marquee-item">·</span>
+      <span class="marquee-item">Couro Mania</span>
+      <span class="marquee-item">·</span>
+      <span class="marquee-item">Vivacqua</span>
+      <span class="marquee-item">·</span>
+      <span class="marquee-item">Nuvi</span>
+      <span class="marquee-item">·</span>
+      <span class="marquee-item">Sea Hop</span>
+      <span class="marquee-item">·</span>
+      <span class="marquee-item">King Farm</span>
+      <span class="marquee-item">·</span>
+      <span class="marquee-item">Excluvia</span>
+      <span class="marquee-item">·</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DOR — PAS ============ -->
+<section class="section-band">
+  <div class="container container-narrow" style="text-align:center;">
+    <span class="eyebrow" data-reveal><span class="dot"></span> Reconheça a cena</span>
+    <h2 data-reveal style="margin:20px 0 18px;">Sua agência cresceu. <em>Sua operação não.</em></h2>
+    <p class="lede" data-reveal style="margin:0 auto;">
+      Você usa Trello pra projeto, planilha pra cliente, ClickUp pra entrega, WhatsApp pra tudo
+      que não cabe nas ferramentas e <em>memória</em> pra lembrar quem precisa do quê.
+      Isso tem nome: <strong style="color:var(--text)">Frankenstack</strong>. E ele já te custa um cliente por mês.
+    </p>
+
+    <div class="feature-grid" style="margin-top:48px; text-align:left;">
+      <div class="feature" data-reveal>
+        <div class="ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 17h14M5 17V8m4 9V4m4 13v-7m4 7v-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        <h3>Planilhas que ninguém atualiza</h3>
+        <p>Cada gestor mantém uma. Cada uma diz uma coisa. No fim do mês, o financeiro reconstrói tudo do zero.</p>
+      </div>
+      <div class="feature" data-reveal style="--reveal-delay:80ms">
+        <div class="ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2v4m0 8v4M2 10h4m8 0h4M4.2 4.2l2.8 2.8m6 6l2.8 2.8M4.2 15.8l2.8-2.8m6-6l2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <h3>Ferramentas que não conversam</h3>
+        <p>O CRM não fala com o financeiro. O Trello não sabe que o cliente parou de pagar. Você só descobre na reunião.</p>
+      </div>
+      <div class="feature" data-reveal style="--reveal-delay:160ms">
+        <div class="ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <h3>Você virou gerente da própria agência</h3>
+        <p>Sair do operacional virou promessa de Ano Novo. Toda crise passa por você porque a operação não tem cérebro próprio.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMO FUNCIONA ============ -->
+<section id="metodo">
+  <div class="container">
+    <div class="sec-head" data-reveal>
+      <span class="eyebrow"><span class="dot"></span> Método BALU</span>
+      <h2>Quatro camadas em <em>loop fechado</em>.</h2>
+      <p class="lede">Cada etapa alimenta a próxima e devolve dado pra primeira. Sem retrabalho, sem perguntar "cadê?" no grupo.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step" data-reveal>
+        <span class="num">01</span>
+        <h3>Captação</h3>
+        <p>Site, LP e formulários da Balu já entram com lead no CRM e disparam follow-up. Nada de copiar e colar.</p>
+      </div>
+      <div class="step" data-reveal style="--reveal-delay:80ms">
+        <span class="num">02</span>
+        <h3>Conversão</h3>
+        <p>Pipeline com automações, proposta digital com assinatura e billing recorrente nascem do mesmo lugar.</p>
+      </div>
+      <div class="step" data-reveal style="--reveal-delay:160ms">
+        <span class="num">03</span>
+        <h3>Entrega</h3>
+        <p>Projetos, demandas, calendário editorial e squads de IA — tudo amarrado ao cliente correto, com SLA.</p>
+      </div>
+      <div class="step" data-reveal style="--reveal-delay:240ms">
+        <span class="num">04</span>
+        <h3>Insight</h3>
+        <p>O Balu observa tudo isso e devolve sugestões: upsell, risco de churn, gargalo de equipe, gap de margem.</p>
+      </div>
+    </div>
+
+    <!-- mockup secundário do método -->
+    <div class="card" data-reveal style="margin-top:40px; padding:32px;">
+      <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap:36px; align-items:center;">
+        <div>
+          <span class="kicker">Loop em ação</span>
+          <h3 style="font-size:28px; margin:10px 0 14px; letter-spacing:-0.02em;">Da reunião comercial à fatura do mês: <em class="display-italic">um só fluxo</em>.</h3>
+          <p style="color:var(--text-3); font-size:15px;">
+            O lead chega, vira oportunidade, vira proposta, vira contrato assinado, vira projeto na squad,
+            vira fatura recorrente. Cada passo dispara o próximo. Você só precisa decidir.
+          </p>
+          <ul style="list-style:none; margin-top:20px; display:grid; gap:10px;">
+            <li style="display:flex; gap:10px; align-items:center; font-size:14px; color:var(--text-2);"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent);"></span> Onboarding do cliente em 1 clique do CRM</li>
+            <li style="display:flex; gap:10px; align-items:center; font-size:14px; color:var(--text-2);"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent);"></span> Reuniões com transcrição, ata e tarefas geradas pela IA</li>
+            <li style="display:flex; gap:10px; align-items:center; font-size:14px; color:var(--text-2);"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent);"></span> Cobrança automática via Pix, boleto ou cartão recorrente</li>
+          </ul>
+        </div>
+        <div style="background:var(--bg-2); border:1px solid var(--border); border-radius:16px; padding:18px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+            <span style="font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-3);">Linha do tempo · Cia das Águas</span>
+            <span class="tag ai">IA</span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <div class="ui-row"><span class="tag" style="background:rgba(69,118,255,0.15); color:var(--accent-2);">12:04</span><div class="ui-name"><strong>Lead capturado</strong><span>via LP "Piscina pronta"</span></div></div>
+            <div class="ui-row"><span class="tag warm">12:05</span><div class="ui-name"><strong>WhatsApp enviado</strong><span>follow-up automático</span></div></div>
+            <div class="ui-row"><span class="tag win">14:18</span><div class="ui-name"><strong>Proposta aceita</strong><span>R$ 4.800/mês recorrente</span></div></div>
+            <div class="ui-row"><span class="tag ai">14:19</span><div class="ui-name"><strong>Squad alocada</strong><span>Conteúdo + Mídia + Atendimento</span></div></div>
+            <div class="ui-row"><span class="tag" style="background:rgba(125,216,183,0.12); color:var(--highlight); border-color:rgba(125,216,183,0.25);">15/05</span><div class="ui-name"><strong>Primeira fatura emitida</strong><span>Pagamento confirmado</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FUNCIONALIDADES ============ -->
+<section id="funcionalidades">
+  <div class="container">
+    <div class="sec-head" data-reveal>
+      <span class="eyebrow"><span class="dot"></span> Funcionalidades</span>
+      <h2>Tudo que sua agência precisa. <em>Em um só Balu.</em></h2>
+      <p class="lede">Os módulos são integrados de fábrica — não plugados depois. Por isso o dado conversa.</p>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature" data-reveal>
+        <div class="ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="3" width="16" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M2 7h16M6 11h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <h3>CRM com IA embutida</h3>
+        <p>Pipeline visual, automações de follow-up, propostas digitais e contexto compartilhado com atendimento.</p>
+      </div>
+      <div class="feature" data-reveal style="--reveal-delay:60ms">
+        <div class="ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 6h14M3 10h14M3 14h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <h3>Projetos & demandas</h3>
+        <p>Kanban por cliente, SLA visível, comentários com cliente direto na tarefa e timesheet automático.</p>
+      </div>
+      <div class="feature" data-reveal style="--reveal-delay:120ms">
+        <div class="ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M10 5v5l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <h3>Calendário editorial</h3>
+        <p>Conteúdo aprovado por canal, com agendamento direto no Postiz e relatório automático no mês seguinte.</p>
+      </div>
+      <div class="feature" data-reveal>
+        <div class="ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 17V8l4-3 4 3 4-2 2 2v9" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+        <h3>Optimizer de mídia</h3>
+        <p>Engine autônoma com 8 regras pra Meta Ads. Pausa criativo ruim, escala vencedor, te explica por quê.</p>
+      </div>
+      <div class="feature" data-reveal style="--reveal-delay:60ms">
+        <div class="ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="4" width="14" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 8h14M7 4v4" stroke="currentColor" stroke-width="1.5"/></svg></div>
+        <h3>Financeiro recorrente</h3>
+        <p>Contratos por cliente, billing automático, régua D-10/D-0/D+5 e DRE pronto pra contador.</p>
+      </div>
+      <div class="feature" data-reveal style="--reveal-delay:120ms">
+        <div class="ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="6" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="5" cy="14" r="2.5" stroke="currentColor" stroke-width="1.5"/><circle cx="15" cy="14" r="2.5" stroke="currentColor" stroke-width="1.5"/></svg></div>
+        <h3>Squads de IA</h3>
+        <p>Atendimento, copy, briefing, análise — agentes treinados no seu cliente, com base de conhecimento isolada.</p>
+      </div>
+      <div class="feature" data-reveal>
+        <div class="ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 16l4-6 3 4 5-8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="4" cy="16" r="1.4" fill="currentColor"/><circle cx="16" cy="6" r="1.4" fill="currentColor"/></svg></div>
+        <h3>Dashboard Eugência</h3>
+        <p>Seu painel de comando: MRR, churn, NPS, margem por cliente, alertas e sugestões da IA — tudo em uma tela.</p>
+      </div>
+      <div class="feature" data-reveal style="--reveal-delay:60ms">
+        <div class="ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 4h10M5 16h10M4 4v12M16 4v12M8 8h4v4H8z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+        <h3>Portal do cliente</h3>
+        <p>Cada cliente acessa entregas, financeiro, calendário e métricas. Reuniões mensais viram conferências, não defesa.</p>
+      </div>
+      <div class="feature" data-reveal style="--reveal-delay:120ms">
+        <div class="ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg></div>
+        <h3>Integrações nativas</h3>
+        <p>Meta, Google Ads, GA4, WhatsApp Cloud, Asaas, Postiz, n8n. Sem Zapier no meio do caminho.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROVA SOCIAL ============ -->
+<section class="section-band">
+  <div class="container">
+    <div class="sec-head" data-reveal>
+      <span class="eyebrow"><span class="dot"></span> Quem já está dentro</span>
+      <h2>Depoimentos reais. <em>Resultados reais.</em></h2>
+    </div>
+    <div class="testimonial-grid">
+      <div class="testimonial" data-reveal>
+        <blockquote>A Balu fez o que três SaaS combinados nunca conseguiram: me devolveu tempo. Saí do operacional em 60 dias.</blockquote>
+        <div class="testimonial-meta">
+          <div class="avatar">MB</div>
+          <div><strong>Marina B.</strong><span>Sócia · agência com 18 contas</span></div>
+        </div>
+      </div>
+      <div class="testimonial" data-reveal style="--reveal-delay:80ms">
+        <blockquote>Migrei 11 clientes do meu CRM antigo num final de semana. Na segunda, o pipeline já estava se atualizando sozinho.</blockquote>
+        <div class="testimonial-meta">
+          <div class="avatar">RC</div>
+          <div><strong>Rafael C.</strong><span>Diretor comercial · Performance B2B</span></div>
+        </div>
+      </div>
+      <div class="testimonial" data-reveal style="--reveal-delay:160ms">
+        <blockquote>O optimizer de mídia salvou um lançamento meu. Pausou 4 criativos no domingo e me explicou por quê na segunda.</blockquote>
+        <div class="testimonial-meta">
+          <div class="avatar">JT</div>
+          <div><strong>Júlia T.</strong><span>Head de Mídia · agência paulistana</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPIs de resultados -->
+    <div class="kpis" data-reveal style="margin-top:40px;">
+      <div class="kpi"><div class="lbl">Ferramentas substituídas</div><div class="val">7+</div></div>
+      <div class="kpi"><div class="lbl">Onboarding médio</div><div class="val">15 <small style="font-size:14px;color:var(--text-3);font-weight:400;">min</small></div></div>
+      <div class="kpi"><div class="lbl">Redução de retrabalho</div><div class="val">68%</div></div>
+      <div class="kpi"><div class="lbl">Aumento de margem</div><div class="val">+3<small style="font-size:14px;color:var(--text-3);font-weight:400;">p.p.</small></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PLANOS ============ -->
+<section id="planos">
+  <div class="container">
+    <div class="sec-head" data-reveal>
+      <span class="eyebrow"><span class="dot"></span> Planos</span>
+      <h2>Comece pequeno. <em>Escale sem rasgar contrato.</em></h2>
+      <p class="lede">Você paga pela operação, não por usuário. Sem surpresa no upgrade.</p>
+    </div>
+
+    <div class="pricing">
+      <div class="plan" data-reveal>
+        <div class="plan-name">Solo</div>
+        <div class="plan-price">R$ 297<small>/mês</small></div>
+        <p class="plan-desc">Pra quem está saindo do freela e montando a operação.</p>
+        <ul>
+          <li>Até 8 clientes ativos</li>
+          <li>CRM + projetos + financeiro</li>
+          <li>1 squad de IA (atendimento)</li>
+          <li>Suporte por e-mail</li>
+        </ul>
+        <a href="#contato" class="btn btn-ghost">Começar com Solo</a>
+      </div>
+
+      <div class="plan featured" data-reveal style="--reveal-delay:80ms">
+        <span class="plan-badge">Recomendado</span>
+        <div class="plan-name">Estúdio</div>
+        <div class="plan-price">R$ 697<small>/mês</small></div>
+        <p class="plan-desc">Pra agências de 3 a 15 pessoas que querem sair do caos.</p>
+        <ul>
+          <li>Até 30 clientes ativos</li>
+          <li>Todos os módulos da plataforma</li>
+          <li>4 squads de IA + optimizer de mídia</li>
+          <li>Portal do cliente white-label parcial</li>
+          <li>Suporte por WhatsApp em 5 min</li>
+          <li>Onboarding guiado</li>
+        </ul>
+        <a href="#contato" class="btn btn-accent">Agendar demo
+          <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7 3m4 4l-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <div class="plan" data-reveal style="--reveal-delay:160ms">
+        <div class="plan-name">Holding</div>
+        <div class="plan-price">Custom</div>
+        <p class="plan-desc">Pra agência consolidada com múltiplas unidades ou marcas.</p>
+        <ul>
+          <li>Clientes ilimitados</li>
+          <li>Multi-workspace e governança</li>
+          <li>Squads IA customizadas</li>
+          <li>SLAs dedicados + CSM</li>
+          <li>Integrações sob demanda</li>
+        </ul>
+        <a href="#contato" class="btn btn-ghost">Falar com vendas</a>
+      </div>
+    </div>
+
+    <p style="text-align:center; margin-top:24px; font-size:13px; color:var(--text-3);">
+      Sem cartão pra começar · 14 dias de avaliação · Migração assistida grátis acima de 10 clientes
+    </p>
+  </div>
+</section>
+
+<!-- ============ FAQ rápido ============ -->
+<section class="tight">
+  <div class="container container-narrow">
+    <div class="sec-head" data-reveal style="margin-bottom:32px;">
+      <span class="eyebrow"><span class="dot"></span> Perguntas que todo mundo faz</span>
+    </div>
+    <div style="display:grid; gap:14px;">
+      <details class="card" data-reveal>
+        <summary style="cursor:pointer; font-weight:500; font-size:16px; color:var(--text);">A Balu substitui mesmo todas as minhas ferramentas?</summary>
+        <p style="margin-top:12px; color:var(--text-3); font-size:14.5px;">A maioria sim — CRM, gestor de projetos, calendário editorial, billing recorrente, dashboard. Pra ferramentas muito específicas (Figma, Premiere) seguimos integrados via Postiz, n8n e webhooks.</p>
+      </details>
+      <details class="card" data-reveal>
+        <summary style="cursor:pointer; font-weight:500; font-size:16px; color:var(--text);">Quanto tempo leva pra migrar do meu setup atual?</summary>
+        <p style="margin-top:12px; color:var(--text-3); font-size:14.5px;">Onboarding básico em 15 minutos. Migração completa com clientes, projetos e financeiro: 2 a 5 dias úteis. A gente importa do seu CRM, planilhas e ferramenta de projeto.</p>
+      </details>
+      <details class="card" data-reveal>
+        <summary style="cursor:pointer; font-weight:500; font-size:16px; color:var(--text);">A IA usa meus dados pra treinar modelo público?</summary>
+        <p style="margin-top:12px; color:var(--text-3); font-size:14.5px;">Não. Sua base de conhecimento fica isolada por workspace. Modelos são acessados via API com flag de não-treino. Você pode revogar acesso a qualquer momento.</p>
+      </details>
+      <details class="card" data-reveal>
+        <summary style="cursor:pointer; font-weight:500; font-size:16px; color:var(--text);">Existe contrato de fidelidade?</summary>
+        <p style="margin-top:12px; color:var(--text-3); font-size:14.5px;">Não. Mensal sem fidelidade. Quem migra com mais de 10 clientes ganha 2 meses de onboarding assistido — mesmo se cancelar.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA FINAL ============ -->
+<section id="contato">
+  <div class="container">
+    <div class="cta-final" data-reveal>
+      <span class="eyebrow"><span class="dot"></span> Próximo passo</span>
+      <h2 style="margin-top:18px;">Sua próxima semana <em>começa fora do caos</em>.</h2>
+      <p class="lede">Agende uma demo de 30 minutos. Mostramos como migrar a sua operação sem parar de faturar.</p>
+      <div class="actions">
+        <a href="https://wa.me/5511999999999?text=Quero%20agendar%20demo%20da%20Balu%20Ag%C3%AAncia" target="_blank" rel="noopener" class="btn btn-accent">
+          Agendar demo grátis
+          <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7 3m4 4l-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="crm.html" class="btn btn-ghost">Conhecer o CRM Balu</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="assets/logo-white.svg" alt="Balu" />
+        <p>A plataforma operacional pra agências que querem sair do Frankenstack e voltar a vender. Eugência operando como gente grande.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Produtos</h5>
+        <a href="index.html">Balu Agência</a>
+        <a href="crm.html">Balu CRM</a>
+        <a href="criacao.html">Sites & Branding</a>
+        <a href="#planos">Planos</a>
+      </div>
+      <div class="footer-col">
+        <h5>Empresa</h5>
+        <a href="#metodo">Método BALU</a>
+        <a href="#contato">Falar com vendas</a>
+        <a href="#">Status da plataforma</a>
+        <a href="#">Carreiras</a>
+      </div>
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <a href="#">Termos de uso</a>
+        <a href="#">Política de privacidade</a>
+        <a href="#">LGPD</a>
+        <a href="mailto:contato@balu.com.br">contato@balu.com.br</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Balu — Operação inteligente para agências.</span>
+      <span>Feito em São Paulo · Powered by Eugência.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/main.js" defer></script>
+</body>
+</html>
