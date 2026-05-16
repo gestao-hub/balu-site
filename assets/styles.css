@@ -2161,10 +2161,77 @@ details.card[open] summary::after { transform: rotate(45deg); }
 .audience-pill .l { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--text-3); }
 .audience-pill .v { font-family: var(--font-display); font-weight: 600; font-size: 13.5px; color: var(--text); }
 
+/* ============ Logos auto-scroll marquee (brand integrations) ============ */
+.logos-section {
+  padding: 80px 0;
+  position: relative;
+}
+.logos-marquee {
+  position: relative;
+  overflow: hidden;
+  padding: 28px 0;
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.logos-marquee-track {
+  display: flex;
+  gap: 72px;
+  align-items: center;
+  width: max-content;
+  animation: logos-scroll 60s linear infinite;
+}
+@keyframes logos-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.logos-marquee:hover .logos-marquee-track { animation-play-state: paused; }
+.logos-marquee .logo-item {
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  opacity: 0.55;
+  filter: brightness(1.15);
+  transition: opacity 0.4s var(--ease-spring), filter 0.4s var(--ease-spring), transform 0.4s var(--ease-spring);
+  color: var(--text);
+}
+.logos-marquee .logo-item:hover {
+  opacity: 1;
+  filter: brightness(1.4);
+  transform: scale(1.08);
+}
+.logos-marquee .logo-item img {
+  height: 100%;
+  width: auto;
+  max-width: 140px;
+  object-fit: contain;
+  display: block;
+}
+/* Inline wordmarks (Asaas etc.) */
+.logos-marquee .logo-wordmark {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 24px;
+  letter-spacing: -0.025em;
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  color: currentColor;
+}
+
+@media (max-width: 768px) {
+  .logos-marquee-track { gap: 48px; animation-duration: 45s; }
+  .logos-marquee .logo-item { height: 26px; }
+  .logos-marquee .logo-wordmark { font-size: 20px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   [data-reveal] { opacity: 1; transform: none; filter: none; }
   .perspective-marquee-track,
-  .cinematic-footer .footer-marquee-diagonal-track { animation: none; }
+  .cinematic-footer .footer-marquee-diagonal-track,
+  .logos-marquee-track { animation: none; }
   .magnetic { transform: none !important; }
 }
