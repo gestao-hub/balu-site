@@ -393,6 +393,7 @@
     0 8px 20px rgba(69,118,255,0.40);
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
+.balu-gate-submit svg { width: 14px; height: 14px; flex-shrink: 0; }
 .balu-gate-submit:hover {
   transform: translateY(-2px);
   box-shadow:

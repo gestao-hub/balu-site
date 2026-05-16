@@ -1,0 +1,265 @@
+{
+  "task": "QA visual e funcional das telas de login padronizadas Balu (Liquid Glass)",
+  "context": "As duas telas foram redesenhadas pro mesmo padrão visual (form esquerda 45% + hero gradient direita 55% com glass card e carrossel). Form inputs glass, btn azul gradient, Cal Sans nos títulos. Mobile (< lg) hero some, form full width. Suas missões: validar consistência entre as duas, achar desalinhamentos, quebras de layout, contraste ruim, regressões de UX e bugs de responsividade.",
+  "targets": [
+    {
+      "id": "agencia",
+      "name": "Balu Agência",
+      "url": "https://agencia.baluhub.com.br/login",
+      "features": ["login-only", "carrossel-novidades-4-itens", "redirect-param"]
+    },
+    {
+      "id": "crm",
+      "name": "Balu CRM",
+      "url": "https://crm.baluhub.com.br/auth",
+      "features": ["login", "signup-2-step", "password-strength", "remember-me", "esqueci-senha", "invite-banners", "rate-limit-lockout", "carrossel-features-4-itens", "toggle-mode"]
+    }
+  ],
+  "viewports": [
+    { "label": "Desktop wide", "width": 1920, "height": 1080 },
+    { "label": "Desktop", "width": 1440, "height": 900 },
+    { "label": "Laptop", "width": 1280, "height": 800 },
+    { "label": "Breakpoint lg", "width": 1024, "height": 768, "note": "logo abaixo do qual hero some" },
+    { "label": "Tablet", "width": 768, "height": 1024 },
+    { "label": "Mobile L", "width": 414, "height": 896, "note": "iPhone XR" },
+    { "label": "Mobile M", "width": 375, "height": 812, "note": "iPhone X" },
+    { "label": "Mobile S", "width": 320, "height": 568, "note": "iPhone SE" }
+  ],
+  "shared_checks": [
+    {
+      "id": "fonts",
+      "description": "Cal Sans deve estar carregada e aplicada nos títulos h1/h2 (não pode cair em fallback system serif/sans). Verificar via DevTools > Computed > font-family no h1 — primeiro item resolvido deve ser 'Cal Sans'."
+    },
+    {
+      "id": "logo-render",
+      "description": "Logo Balu deve aparecer no topo do form panel com altura ~32-36px, junto com chip brand-tag (AGÊNCIA ou CRM). Sem broken-image icon. Sem fallback pra favicon."
+    },
+    {
+      "id": "hero-gradient",
+      "description": "Painel direito deve mostrar gradient azul deep #01219C → #134AB6 com aurora blur animada (12s breathe). Grid sutil de pontos. Em telas < 1024px o hero some completamente."
+    },
+    {
+      "id": "glass-card",
+      "description": "Card central no hero tem backdrop-filter blur(20px), border branco transparente, sombra forte. Tem que ter contraste suficiente do título branco contra o gradient (WCAG AA ≥ 4.5:1)."
+    },
+    {
+      "id": "carrossel-rotativo",
+      "description": "Carrossel troca de item a cada 6s automaticamente. Dots embaixo: dot ativo é w-8 branco sólido, demais são w-1.5 white/30. Click no dot navega manualmente. Total: 4 itens em ambos."
+    },
+    {
+      "id": "form-inputs",
+      "description": "Inputs E-mail e Senha devem ter: glass background semi-transparente, ícone Mail/Lock à esquerda em #94a3b8, altura 48px, border-radius 14px, placeholder #94a3b8. Focus: borda azul #4576FF + ring 4px azul translúcido + background quase opaco. Padding-left adequado pra não sobrepor o ícone (pl-10 / pl-42px)."
+    },
+    {
+      "id": "password-toggle",
+      "description": "Botão eye/eyeOff dentro do input senha, no canto direito, 32x32, hover bg cinza claro. Click alterna type='password'/'text'. Aria-label muda também."
+    },
+    {
+      "id": "submit-button",
+      "description": "Btn Entrar (ou Continuar / Criar conta no CRM signup): gradient azul, altura 48px, hover translateY(-1px) + sombra mais forte, active volta. Disabled opacity 0.55. Quando loading, mostra spinner + texto 'Entrando…' / 'Criando conta…'."
+    },
+    {
+      "id": "validation-errors",
+      "description": "Submeter form vazio: campos viram borda vermelha + ring vermelho + mensagem 'E-mail é obrigatório' / 'Senha é obrigatória' abaixo. Email inválido: 'E-mail inválido'. Mensagens em pt-BR."
+    },
+    {
+      "id": "error-toast-or-chip",
+      "description": "Login com credencial errada: aparece chip vermelho is-error com ícone Mail e texto 'E-mail ou senha incorretos…' (Agência) OU toast destructive no canto (CRM, pode incluir contador de tentativas restantes)."
+    },
+    {
+      "id": "keyboard-navigation",
+      "description": "Tab navega: E-mail → Senha → toggle senha → btn Entrar (e mais elementos no CRM). Enter no último input submete. Focus ring visível em todos os interativos. Esc não tem comportamento custom mas não pode quebrar."
+    },
+    {
+      "id": "color-contrast",
+      "description": "Texto principal slate-900 sobre branco: > 7:1. Texto secundário slate-500: > 4.5:1. Texto branco sobre gradient azul: > 4.5:1. Link azul #4576FF sobre fundo branco: > 4.5:1."
+    }
+  ],
+  "agencia_specific_checks": [
+    {
+      "id": "agencia-redirect-param",
+      "description": "Acessar /login?redirect=/clientes/abc — após login válido, deve redirecionar pra /clientes/abc (não pra /). Sem credencial real, ao menos verificar que o componente preserva o param (inspecionar searchParams)."
+    },
+    {
+      "id": "agencia-news-content",
+      "description": "Carrossel deve mostrar 4 itens nesta ordem: Squads de criativos com IA → Monitoramento de concorrentes → Alertas inteligentes → Correções automáticas em WordPress. Chip tag muda também (Novo/Inteligência/Automação/SEO)."
+    },
+    {
+      "id": "agencia-bullets",
+      "description": "3 bullets fixos no rodapé do hero, cada um com check verde dentro de circle white/15: 'Gestão completa de clientes e campanhas', 'Agentes IA integrados ao fluxo de trabalho', 'Relatórios e métricas em tempo real'."
+    },
+    {
+      "id": "agencia-no-extras",
+      "description": "Agência NÃO deve ter Lembrar de mim, Esqueci senha, toggle signup, banners de invite, password strength. Form é minimalista. Se algum desses aparecer, é regressão."
+    }
+  ],
+  "crm_specific_checks": [
+    {
+      "id": "crm-toggle-signup",
+      "description": "Botão 'Crie agora' embaixo do form muda mode pra signup. Título vira 'Crie sua conta', subtítulo 'Em 2 passos você está dentro.', step indicator aparece 'Passo 1 de 2' no canto direito. Voltar pra 'Já tem conta? Entrar' volta pra login."
+    },
+    {
+      "id": "crm-signup-step1",
+      "description": "Step 1 do signup: E-mail + Senha + PasswordStrength bar embaixo da senha mostrando força (fraca/média/forte) conforme digita. Botão 'Continuar →' (não 'Criar conta')."
+    },
+    {
+      "id": "crm-signup-step2",
+      "description": "Após Continuar valid: muda pra Step 2. Aparece input Nome completo (com ícone User), checkbox 'Concordo com Termos de Uso e Política de Privacidade' (com links clicáveis), botão 'Criar conta →'. Sem aceitar termos: toast erro 'Termos obrigatórios'. Link '← Voltar' volta pra Step 1 preservando os dados."
+    },
+    {
+      "id": "crm-remember-me",
+      "description": "Checkbox 'Lembrar de mim' à esquerda + 'Esqueceu sua senha?' à direita, na mesma linha. Click no esqueci abre /auth/reset-password."
+    },
+    {
+      "id": "crm-rate-limit",
+      "description": "5 logins consecutivos errados: aparece chip âmbar is-warn com ícone Clock e contador 'Aguarde Ns segundos'. Botão muda pra 'Aguarde Ns' e fica disabled. Após 60s o lockout limpa sozinho. Estado persiste em localStorage 'auth_rate_limit' (não some ao reload)."
+    },
+    {
+      "id": "crm-invite-banner-cliente",
+      "description": "Acessar /auth?invite=token-fake → chip status acima do form. Token inválido: chip vermelho 'Convite inválido / Verifique com seu gestor'. Verificar que o componente trata token válido/expirado/inválido sem quebrar."
+    },
+    {
+      "id": "crm-invite-banner-team",
+      "description": "Acessar /auth?team_invite=token-fake → chip azul informativo. Mesmo tratamento de estados."
+    },
+    {
+      "id": "crm-carousel-content",
+      "description": "Carrossel CRM tem 4 itens: Agentes inteligentes 24/7 → Atendimento omnichannel → Análises em tempo real → Funis com scoring automático. Chips tags: Agentes IA/WhatsApp/Insights/Pipeline."
+    }
+  ],
+  "mobile_specific_checks": [
+    {
+      "id": "mobile-hero-hidden",
+      "description": "Em viewport < 1024px: hero panel direito não pode aparecer (display:none). Form ocupa 100% da largura. Sem scroll horizontal. Sem overflow."
+    },
+    {
+      "id": "mobile-logo-form",
+      "description": "Logo + brand tag ficam no topo do form panel. Espaçamento adequado da borda (px-6 mínimo)."
+    },
+    {
+      "id": "mobile-inputs-touch",
+      "description": "Inputs devem ter altura mínima 44px (Apple HIG) ou 48px (Material). Confirmar que altura é 48px. Tap em qualquer parte do input ativa foco — não pode haver dead-zone."
+    },
+    {
+      "id": "mobile-keyboard",
+      "description": "Em iOS Safari simulado: type='email' deve abrir teclado com @ visível; type='password' não autocompleta nem mostra. Sem zoom indesejado ao focar input (font-size ≥ 16px no input — garantir!)."
+    },
+    {
+      "id": "mobile-button-tap",
+      "description": "btn-balu ocupa width:100% no mobile, altura 48px, área de toque adequada. Tap responde com feedback visual (active state)."
+    },
+    {
+      "id": "mobile-iphone-se",
+      "description": "Em 320px de largura (iPhone SE 1st gen): form não pode estourar largura. Padding lateral deve cair pra ~16px. Logo + tag não podem sobrepor. Título não pode quebrar feio."
+    },
+    {
+      "id": "mobile-overflow-vertical",
+      "description": "h-[100dvh] no CRM e min-h-screen no Agência: em mobile com teclado aberto, form deve ser scrollável (overflow-y-auto). Não pode esconder o botão Entrar atrás do teclado. CRM signup step2 com termos pode ficar comprido — testar scroll."
+    },
+    {
+      "id": "mobile-orientation-landscape",
+      "description": "Mobile em landscape (812×375): se largura ≥ 1024 (não é o caso), hero apareceria. Em 812 não. Layout não pode estourar. Form ainda funcional."
+    },
+    {
+      "id": "mobile-carousel-not-visible",
+      "description": "Carrossel está dentro do hero que está hidden em mobile. Confirmar que JS do setInterval ainda roda (não tem leak) mas não causa repaints visíveis."
+    }
+  ],
+  "interactions_to_test": [
+    {
+      "id": "fill-and-submit-invalid",
+      "steps": ["digitar email inválido 'abc'", "digitar senha '123'", "clicar Entrar"],
+      "expected": "Campos viram vermelhos com mensagem de erro. Form não submete pro backend."
+    },
+    {
+      "id": "fill-and-submit-credential-wrong",
+      "steps": ["digitar email válido 'naoexiste@balu.com'", "digitar senha 'errada123'", "clicar Entrar"],
+      "expected": "Loading spinner aparece no botão (~500ms). Depois mensagem 'E-mail ou senha incorretos' (Agência: chip vermelho; CRM: toast destructive)."
+    },
+    {
+      "id": "password-toggle",
+      "steps": ["digitar senha 'minhasenha'", "clicar no ícone olho"],
+      "expected": "Ícone vira EyeOff, type do input vira 'text', senha visível. Click de novo: volta pra password."
+    },
+    {
+      "id": "crm-mode-toggle",
+      "steps": ["em /auth, clicar 'Crie agora'", "preencher email+senha válidos", "clicar Continuar", "preencher nome", "deixar termos desmarcado", "clicar Criar conta"],
+      "expected": "Step 1 → Step 2 transition smooth. Sem aceitar termos: toast erro. Voltar link funciona."
+    },
+    {
+      "id": "crm-rate-limit-trigger",
+      "steps": ["repetir 5x: email válido + senha errada + Entrar"],
+      "expected": "Na 5ª tentativa: chip âmbar 'Muitas tentativas / Aguarde Ns segundos'. Botão muda pra 'Aguarde Ns' disabled. Contador decrementa em tempo real."
+    },
+    {
+      "id": "reload-mid-session",
+      "steps": ["preencher email parcial", "F5"],
+      "expected": "Reload limpa o input (esperado, sem rascunho). Logo/layout não pisca/quebra."
+    }
+  ],
+  "console_and_network_checks": [
+    {
+      "id": "no-console-errors",
+      "description": "DevTools > Console em cada viewport e cada interação: zero erros vermelhos. Warnings amarelos OK só se conhecidos (ex: React deprecations não-críticas)."
+    },
+    {
+      "id": "no-404-assets",
+      "description": "Network tab: nenhum 404 em imagens, fonts, CSS. Atenção especial: /logo-dark.svg, /logo-white.svg, /favicon.png, fonts da Fontshare, asset balu-logo.png (deve vir do bundle, não /public)."
+    },
+    {
+      "id": "fonts-loaded",
+      "description": "Network tab filtrado por 'font': verificar Cal Sans + DM Sans woff2 carregados com 200. Sem CORS error."
+    },
+    {
+      "id": "no-mixed-content",
+      "description": "Toda request HTTPS. Sem warning de mixed content (http: em página https:)."
+    }
+  ],
+  "screenshots_required": [
+    "Desktop 1440×900 — login Agência",
+    "Desktop 1440×900 — login CRM",
+    "Mobile 375×812 — login Agência",
+    "Mobile 375×812 — login CRM (mode login)",
+    "Mobile 375×812 — login CRM (mode signup step 1 com password strength)",
+    "Mobile 375×812 — login CRM (mode signup step 2 com termos)",
+    "Mobile 320×568 — login Agência (stress test viewport mínimo)",
+    "Mobile 320×568 — login CRM",
+    "Estado de erro: campos vermelhos com mensagens"
+  ],
+  "output_format": {
+    "summary": "Status global: PASS / PASS-COM-RESSALVAS / FAIL",
+    "per_target": {
+      "agencia": {
+        "shared_checks_pass": "lista de IDs PASS",
+        "shared_checks_fail": "lista de IDs FAIL com descrição do problema observado",
+        "specific_checks_pass": "lista",
+        "specific_checks_fail": "lista com descrição",
+        "mobile_pass": "lista",
+        "mobile_fail": "lista com descrição",
+        "screenshots": "links/refs"
+      },
+      "crm": "mesma estrutura"
+    },
+    "bugs_encontrados": [
+      {
+        "severity": "critical | high | medium | low",
+        "target": "agencia | crm | both",
+        "viewport": "ex: mobile 375px",
+        "description": "o que está quebrado",
+        "screenshot_ref": "qual screenshot mostra",
+        "suggested_fix": "se óbvio"
+      }
+    ],
+    "regressões_funcionais": [
+      "ex: CRM signup step 2 não preserva email do step 1"
+    ],
+    "recomendações_polimento": [
+      "ex: aumentar contraste do placeholder em 5%"
+    ]
+  },
+  "non_blocking_observations": [
+    "Foco visual ao tabular pode estar inconsistente entre os 2 sites (shadcn vs vanilla input)",
+    "Carrossel pode causar layout shift na primeira troca (CLS) — observar",
+    "PWA install prompt do CRM aparece sobre o form em mobile — não é bug do login, mas pode atrapalhar QA visual"
+  ]
+}

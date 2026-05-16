@@ -163,6 +163,14 @@
   function svg(viewBox, paths, cls) {
     const s = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     s.setAttribute("viewBox", viewBox);
+    // Default width/height = viewBox dimensions, pra evitar SVG estourar 300×150
+    // (default do browser) quando dentro de containers flex sem CSS específico.
+    // CSS continua sobrescrevendo livremente.
+    const vb = viewBox.split(/\s+/);
+    if (vb.length === 4) {
+      s.setAttribute("width", vb[2]);
+      s.setAttribute("height", vb[3]);
+    }
     s.setAttribute("fill", "none");
     s.setAttribute("stroke", "currentColor");
     s.setAttribute("stroke-width", "2");
