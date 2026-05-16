@@ -70,11 +70,12 @@
     return resp;
   }
 
-  // ---------- Anti-prompt-injection (defesa client-side) ----------
+  // ---------- Anti-prompt-injection (defesa client-side, EN + PT-BR) ----------
   const INJECTION_PATTERNS = [
+    // EN
     /ignore\s+(previous|prior|above|all|the)\s+instructions/i,
     /disregard\s+(previous|prior|above|all|the)\s+instructions/i,
-    /you\s+are\s+(now|actually)\s+/i,
+    /you\s+are\s+(now|actually|currently)\s+/i,
     /system\s*prompt/i,
     /developer\s*mode/i,
     /jailbreak/i,
@@ -83,8 +84,24 @@
     /pretend\s+(you|to\s+be)/i,
     /forget\s+(everything|all|your)/i,
     /new\s+instructions/i,
-    /<\/?\s*(script|iframe|object|embed|style|link)/i,
-    /\bDAN\b|\bdevmode\b/i,
+    /\bDAN\b|\bdevmode\b|\boverride\b/i,
+    /print\s+(your|the)\s+(system|prompt|instructions)/i,
+    /repeat\s+(your|the)\s+(system|prompt|instructions)/i,
+    /show\s+me\s+(your|the)\s+(system|prompt|instructions)/i,
+    // PT-BR
+    /ignor[ae]\s+(as|todas|as\s+suas|suas|essas|todas\s+as)\s+(instru[cç][ãa]o|instru[cç][õo]es|regras)/i,
+    /esque[çc]a\s+(tudo|todas|suas|as)\s+(instru|regras|orient)/i,
+    /voc[êe]\s+(é|agora|ser[áa])\s+(um|uma|outro|outra)\s+/i,
+    /imprim[ae]\s+(seu|suas|o|as)\s+(prompt|regras|instru)/i,
+    /mostr[ae]\s+(seu|suas|o|as)\s+(prompt|regras|instru[cç][ãa]o)/i,
+    /revele?\s+(seu|suas|as)\s+(instru|regras|prompt|sistema)/i,
+    /aja?\s+como\s+(um|uma)\s+/i,
+    /finja?\s+(ser|que)\s+/i,
+    /novas?\s+regras/i,
+    /modo\s+(desenvolvedor|admin|debug)/i,
+    /\[(sistema|system|admin|root)\s*:/i,
+    // HTML/script
+    /<\/?\s*(script|iframe|object|embed|style|link|meta)/i,
   ];
   function looksInjectionAttempt(text) {
     if (!text) return false;
@@ -279,9 +296,18 @@
     if (!input) return false;
     const v = input.value.trim();
     let ok = false;
-    if (field === "name") ok = v.length >= 2 && v.length <= 80;
-    if (field === "whatsapp") ok = /^[\d\s()\-+]{10,20}$/.test(v) && v.replace(/\D/g, "").length >= 10;
-    if (field === "email") ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) && v.length <= 120;
+    if (field === "name") {
+      // Nome: 2-80 chars, sem keywords de injection (proteção contra ataque via gate)
+      ok = v.length >= 2 && v.length <= 80 && !looksInjectionAttempt(v) && /^[\p{L}\p{M}\s'.\-]+$/u.test(v);
+    }
+    if (field === "whatsapp") {
+      // WhatsApp: só dígitos, espaços, parens, hífen, +. 10-20 chars
+      ok = /^[\d\s()\-+]{10,20}$/.test(v) && v.replace(/\D/g, "").length >= 10;
+    }
+    if (field === "email") {
+      // Email: formato válido + sem keywords de injection
+      ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) && v.length <= 120 && !looksInjectionAttempt(v);
+    }
     wrap.classList.toggle("error", !ok);
     return ok;
   }
