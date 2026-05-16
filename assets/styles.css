@@ -2186,20 +2186,18 @@ details.card[open] summary::after { transform: rotate(45deg); }
 }
 .logos-marquee:hover .logos-marquee-track { animation-play-state: paused; }
 .logos-marquee .logo-item {
-  height: 32px;
+  height: 38px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  opacity: 0.55;
-  filter: brightness(1.15);
-  transition: opacity 0.4s var(--ease-spring), filter 0.4s var(--ease-spring), transform 0.4s var(--ease-spring);
+  opacity: 0.85;
+  transition: opacity 0.4s var(--ease-spring), transform 0.4s var(--ease-spring);
   color: var(--text);
 }
 .logos-marquee .logo-item:hover {
   opacity: 1;
-  filter: brightness(1.4);
-  transform: scale(1.08);
+  transform: scale(1.10);
 }
 .logos-marquee .logo-item img {
   height: 100%;
@@ -2223,7 +2221,7 @@ details.card[open] summary::after { transform: rotate(45deg); }
 
 @media (max-width: 768px) {
   .logos-marquee-track { gap: 48px; animation-duration: 45s; }
-  .logos-marquee .logo-item { height: 26px; }
+  .logos-marquee .logo-item { height: 30px; }
   .logos-marquee .logo-wordmark { font-size: 20px; }
 }
 
