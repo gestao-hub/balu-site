@@ -166,7 +166,52 @@
     });
   });
 
-  // ---- 9) GSAP integrations (cinematic footer parallax + hero mockup entry) ----
+  // ---- 9a) Wizard step click navigation (interactive demo) ----
+  document.querySelectorAll(".wizard-mockup").forEach((wiz) => {
+    const stepHeaders = wiz.querySelectorAll(".wizard-step");
+    const panels = wiz.querySelectorAll(".wizard-panel");
+    stepHeaders.forEach((header, idx) => {
+      header.style.cursor = "pointer";
+      header.addEventListener("click", () => {
+        stepHeaders.forEach((h, i) => {
+          h.classList.remove("current");
+          if (i < idx) h.classList.add("done");
+          else h.classList.remove("done");
+        });
+        header.classList.add("current");
+        header.classList.remove("done");
+        panels.forEach((p, i) => {
+          p.style.display = i === idx ? "block" : "none";
+          if (i === idx) {
+            p.animate(
+              [{ opacity: 0, transform: "translateY(8px)", filter: "blur(6px)" },
+               { opacity: 1, transform: "translateY(0)", filter: "blur(0)" }],
+              { duration: 500, easing: "cubic-bezier(.16,1,.3,1)" }
+            );
+          }
+        });
+      });
+    });
+  });
+
+  // ---- 9b) Optimizer toggle interactive ----
+  document.querySelectorAll(".optimizer-toggle").forEach((t) => {
+    t.style.cursor = "pointer";
+    t.addEventListener("click", () => t.classList.toggle("off"));
+  });
+
+  // ---- 9c) Wizard option selection ----
+  document.querySelectorAll(".wizard-options").forEach((grp) => {
+    grp.querySelectorAll(".wizard-option").forEach((opt) => {
+      opt.style.cursor = "pointer";
+      opt.addEventListener("click", () => {
+        grp.querySelectorAll(".wizard-option").forEach((o) => o.classList.remove("selected"));
+        opt.classList.add("selected");
+      });
+    });
+  });
+
+  // ---- 10) GSAP integrations (cinematic footer parallax + hero mockup entry + inset scroll reveal) ----
   function initGSAP() {
     if (typeof window.gsap === "undefined" || typeof window.ScrollTrigger === "undefined") return;
     if (prefersReducedMotion) return;
@@ -240,7 +285,7 @@
       );
     });
 
-    // 9d) Header glass shrink/blur on scroll
+    // 10d) Header glass shrink/blur on scroll
     const headerEl = document.querySelector(".site-header");
     if (headerEl) {
       ScrollTrigger.create({
@@ -251,6 +296,49 @@
         },
       });
     }
+
+    // 10e) Inset scroll reveal (5th component — animated-video-on-scroll adapted)
+    // The frame starts inset/rounded and expands as user scrolls into view.
+    document.querySelectorAll(".scroll-reveal-section").forEach((sec) => {
+      const frame = sec.querySelector(".scroll-reveal-frame");
+      const text = sec.querySelector(".scroll-reveal-text");
+      if (!frame) return;
+
+      gsap.fromTo(
+        frame,
+        { scale: 0.78, borderRadius: "48px", filter: "blur(8px)" },
+        {
+          scale: 1,
+          borderRadius: "16px",
+          filter: "blur(0px)",
+          ease: "none",
+          scrollTrigger: {
+            trigger: sec,
+            start: "top 80%",
+            end: "center center",
+            scrub: 1,
+          },
+        }
+      );
+
+      if (text) {
+        gsap.fromTo(
+          text,
+          { y: 0, opacity: 1 },
+          {
+            y: -80,
+            opacity: 0,
+            ease: "none",
+            scrollTrigger: {
+              trigger: sec,
+              start: "top 70%",
+              end: "center 40%",
+              scrub: 1,
+            },
+          }
+        );
+      }
+    });
   }
 
   if (document.readyState === "complete") {
