@@ -1,14 +1,19 @@
-/* Balu Site — interactions */
+/* =====================================================
+   Balu Site — interactions v2
+   Magnetic buttons + GSAP scroll + perspective depth blur
+   ===================================================== */
 (() => {
-  // ---- Scroll reveal ----
+  const isFinePointer = window.matchMedia("(pointer: fine)").matches;
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // ---- 1) IntersectionObserver scroll reveal ----
   const reveals = document.querySelectorAll("[data-reveal]");
   if ("IntersectionObserver" in window && reveals.length) {
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e, idx) => {
           if (e.isIntersecting) {
-            // small stagger per intersection batch
-            e.target.style.setProperty("--reveal-delay", `${(idx % 6) * 70}ms`);
+            e.target.style.setProperty("--reveal-delay", `${(idx % 6) * 90}ms`);
             e.target.classList.add("in-view");
             io.unobserve(e.target);
           }
@@ -21,7 +26,7 @@
     reveals.forEach((el) => el.classList.add("in-view"));
   }
 
-  // ---- Mobile nav ----
+  // ---- 2) Mobile nav toggle ----
   const toggle = document.querySelector(".menu-toggle");
   const header = document.querySelector(".site-header");
   if (toggle && header) {
@@ -37,49 +42,81 @@
     });
   }
 
-  // ---- Subtle parallax tilt on hero mockup ----
+  // ---- 3) Magnetic buttons (desktop only) ----
+  if (isFinePointer && !prefersReducedMotion) {
+    const easeReturn = "cubic-bezier(0.175, 0.885, 0.32, 2.2)";
+    const easeMove = "cubic-bezier(0.16, 1, 0.3, 1)";
+    document.querySelectorAll(".magnetic").forEach((el) => {
+      let rafId = null;
+      const strength = parseFloat(el.dataset.magnetic || "0.35");
+
+      el.addEventListener("mousemove", (e) => {
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(() => {
+          const r = el.getBoundingClientRect();
+          const x = e.clientX - r.left - r.width / 2;
+          const y = e.clientY - r.top - r.height / 2;
+          el.style.transition = `transform 0.45s ${easeMove}`;
+          el.style.transform = `translate3d(${x * strength}px, ${y * strength}px, 0) scale(1.05)`;
+        });
+      });
+
+      el.addEventListener("mouseleave", () => {
+        if (rafId) cancelAnimationFrame(rafId);
+        el.style.transition = `transform 1s ${easeReturn}`;
+        el.style.transform = "translate3d(0,0,0) scale(1)";
+      });
+    });
+  }
+
+  // ---- 4) Mockup tilt parallax (refined easing) ----
   const tiltEls = document.querySelectorAll(".mockup.tilt");
-  if (window.matchMedia("(pointer: fine)").matches) {
+  if (isFinePointer && !prefersReducedMotion) {
     tiltEls.forEach((el) => {
       const wrap = el.parentElement;
       const baseRotY = -6;
       const baseRotX = 3;
+      let rafId = null;
       wrap.addEventListener("mousemove", (e) => {
-        const r = wrap.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width - 0.5;
-        const y = (e.clientY - r.top) / r.height - 0.5;
-        el.style.transform = `perspective(1400px) rotateY(${baseRotY + x * 6}deg) rotateX(${baseRotX - y * 6}deg)`;
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(() => {
+          const r = wrap.getBoundingClientRect();
+          const x = (e.clientX - r.left) / r.width - 0.5;
+          const y = (e.clientY - r.top) / r.height - 0.5;
+          el.style.transition = "transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)";
+          el.style.transform = `perspective(1400px) rotateY(${baseRotY + x * 6}deg) rotateX(${baseRotX - y * 6}deg)`;
+        });
       });
       wrap.addEventListener("mouseleave", () => {
+        if (rafId) cancelAnimationFrame(rafId);
+        el.style.transition = "transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 2.2)";
         el.style.transform = `perspective(1400px) rotateY(${baseRotY}deg) rotateX(${baseRotX}deg)`;
       });
     });
   }
 
-  // ---- Pipeline mock auto-shuffle hint ----
+  // ---- 5) Pipeline highlight rotativo (CRM) ----
   const pipeline = document.querySelector(".pipeline-animated");
-  if (pipeline) {
+  if (pipeline && !prefersReducedMotion) {
     const deals = pipeline.querySelectorAll(".deal");
     let i = 0;
     setInterval(() => {
-      deals.forEach((d) => d.classList.remove("highlight"));
       const target = deals[i % deals.length];
       if (target) {
-        target.classList.add("highlight");
         target.animate(
           [
-            { transform: "translateX(0)", boxShadow: "0 0 0 1px transparent" },
-            { transform: "translateX(4px)", boxShadow: "0 0 0 1px rgba(69,118,255,0.50)" },
-            { transform: "translateX(0)", boxShadow: "0 0 0 1px transparent" }
+            { transform: "translateY(0)", boxShadow: "0 0 0 1px transparent" },
+            { transform: "translateY(-2px)", boxShadow: "0 8px 24px rgba(69,118,255,0.40), 0 0 0 1px rgba(69,118,255,0.50)" },
+            { transform: "translateY(0)", boxShadow: "0 0 0 1px transparent" },
           ],
-          { duration: 1200, easing: "cubic-bezier(.2,.8,.2,1)" }
+          { duration: 1400, easing: "cubic-bezier(.16,1,.3,1)" }
         );
       }
       i++;
-    }, 2400);
+    }, 2200);
   }
 
-  // ---- Smooth scroll for nav anchors (extra easing) ----
+  // ---- 6) Smooth scroll for nav anchors ----
   document.querySelectorAll('a[href^="#"]').forEach((a) => {
     a.addEventListener("click", (e) => {
       const id = a.getAttribute("href");
@@ -92,4 +129,133 @@
       }
     });
   });
+
+  // ---- 7) Perspective marquee depth blur ----
+  // Applies a static graduated blur to spans based on their X position in the track.
+  // Re-runs on resize for responsive correctness.
+  function applyMarqueeDepth() {
+    const tracks = document.querySelectorAll(".perspective-marquee-track");
+    tracks.forEach((track) => {
+      const stage = track.closest(".perspective-marquee");
+      if (!stage) return;
+      const stageRect = stage.getBoundingClientRect();
+      const centerX = stageRect.width / 2;
+      track.querySelectorAll("span").forEach((span) => {
+        const r = span.getBoundingClientRect();
+        const spanCenter = r.left + r.width / 2 - stageRect.left;
+        const dist = Math.min(1, Math.abs(spanCenter - centerX) / (stageRect.width / 2));
+        // edge blur 6px, mid 2px, center 0 — gentle gradient
+        const blur = Math.round(dist * 5);
+        const opacity = 1 - dist * 0.35;
+        span.style.filter = `blur(${blur}px)`;
+        span.style.opacity = String(opacity);
+      });
+    });
+  }
+  // Note: track animates continuously, so static initial blur is fine for the
+  // 3D depth feel — full per-frame recalc would be expensive.
+  setTimeout(applyMarqueeDepth, 250);
+  window.addEventListener("resize", () => {
+    requestAnimationFrame(applyMarqueeDepth);
+  });
+
+  // ---- 8) Back to top (cinematic footer) ----
+  document.querySelectorAll(".back-to-top").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  });
+
+  // ---- 9) GSAP integrations (cinematic footer parallax + hero mockup entry) ----
+  function initGSAP() {
+    if (typeof window.gsap === "undefined" || typeof window.ScrollTrigger === "undefined") return;
+    if (prefersReducedMotion) return;
+    const { gsap, ScrollTrigger } = window;
+    gsap.registerPlugin(ScrollTrigger);
+
+    // 9a) Hero mockup scroll-in (blur + scale + opacity)
+    document.querySelectorAll(".hero-mockup .mockup").forEach((mk) => {
+      gsap.fromTo(
+        mk,
+        { filter: "blur(14px)", opacity: 0, y: 40, scale: 0.94 },
+        {
+          filter: "blur(0px)",
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 1.4,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: mk,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    });
+
+    // 9b) Cinematic footer giant text parallax
+    document.querySelectorAll(".cinematic-footer .giant-text").forEach((el) => {
+      const curtain = el.closest(".curtain-footer");
+      if (!curtain) return;
+      gsap.fromTo(
+        el,
+        { y: "12vh", scale: 0.85, opacity: 0 },
+        {
+          y: "0vh",
+          scale: 1,
+          opacity: 1,
+          ease: "power1.out",
+          scrollTrigger: {
+            trigger: curtain,
+            start: "top 80%",
+            end: "bottom bottom",
+            scrub: 1,
+          },
+        }
+      );
+    });
+
+    // 9c) Cinematic footer center content stagger
+    document.querySelectorAll(".cinematic-footer .footer-center").forEach((el) => {
+      const curtain = el.closest(".curtain-footer");
+      if (!curtain) return;
+      const targets = el.querySelectorAll("h2, .footer-pills, .footer-secondary-links");
+      gsap.fromTo(
+        targets,
+        { y: 50, opacity: 0, filter: "blur(8px)" },
+        {
+          y: 0,
+          opacity: 1,
+          filter: "blur(0px)",
+          stagger: 0.15,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: curtain,
+            start: "top 40%",
+            end: "bottom bottom",
+            scrub: 1,
+          },
+        }
+      );
+    });
+
+    // 9d) Header glass shrink/blur on scroll
+    const headerEl = document.querySelector(".site-header");
+    if (headerEl) {
+      ScrollTrigger.create({
+        start: "top -20",
+        onUpdate: (self) => {
+          if (self.scroll() > 20) headerEl.classList.add("scrolled");
+          else headerEl.classList.remove("scrolled");
+        },
+      });
+    }
+  }
+
+  if (document.readyState === "complete") {
+    initGSAP();
+  } else {
+    window.addEventListener("load", initGSAP);
+  }
 })();

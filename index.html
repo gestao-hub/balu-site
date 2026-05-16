@@ -8,17 +8,39 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=cal-sans@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   <meta property="og:title" content="Balu Agência — A plataforma que escala sua operação" />
   <meta property="og:description" content="Pare de gerenciar planilha. Comece a escalar. CRM, projetos, financeiro e IA em loop fechado." />
   <meta property="og:type" content="website" />
 </head>
 <body>
 
+<!-- ============ SVG Glass Distortion Filter (shared) ============ -->
+<svg style="display:none" aria-hidden="true">
+  <filter id="balu-glass-distortion" x="0%" y="0%" width="100%" height="100%" filterUnits="objectBoundingBox">
+    <feTurbulence type="fractalNoise" baseFrequency="0.001 0.005" numOctaves="1" seed="17" result="turbulence" />
+    <feComponentTransfer in="turbulence" result="mapped">
+      <feFuncR type="gamma" amplitude="1" exponent="10" offset="0.5" />
+      <feFuncG type="gamma" amplitude="0" exponent="1" offset="0" />
+      <feFuncB type="gamma" amplitude="0" exponent="1" offset="0.5" />
+    </feComponentTransfer>
+    <feGaussianBlur in="turbulence" stdDeviation="3" result="softMap" />
+    <feSpecularLighting in="softMap" surfaceScale="5" specularConstant="1" specularExponent="100" lightingColor="white" result="specLight">
+      <fePointLight x="-200" y="-200" z="300" />
+    </feSpecularLighting>
+    <feComposite in="specLight" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" result="litImage" />
+    <feDisplacementMap in="SourceGraphic" in2="softMap" scale="60" xChannelSelector="R" yChannelSelector="G" />
+  </filter>
+</svg>
+
 <!-- ============ HEADER ============ -->
-<header class="site-header">
-  <div class="container nav">
+<header class="site-header glass glass-pill">
+  <div class="nav">
     <a href="index.html" class="brand" aria-label="Balu — Home">
       <img src="assets/logo-white.svg" alt="Balu" />
       <span class="brand-tag">Agência</span>
@@ -31,8 +53,8 @@
       <a href="#metodo">Método BALU</a>
     </nav>
     <div class="nav-cta">
-      <a href="#contato" class="btn btn-ghost">Entrar</a>
-      <a href="#contato" class="btn btn-accent">Agendar demo
+      <a href="#contato" class="btn btn-ghost magnetic">Entrar</a>
+      <a href="#contato" class="btn btn-accent magnetic">Agendar demo
         <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7 3m4 4l-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
       <button class="menu-toggle" aria-label="Menu" aria-expanded="false">
@@ -52,17 +74,17 @@
   <div class="container hero-grid">
     <div class="hero-copy" data-reveal>
       <span class="eyebrow"><span class="dot"></span> Para donos de agência</span>
-      <h1>Pare de gerenciar planilha. <em>Comece a escalar.</em></h1>
+      <h1>Pare de gerenciar planilha. <span class="display-glow">Comece a escalar.</span></h1>
       <p class="lede">
         A Balu Agência é a plataforma única que substitui o seu Frankenstack. Clientes, projetos,
-        entregas, financeiro, equipe e IA — costurados em <strong style="color:var(--text)">loop fechado</strong>
+        entregas, financeiro, equipe e IA — costurados em <strong style="color:var(--text);font-family:var(--font-display);font-weight:600;">loop fechado</strong>
         para você crescer sem terceirizar o caos.
       </p>
       <div class="hero-actions">
-        <a href="#contato" class="btn btn-accent">Agendar demo grátis
+        <a href="#contato" class="btn btn-accent magnetic">Agendar demo grátis
           <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7 3m4 4l-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <a href="#funcionalidades" class="btn btn-ghost">Ver funcionalidades</a>
+        <a href="#funcionalidades" class="btn btn-ghost magnetic">Ver funcionalidades</a>
         <span class="meta"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#7DD8B7" stroke-width="1.4"/><path d="M4.5 7l1.7 1.7L9.5 5.5" stroke="#7DD8B7" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg> Sem cartão · Onboarding em <strong>15 min</strong></span>
       </div>
     </div>
@@ -78,7 +100,7 @@
           <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
             <div>
               <div style="font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-3);">Dashboard Eugência</div>
-              <div style="font-family:var(--font-display); font-style:italic; font-size:28px; color:var(--text); margin-top:4px;">Bom dia, Eduardo</div>
+              <div style="font-family:var(--font-display); font-weight:600; font-size:26px; color:var(--text); margin-top:4px; letter-spacing:-0.02em;">Bom dia, Eduardo</div>
             </div>
             <span class="tag ai">IA monitorando</span>
           </div>
@@ -92,12 +114,12 @@
 
           <div style="margin-top:18px; padding:14px; border-radius:12px; background:rgba(69,118,255,0.06); border:1px solid rgba(69,118,255,0.20);">
             <div style="display:flex; gap:10px; align-items:flex-start;">
-              <div style="width:30px;height:30px;border-radius:8px;background:var(--grad-balu);display:grid;place-items:center;color:#fff;font-weight:600;font-size:13px;flex-shrink:0;">B</div>
+              <div style="width:30px;height:30px;border-radius:8px;background:var(--grad-balu);display:grid;place-items:center;color:#fff;font-weight:600;font-size:13px;flex-shrink:0;font-family:var(--font-display);">B</div>
               <div style="flex:1;">
-                <div style="font-size:12px; color:var(--accent-2); font-family:var(--font-mono); letter-spacing:.10em; text-transform:uppercase; margin-bottom:4px;">Balu sugere</div>
-                <div style="font-size:13.5px; color:var(--text); line-height:1.4;">
+                <div style="font-size:11px; color:var(--accent-2); font-family:var(--font-mono); letter-spacing:.12em; text-transform:uppercase; margin-bottom:4px;">Balu sugere</div>
+                <div style="font-size:13px; color:var(--text); line-height:1.45;">
                   Marmer Butik está 80% do orçamento mensal de mídia consumido com 9 dias restantes.
-                  <strong style="color:var(--text)">Quer que eu prepare uma proposta de upsell?</strong>
+                  <strong style="color:var(--text);font-family:var(--font-display);font-weight:600;">Quer que eu prepare uma proposta de upsell?</strong>
                 </div>
                 <div style="display:flex; gap:6px; margin-top:10px;">
                   <span class="tag">Aplicar</span>
@@ -131,48 +153,49 @@
   </div>
 </section>
 
-<!-- ============ MARQUEE - Agências e clientes ============ -->
+<!-- ============ PERSPECTIVE MARQUEE 3D ============ -->
 <section class="tight" style="padding-top:0;">
   <div class="container">
     <p style="text-align:center; font-family:var(--font-mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-3); margin-bottom:20px;">
       Agências e operações que rodam na Balu
     </p>
   </div>
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track">
-      <span class="marquee-item">Marmer Butik</span>
-      <span class="marquee-item">·</span>
-      <span class="marquee-item">Cia das Águas</span>
-      <span class="marquee-item">·</span>
-      <span class="marquee-item">Couro Mania</span>
-      <span class="marquee-item">·</span>
-      <span class="marquee-item">Vivacqua</span>
-      <span class="marquee-item">·</span>
-      <span class="marquee-item">Nuvi</span>
-      <span class="marquee-item">·</span>
-      <span class="marquee-item">Sea Hop</span>
-      <span class="marquee-item">·</span>
-      <span class="marquee-item">King Farm</span>
-      <span class="marquee-item">·</span>
-      <span class="marquee-item">Excluvia</span>
-      <span class="marquee-item">·</span>
-      <!-- duplicado para loop infinito -->
-      <span class="marquee-item">Marmer Butik</span>
-      <span class="marquee-item">·</span>
-      <span class="marquee-item">Cia das Águas</span>
-      <span class="marquee-item">·</span>
-      <span class="marquee-item">Couro Mania</span>
-      <span class="marquee-item">·</span>
-      <span class="marquee-item">Vivacqua</span>
-      <span class="marquee-item">·</span>
-      <span class="marquee-item">Nuvi</span>
-      <span class="marquee-item">·</span>
-      <span class="marquee-item">Sea Hop</span>
-      <span class="marquee-item">·</span>
-      <span class="marquee-item">King Farm</span>
-      <span class="marquee-item">·</span>
-      <span class="marquee-item">Excluvia</span>
-      <span class="marquee-item">·</span>
+  <div class="perspective-marquee" aria-hidden="true">
+    <div class="perspective-marquee-stage">
+      <div class="perspective-marquee-track">
+        <span>Marmer Butik</span>
+        <span class="sep">✦</span>
+        <span>Cia das Águas</span>
+        <span class="sep">✦</span>
+        <span>Couro Mania</span>
+        <span class="sep">✦</span>
+        <span>Vivacqua</span>
+        <span class="sep">✦</span>
+        <span>Nuvi</span>
+        <span class="sep">✦</span>
+        <span>Sea Hop</span>
+        <span class="sep">✦</span>
+        <span>King Farm</span>
+        <span class="sep">✦</span>
+        <span>Excluvia</span>
+        <span class="sep">✦</span>
+        <span>Marmer Butik</span>
+        <span class="sep">✦</span>
+        <span>Cia das Águas</span>
+        <span class="sep">✦</span>
+        <span>Couro Mania</span>
+        <span class="sep">✦</span>
+        <span>Vivacqua</span>
+        <span class="sep">✦</span>
+        <span>Nuvi</span>
+        <span class="sep">✦</span>
+        <span>Sea Hop</span>
+        <span class="sep">✦</span>
+        <span>King Farm</span>
+        <span class="sep">✦</span>
+        <span>Excluvia</span>
+        <span class="sep">✦</span>
+      </div>
     </div>
   </div>
 </section>
@@ -181,11 +204,11 @@
 <section class="section-band">
   <div class="container container-narrow" style="text-align:center;">
     <span class="eyebrow" data-reveal><span class="dot"></span> Reconheça a cena</span>
-    <h2 data-reveal style="margin:20px 0 18px;">Sua agência cresceu. <em>Sua operação não.</em></h2>
+    <h2 data-reveal style="margin:20px 0 18px;">Sua agência cresceu. <span class="display-glow">Sua operação não.</span></h2>
     <p class="lede" data-reveal style="margin:0 auto;">
       Você usa Trello pra projeto, planilha pra cliente, ClickUp pra entrega, WhatsApp pra tudo
-      que não cabe nas ferramentas e <em>memória</em> pra lembrar quem precisa do quê.
-      Isso tem nome: <strong style="color:var(--text)">Frankenstack</strong>. E ele já te custa um cliente por mês.
+      que não cabe nas ferramentas e <strong style="color:var(--text);font-family:var(--font-display);font-weight:600;">memória</strong> pra lembrar quem precisa do quê.
+      Isso tem nome: <strong style="color:var(--text);font-family:var(--font-display);font-weight:600;">Frankenstack</strong>. E ele já te custa um cliente por mês.
     </p>
 
     <div class="feature-grid" style="margin-top:48px; text-align:left;">
@@ -213,7 +236,7 @@
   <div class="container">
     <div class="sec-head" data-reveal>
       <span class="eyebrow"><span class="dot"></span> Método BALU</span>
-      <h2>Quatro camadas em <em>loop fechado</em>.</h2>
+      <h2>Quatro camadas em <span class="display-glow">loop fechado.</span></h2>
       <p class="lede">Cada etapa alimenta a próxima e devolve dado pra primeira. Sem retrabalho, sem perguntar "cadê?" no grupo.</p>
     </div>
 
@@ -239,36 +262,108 @@
         <p>O Balu observa tudo isso e devolve sugestões: upsell, risco de churn, gargalo de equipe, gap de margem.</p>
       </div>
     </div>
+  </div>
+</section>
 
-    <!-- mockup secundário do método -->
-    <div class="card" data-reveal style="margin-top:40px; padding:32px;">
-      <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap:36px; align-items:center;">
-        <div>
-          <span class="kicker">Loop em ação</span>
-          <h3 style="font-size:28px; margin:10px 0 14px; letter-spacing:-0.02em;">Da reunião comercial à fatura do mês: <em class="display-italic">um só fluxo</em>.</h3>
-          <p style="color:var(--text-3); font-size:15px;">
-            O lead chega, vira oportunidade, vira proposta, vira contrato assinado, vira projeto na squad,
-            vira fatura recorrente. Cada passo dispara o próximo. Você só precisa decidir.
-          </p>
-          <ul style="list-style:none; margin-top:20px; display:grid; gap:10px;">
-            <li style="display:flex; gap:10px; align-items:center; font-size:14px; color:var(--text-2);"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent);"></span> Onboarding do cliente em 1 clique do CRM</li>
-            <li style="display:flex; gap:10px; align-items:center; font-size:14px; color:var(--text-2);"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent);"></span> Reuniões com transcrição, ata e tarefas geradas pela IA</li>
-            <li style="display:flex; gap:10px; align-items:center; font-size:14px; color:var(--text-2);"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent);"></span> Cobrança automática via Pix, boleto ou cartão recorrente</li>
-          </ul>
-        </div>
-        <div style="background:var(--bg-2); border:1px solid var(--border); border-radius:16px; padding:18px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-            <span style="font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-3);">Linha do tempo · Cia das Águas</span>
-            <span class="tag ai">IA</span>
-          </div>
-          <div style="display:flex; flex-direction:column; gap:10px;">
-            <div class="ui-row"><span class="tag" style="background:rgba(69,118,255,0.15); color:var(--accent-2);">12:04</span><div class="ui-name"><strong>Lead capturado</strong><span>via LP "Piscina pronta"</span></div></div>
-            <div class="ui-row"><span class="tag warm">12:05</span><div class="ui-name"><strong>WhatsApp enviado</strong><span>follow-up automático</span></div></div>
-            <div class="ui-row"><span class="tag win">14:18</span><div class="ui-name"><strong>Proposta aceita</strong><span>R$ 4.800/mês recorrente</span></div></div>
-            <div class="ui-row"><span class="tag ai">14:19</span><div class="ui-name"><strong>Squad alocada</strong><span>Conteúdo + Mídia + Atendimento</span></div></div>
-            <div class="ui-row"><span class="tag" style="background:rgba(125,216,183,0.12); color:var(--highlight); border-color:rgba(125,216,183,0.25);">15/05</span><div class="ui-name"><strong>Primeira fatura emitida</strong><span>Pagamento confirmado</span></div></div>
-          </div>
-        </div>
+<!-- ============ LOOP FECHADO — CPU ARCHITECTURE ============ -->
+<section class="section-band">
+  <div class="container">
+    <div class="sec-head" data-reveal>
+      <span class="eyebrow"><span class="dot"></span> Loop Fechado</span>
+      <h2>Os módulos não só se conectam. <span class="display-glow">Eles trocam dado.</span></h2>
+      <p class="lede">Cada movimento dispara o próximo. CPU lendo Balu, em tempo real — captação alimenta CRM, CRM alimenta entrega, entrega devolve insight.</p>
+    </div>
+
+    <div class="cpu-architecture-wrap" data-reveal>
+      <svg class="cpu-architecture-svg" viewBox="0 0 200 100">
+        <!-- Paths -->
+        <g stroke="currentColor" fill="none" stroke-width="0.3" stroke-dasharray="100 100" pathLength="100" marker-start="url(#cpu-circle-marker)" style="color:#7C849A">
+          <path stroke-dasharray="100 100" pathLength="100" d="M 10 20 h 79.5 q 5 0 5 5 v 30" />
+          <path stroke-dasharray="100 100" pathLength="100" d="M 180 10 h -69.7 q -5 0 -5 5 v 30" />
+          <path d="M 130 20 v 21.8 q 0 5 -5 5 h -10" />
+          <path d="M 170 80 v -21.8 q 0 -5 -5 -5 h -50" />
+          <path stroke-dasharray="100 100" pathLength="100" d="M 135 65 h 15 q 5 0 5 5 v 10 q 0 5 -5 5 h -39.8 q -5 0 -5 -5 v -20" />
+          <path d="M 94.8 95 v -36" />
+          <path d="M 88 88 v -15 q 0 -5 -5 -5 h -10 q -5 0 -5 -5 v -5 q 0 -5 5 -5 h 14" />
+          <path d="M 30 30 h 25 q 5 0 5 5 v 6.5 q 0 5 5 5 h 20" />
+          <animate attributeName="stroke-dashoffset" from="100" to="0" dur="1s" fill="freeze" calcMode="spline" keySplines="0.25,0.1,0.5,1" keyTimes="0; 1" />
+        </g>
+
+        <!-- 8 traveling lights -->
+        <g mask="url(#cpu-mask-1)"><circle class="cpu-architecture cpu-line-1" cx="0" cy="0" r="8" fill="url(#cpu-blue-grad)" /></g>
+        <g mask="url(#cpu-mask-2)"><circle class="cpu-architecture cpu-line-2" cx="0" cy="0" r="8" fill="url(#cpu-yellow-grad)" /></g>
+        <g mask="url(#cpu-mask-3)"><circle class="cpu-architecture cpu-line-3" cx="0" cy="0" r="8" fill="url(#cpu-pinkish-grad)" /></g>
+        <g mask="url(#cpu-mask-4)"><circle class="cpu-architecture cpu-line-4" cx="0" cy="0" r="8" fill="url(#cpu-white-grad)" /></g>
+        <g mask="url(#cpu-mask-5)"><circle class="cpu-architecture cpu-line-5" cx="0" cy="0" r="8" fill="url(#cpu-green-grad)" /></g>
+        <g mask="url(#cpu-mask-6)"><circle class="cpu-architecture cpu-line-6" cx="0" cy="0" r="8" fill="url(#cpu-orange-grad)" /></g>
+        <g mask="url(#cpu-mask-7)"><circle class="cpu-architecture cpu-line-7" cx="0" cy="0" r="8" fill="url(#cpu-cyan-grad)" /></g>
+        <g mask="url(#cpu-mask-8)"><circle class="cpu-architecture cpu-line-8" cx="0" cy="0" r="8" fill="url(#cpu-rose-grad)" /></g>
+
+        <!-- CPU Box (BALU) -->
+        <g>
+          <g fill="url(#cpu-connection-gradient)">
+            <rect x="93" y="37" width="2.5" height="5" rx="0.7" />
+            <rect x="104" y="37" width="2.5" height="5" rx="0.7" />
+            <rect x="116.3" y="44" width="2.5" height="5" rx="0.7" transform="rotate(90 116.25 45.5)" />
+            <rect x="122.8" y="44" width="2.5" height="5" rx="0.7" transform="rotate(90 116.25 45.5)" />
+            <rect x="104" y="16" width="2.5" height="5" rx="0.7" transform="rotate(180 105.25 39.5)" />
+            <rect x="114.5" y="16" width="2.5" height="5" rx="0.7" transform="rotate(180 105.25 39.5)" />
+            <rect x="80" y="-13.6" width="2.5" height="5" rx="0.7" transform="rotate(270 115.25 19.5)" />
+            <rect x="87" y="-13.6" width="2.5" height="5" rx="0.7" transform="rotate(270 115.25 19.5)" />
+          </g>
+          <rect x="85" y="40" width="30" height="20" rx="2" fill="#0F1422" filter="url(#cpu-light-shadow)" stroke="rgba(69,118,255,0.40)" stroke-width="0.3" />
+          <text x="89" y="52.5" font-size="7" font-family="Cal Sans, Inter, sans-serif" fill="url(#cpu-text-gradient)" font-weight="600" letter-spacing="0.05em">BALU</text>
+        </g>
+
+        <!-- Defs -->
+        <defs>
+          <mask id="cpu-mask-1"><path d="M 10 20 h 79.5 q 5 0 5 5 v 24" stroke-width="0.5" stroke="white" /></mask>
+          <mask id="cpu-mask-2"><path d="M 180 10 h -69.7 q -5 0 -5 5 v 24" stroke-width="0.5" stroke="white" /></mask>
+          <mask id="cpu-mask-3"><path d="M 130 20 v 21.8 q 0 5 -5 5 h -10" stroke-width="0.5" stroke="white" /></mask>
+          <mask id="cpu-mask-4"><path d="M 170 80 v -21.8 q 0 -5 -5 -5 h -50" stroke-width="0.5" stroke="white" /></mask>
+          <mask id="cpu-mask-5"><path d="M 135 65 h 15 q 5 0 5 5 v 10 q 0 5 -5 5 h -39.8 q -5 0 -5 -5 v -20" stroke-width="0.5" stroke="white" /></mask>
+          <mask id="cpu-mask-6"><path d="M 94.8 95 v -36" stroke-width="0.5" stroke="white" /></mask>
+          <mask id="cpu-mask-7"><path d="M 88 88 v -15 q 0 -5 -5 -5 h -10 q -5 0 -5 -5 v -5 q 0 -5 5 -5 h 14" stroke-width="0.5" stroke="white" /></mask>
+          <mask id="cpu-mask-8"><path d="M 30 30 h 25 q 5 0 5 5 v 6.5 q 0 5 5 5 h 20" stroke-width="0.5" stroke="white" /></mask>
+
+          <radialGradient id="cpu-blue-grad" fx="1"><stop offset="0%" stop-color="#00E8ED" /><stop offset="50%" stop-color="#08F" /><stop offset="100%" stop-color="transparent" /></radialGradient>
+          <radialGradient id="cpu-yellow-grad" fx="1"><stop offset="0%" stop-color="#FFD800" /><stop offset="50%" stop-color="#FFD800" /><stop offset="100%" stop-color="transparent" /></radialGradient>
+          <radialGradient id="cpu-pinkish-grad" fx="1"><stop offset="0%" stop-color="#830CD1" /><stop offset="50%" stop-color="#FF008B" /><stop offset="100%" stop-color="transparent" /></radialGradient>
+          <radialGradient id="cpu-white-grad" fx="1"><stop offset="0%" stop-color="white" /><stop offset="100%" stop-color="transparent" /></radialGradient>
+          <radialGradient id="cpu-green-grad" fx="1"><stop offset="0%" stop-color="#22c55e" /><stop offset="100%" stop-color="transparent" /></radialGradient>
+          <radialGradient id="cpu-orange-grad" fx="1"><stop offset="0%" stop-color="#f97316" /><stop offset="100%" stop-color="transparent" /></radialGradient>
+          <radialGradient id="cpu-cyan-grad" fx="1"><stop offset="0%" stop-color="#06b6d4" /><stop offset="100%" stop-color="transparent" /></radialGradient>
+          <radialGradient id="cpu-rose-grad" fx="1"><stop offset="0%" stop-color="#f43f5e" /><stop offset="100%" stop-color="transparent" /></radialGradient>
+
+          <filter id="cpu-light-shadow" x="-50%" y="-50%" width="200%" height="200%">
+            <feDropShadow dx="1.5" dy="1.5" stdDeviation="1" flood-color="black" flood-opacity="0.4" />
+          </filter>
+          <marker id="cpu-circle-marker" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="18" markerHeight="18">
+            <circle cx="5" cy="5" r="2" fill="#0A0E18" stroke="#4576FF" stroke-width="0.5">
+              <animate attributeName="r" values="0; 3; 2" dur="0.5s" />
+            </circle>
+          </marker>
+          <linearGradient id="cpu-connection-gradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#6B8FFF" />
+            <stop offset="60%" stop-color="#1E2438" />
+          </linearGradient>
+          <linearGradient id="cpu-text-gradient" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#6B8FFF"><animate attributeName="offset" values="-2; -1; 0" dur="5s" repeatCount="indefinite" calcMode="spline" keyTimes="0; 0.5; 1" keySplines="0.4 0 0.2 1; 0.4 0 0.2 1" /></stop>
+            <stop offset="25%" stop-color="#F5F7FA"><animate attributeName="offset" values="-1; 0; 1" dur="5s" repeatCount="indefinite" calcMode="spline" keyTimes="0; 0.5; 1" keySplines="0.4 0 0.2 1; 0.4 0 0.2 1" /></stop>
+            <stop offset="50%" stop-color="#6B8FFF"><animate attributeName="offset" values="0; 1; 2;" dur="5s" repeatCount="indefinite" calcMode="spline" keyTimes="0; 0.5; 1" keySplines="0.4 0 0.2 1; 0.4 0 0.2 1" /></stop>
+          </linearGradient>
+        </defs>
+      </svg>
+
+      <div class="cpu-labels">
+        <div class="cpu-label c-1"><span class="dot"></span> Captação · LPs e forms</div>
+        <div class="cpu-label c-2"><span class="dot"></span> Mídia · Meta e Google Ads</div>
+        <div class="cpu-label c-3"><span class="dot"></span> Calendário editorial</div>
+        <div class="cpu-label c-4"><span class="dot"></span> CRM · Pipeline + propostas</div>
+        <div class="cpu-label c-5"><span class="dot"></span> Squad IA · Atendimento</div>
+        <div class="cpu-label c-6"><span class="dot"></span> Projetos · Demandas + SLA</div>
+        <div class="cpu-label c-7"><span class="dot"></span> Financeiro · Billing recorrente</div>
+        <div class="cpu-label c-8"><span class="dot"></span> Insight · Dashboard Eugência</div>
       </div>
     </div>
   </div>
@@ -279,7 +374,7 @@
   <div class="container">
     <div class="sec-head" data-reveal>
       <span class="eyebrow"><span class="dot"></span> Funcionalidades</span>
-      <h2>Tudo que sua agência precisa. <em>Em um só Balu.</em></h2>
+      <h2>Tudo que sua agência precisa. <span class="display-glow">Em um só Balu.</span></h2>
       <p class="lede">Os módulos são integrados de fábrica — não plugados depois. Por isso o dado conversa.</p>
     </div>
 
@@ -338,7 +433,7 @@
   <div class="container">
     <div class="sec-head" data-reveal>
       <span class="eyebrow"><span class="dot"></span> Quem já está dentro</span>
-      <h2>Depoimentos reais. <em>Resultados reais.</em></h2>
+      <h2>Depoimentos reais. <span class="display-glow">Resultados reais.</span></h2>
     </div>
     <div class="testimonial-grid">
       <div class="testimonial" data-reveal>
@@ -364,7 +459,6 @@
       </div>
     </div>
 
-    <!-- KPIs de resultados -->
     <div class="kpis" data-reveal style="margin-top:40px;">
       <div class="kpi"><div class="lbl">Ferramentas substituídas</div><div class="val">7+</div></div>
       <div class="kpi"><div class="lbl">Onboarding médio</div><div class="val">15 <small style="font-size:14px;color:var(--text-3);font-weight:400;">min</small></div></div>
@@ -379,7 +473,7 @@
   <div class="container">
     <div class="sec-head" data-reveal>
       <span class="eyebrow"><span class="dot"></span> Planos</span>
-      <h2>Comece pequeno. <em>Escale sem rasgar contrato.</em></h2>
+      <h2>Comece pequeno. <span class="display-glow">Escale sem rasgar contrato.</span></h2>
       <p class="lede">Você paga pela operação, não por usuário. Sem surpresa no upgrade.</p>
     </div>
 
@@ -394,7 +488,7 @@
           <li>1 squad de IA (atendimento)</li>
           <li>Suporte por e-mail</li>
         </ul>
-        <a href="#contato" class="btn btn-ghost">Começar com Solo</a>
+        <a href="#contato" class="btn btn-ghost magnetic">Começar com Solo</a>
       </div>
 
       <div class="plan featured" data-reveal style="--reveal-delay:80ms">
@@ -410,7 +504,7 @@
           <li>Suporte por WhatsApp em 5 min</li>
           <li>Onboarding guiado</li>
         </ul>
-        <a href="#contato" class="btn btn-accent">Agendar demo
+        <a href="#contato" class="btn btn-accent magnetic">Agendar demo
           <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7 3m4 4l-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
       </div>
@@ -426,7 +520,7 @@
           <li>SLAs dedicados + CSM</li>
           <li>Integrações sob demanda</li>
         </ul>
-        <a href="#contato" class="btn btn-ghost">Falar com vendas</a>
+        <a href="#contato" class="btn btn-ghost magnetic">Falar com vendas</a>
       </div>
     </div>
 
@@ -444,19 +538,19 @@
     </div>
     <div style="display:grid; gap:14px;">
       <details class="card" data-reveal>
-        <summary style="cursor:pointer; font-weight:500; font-size:16px; color:var(--text);">A Balu substitui mesmo todas as minhas ferramentas?</summary>
+        <summary style="font-weight:600; font-size:16px; color:var(--text); font-family:var(--font-display); letter-spacing:-0.01em;">A Balu substitui mesmo todas as minhas ferramentas?</summary>
         <p style="margin-top:12px; color:var(--text-3); font-size:14.5px;">A maioria sim — CRM, gestor de projetos, calendário editorial, billing recorrente, dashboard. Pra ferramentas muito específicas (Figma, Premiere) seguimos integrados via Postiz, n8n e webhooks.</p>
       </details>
       <details class="card" data-reveal>
-        <summary style="cursor:pointer; font-weight:500; font-size:16px; color:var(--text);">Quanto tempo leva pra migrar do meu setup atual?</summary>
+        <summary style="font-weight:600; font-size:16px; color:var(--text); font-family:var(--font-display); letter-spacing:-0.01em;">Quanto tempo leva pra migrar do meu setup atual?</summary>
         <p style="margin-top:12px; color:var(--text-3); font-size:14.5px;">Onboarding básico em 15 minutos. Migração completa com clientes, projetos e financeiro: 2 a 5 dias úteis. A gente importa do seu CRM, planilhas e ferramenta de projeto.</p>
       </details>
       <details class="card" data-reveal>
-        <summary style="cursor:pointer; font-weight:500; font-size:16px; color:var(--text);">A IA usa meus dados pra treinar modelo público?</summary>
+        <summary style="font-weight:600; font-size:16px; color:var(--text); font-family:var(--font-display); letter-spacing:-0.01em;">A IA usa meus dados pra treinar modelo público?</summary>
         <p style="margin-top:12px; color:var(--text-3); font-size:14.5px;">Não. Sua base de conhecimento fica isolada por workspace. Modelos são acessados via API com flag de não-treino. Você pode revogar acesso a qualquer momento.</p>
       </details>
       <details class="card" data-reveal>
-        <summary style="cursor:pointer; font-weight:500; font-size:16px; color:var(--text);">Existe contrato de fidelidade?</summary>
+        <summary style="font-weight:600; font-size:16px; color:var(--text); font-family:var(--font-display); letter-spacing:-0.01em;">Existe contrato de fidelidade?</summary>
         <p style="margin-top:12px; color:var(--text-3); font-size:14.5px;">Não. Mensal sem fidelidade. Quem migra com mais de 10 clientes ganha 2 meses de onboarding assistido — mesmo se cancelar.</p>
       </details>
     </div>
@@ -468,14 +562,14 @@
   <div class="container">
     <div class="cta-final" data-reveal>
       <span class="eyebrow"><span class="dot"></span> Próximo passo</span>
-      <h2 style="margin-top:18px;">Sua próxima semana <em>começa fora do caos</em>.</h2>
+      <h2 style="margin-top:18px;">Sua próxima semana <span class="display-glow">começa fora do caos.</span></h2>
       <p class="lede">Agende uma demo de 30 minutos. Mostramos como migrar a sua operação sem parar de faturar.</p>
       <div class="actions">
-        <a href="https://wa.me/5511999999999?text=Quero%20agendar%20demo%20da%20Balu%20Ag%C3%AAncia" target="_blank" rel="noopener" class="btn btn-accent">
+        <a href="https://wa.me/5511999999999?text=Quero%20agendar%20demo%20da%20Balu%20Ag%C3%AAncia" target="_blank" rel="noopener" class="btn btn-accent magnetic">
           Agendar demo grátis
           <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7 3m4 4l-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <a href="crm.html" class="btn btn-ghost">Conhecer o CRM Balu</a>
+        <a href="crm.html" class="btn btn-ghost magnetic">Conhecer o CRM Balu</a>
       </div>
     </div>
   </div>
@@ -483,42 +577,63 @@
 
 </main>
 
-<!-- ============ FOOTER ============ -->
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <img src="assets/logo-white.svg" alt="Balu" />
-        <p>A plataforma operacional pra agências que querem sair do Frankenstack e voltar a vender. Eugência operando como gente grande.</p>
-      </div>
-      <div class="footer-col">
-        <h5>Produtos</h5>
-        <a href="index.html">Balu Agência</a>
-        <a href="crm.html">Balu CRM</a>
-        <a href="criacao.html">Sites & Branding</a>
-        <a href="#planos">Planos</a>
-      </div>
-      <div class="footer-col">
-        <h5>Empresa</h5>
-        <a href="#metodo">Método BALU</a>
-        <a href="#contato">Falar com vendas</a>
-        <a href="#">Status da plataforma</a>
-        <a href="#">Carreiras</a>
-      </div>
-      <div class="footer-col">
-        <h5>Legal</h5>
-        <a href="#">Termos de uso</a>
-        <a href="#">Política de privacidade</a>
-        <a href="#">LGPD</a>
-        <a href="mailto:contato@balu.com.br">contato@balu.com.br</a>
+<!-- ============ CINEMATIC FOOTER ============ -->
+<div class="curtain-footer">
+  <footer class="cinematic-footer">
+    <div class="aurora"></div>
+    <div class="grid-bg"></div>
+    <div class="giant-text">BALU</div>
+
+    <div class="footer-marquee-diagonal">
+      <div class="footer-marquee-diagonal-track">
+        <div>
+          <span>Accountability Operacional</span> <span class="sep">✦</span>
+          <span>Loop Fechado</span> <span class="sep">✦</span>
+          <span>Eugência em escala</span> <span class="sep">✦</span>
+          <span>Sem Frankenstack</span> <span class="sep">✦</span>
+          <span>Método BALU</span> <span class="sep">✦</span>
+        </div>
+        <div>
+          <span>Accountability Operacional</span> <span class="sep">✦</span>
+          <span>Loop Fechado</span> <span class="sep">✦</span>
+          <span>Eugência em escala</span> <span class="sep">✦</span>
+          <span>Sem Frankenstack</span> <span class="sep">✦</span>
+          <span>Método BALU</span> <span class="sep">✦</span>
+        </div>
       </div>
     </div>
+
+    <div class="footer-center">
+      <h2 class="text-glow">Pronto pra escalar?</h2>
+      <div class="footer-pills">
+        <a href="https://wa.me/5511999999999?text=Quero%20agendar%20demo%20da%20Balu" target="_blank" rel="noopener" class="btn btn-accent magnetic" style="padding:16px 32px; font-size:15px;">
+          Agendar demo grátis
+          <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7 3m4 4l-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="mailto:contato@balu.com.br" class="btn btn-ghost magnetic" style="padding:16px 32px; font-size:15px;">
+          Falar com vendas
+        </a>
+      </div>
+      <div class="footer-secondary-links">
+        <a href="crm.html" class="glass glass-pill magnetic">Balu CRM</a>
+        <a href="criacao.html" class="glass glass-pill magnetic">Balu Criação</a>
+        <a href="#planos" class="glass glass-pill magnetic">Planos</a>
+        <a href="#" class="glass glass-pill magnetic">Privacidade</a>
+        <a href="#" class="glass glass-pill magnetic">Termos</a>
+      </div>
+    </div>
+
     <div class="footer-bottom">
-      <span>© 2026 Balu — Operação inteligente para agências.</span>
-      <span>Feito em São Paulo · Powered by Eugência.</span>
+      <div class="copyright">© 2026 Balu · Operação inteligente para agências</div>
+      <div class="glass glass-pill made-with">
+        Feito com <span class="heart">❤</span> em SP por <strong>Excluvia</strong>
+      </div>
+      <button class="glass glass-pill magnetic back-to-top" aria-label="Voltar ao topo">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 10l7-7m0 0l7 7m-7-7v18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
     </div>
-  </div>
-</footer>
+  </footer>
+</div>
 
 <script src="assets/main.js" defer></script>
 </body>

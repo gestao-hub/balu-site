@@ -8,13 +8,34 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=cal-sans@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="container nav">
+<svg style="display:none" aria-hidden="true">
+  <filter id="balu-glass-distortion" x="0%" y="0%" width="100%" height="100%" filterUnits="objectBoundingBox">
+    <feTurbulence type="fractalNoise" baseFrequency="0.001 0.005" numOctaves="1" seed="17" result="turbulence" />
+    <feComponentTransfer in="turbulence" result="mapped">
+      <feFuncR type="gamma" amplitude="1" exponent="10" offset="0.5" />
+      <feFuncG type="gamma" amplitude="0" exponent="1" offset="0" />
+      <feFuncB type="gamma" amplitude="0" exponent="1" offset="0.5" />
+    </feComponentTransfer>
+    <feGaussianBlur in="turbulence" stdDeviation="3" result="softMap" />
+    <feSpecularLighting in="softMap" surfaceScale="5" specularConstant="1" specularExponent="100" lightingColor="white" result="specLight">
+      <fePointLight x="-200" y="-200" z="300" />
+    </feSpecularLighting>
+    <feComposite in="specLight" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" result="litImage" />
+    <feDisplacementMap in="SourceGraphic" in2="softMap" scale="60" xChannelSelector="R" yChannelSelector="G" />
+  </filter>
+</svg>
+
+<header class="site-header glass glass-pill">
+  <div class="nav">
     <a href="index.html" class="brand" aria-label="Balu — Home">
       <img src="assets/logo-white.svg" alt="Balu" />
       <span class="brand-tag">CRM</span>
@@ -27,8 +48,8 @@
       <a href="#automacoes">Automações</a>
     </nav>
     <div class="nav-cta">
-      <a href="#contato" class="btn btn-ghost">Entrar</a>
-      <a href="#contato" class="btn btn-accent">Testar grátis
+      <a href="#contato" class="btn btn-ghost magnetic">Entrar</a>
+      <a href="#contato" class="btn btn-accent magnetic">Testar grátis
         <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7 3m4 4l-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
       <button class="menu-toggle" aria-label="Menu" aria-expanded="false">
@@ -48,17 +69,17 @@
   <div class="container hero-grid">
     <div class="hero-copy" data-reveal>
       <span class="eyebrow"><span class="dot"></span> Balu CRM · novo</span>
-      <h1>Seu funil estava vazio. <em>Agora ele vende sozinho.</em></h1>
+      <h1>Seu funil estava vazio. <span class="display-glow">Agora ele vende sozinho.</span></h1>
       <p class="lede">
         Pipeline visual, follow-up automático e IA que prioriza leads em tempo real. O CRM da Balu não é
-        "mais um lugar pra atualizar status" — é um <strong style="color:var(--text)">vendedor extra</strong>
+        "mais um lugar pra atualizar status" — é um <strong style="color:var(--text);font-family:var(--font-display);font-weight:600;">vendedor extra</strong>
         que avisa quando o lead esfria e te entrega o copy pronto pra reaquecer.
       </p>
       <div class="hero-actions">
-        <a href="#contato" class="btn btn-accent">Quero ver vendendo
+        <a href="#contato" class="btn btn-accent magnetic">Quero ver vendendo
           <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7 3m4 4l-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <a href="#automacoes" class="btn btn-ghost">Ver automações</a>
+        <a href="#automacoes" class="btn btn-ghost magnetic">Ver automações</a>
         <span class="meta"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#7DD8B7" stroke-width="1.4"/><path d="M4.5 7l1.7 1.7L9.5 5.5" stroke="#7DD8B7" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg> Sem cartão · <strong>14 dias</strong> de avaliação</span>
       </div>
     </div>
@@ -71,7 +92,7 @@
         </div>
         <div class="mockup-body" style="padding:14px;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-            <div style="font-family:var(--font-display); font-style:italic; font-size:20px; color:var(--text);">Pipeline · Maio</div>
+            <div style="font-family:var(--font-display); font-weight:600; font-size:20px; color:var(--text); letter-spacing:-0.015em;">Pipeline · Maio</div>
             <span class="tag ai">IA priorizando</span>
           </div>
           <div class="pipeline pipeline-animated">
@@ -97,9 +118,9 @@
           </div>
 
           <div style="margin-top:14px; padding:12px; border-radius:10px; background:rgba(69,118,255,0.06); border:1px solid rgba(69,118,255,0.20); display:flex; gap:10px; align-items:center;">
-            <div style="width:28px;height:28px;border-radius:8px;background:var(--grad-balu);display:grid;place-items:center;color:#fff;font-weight:600;font-size:12px;flex-shrink:0;">B</div>
+            <div style="width:28px;height:28px;border-radius:8px;background:var(--grad-balu);display:grid;place-items:center;color:#fff;font-weight:600;font-size:12px;flex-shrink:0;font-family:var(--font-display);">B</div>
             <div style="font-size:12.5px; color:var(--text);">
-              <strong>Balu sugere:</strong> Diego Ramos abriu sua proposta 3x em 24h. <span style="color:var(--accent-2);">Quer ligar agora?</span>
+              <strong style="font-family:var(--font-display);font-weight:600;">Balu sugere:</strong> Diego Ramos abriu sua proposta 3x em 24h. <span style="color:var(--accent-2);">Quer ligar agora?</span>
             </div>
           </div>
         </div>
@@ -108,41 +129,43 @@
   </div>
 </section>
 
-<!-- MARQUEE -->
+<!-- PERSPECTIVE MARQUEE -->
 <section class="tight" style="padding-top:0;">
   <div class="container">
     <p style="text-align:center; font-family:var(--font-mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-3); margin-bottom:20px;">
       Times comerciais que vendem com Balu
     </p>
   </div>
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track">
-      <span class="marquee-item">Marmer Butik</span><span class="marquee-item">·</span>
-      <span class="marquee-item">Cia das Águas</span><span class="marquee-item">·</span>
-      <span class="marquee-item">Couro Mania</span><span class="marquee-item">·</span>
-      <span class="marquee-item">Vivacqua</span><span class="marquee-item">·</span>
-      <span class="marquee-item">Nuvi</span><span class="marquee-item">·</span>
-      <span class="marquee-item">Sea Hop</span><span class="marquee-item">·</span>
-      <span class="marquee-item">King Farm</span><span class="marquee-item">·</span>
-      <span class="marquee-item">Excluvia</span><span class="marquee-item">·</span>
-      <span class="marquee-item">Marmer Butik</span><span class="marquee-item">·</span>
-      <span class="marquee-item">Cia das Águas</span><span class="marquee-item">·</span>
-      <span class="marquee-item">Couro Mania</span><span class="marquee-item">·</span>
-      <span class="marquee-item">Vivacqua</span><span class="marquee-item">·</span>
-      <span class="marquee-item">Nuvi</span><span class="marquee-item">·</span>
-      <span class="marquee-item">Sea Hop</span><span class="marquee-item">·</span>
-      <span class="marquee-item">King Farm</span><span class="marquee-item">·</span>
-      <span class="marquee-item">Excluvia</span><span class="marquee-item">·</span>
+  <div class="perspective-marquee" aria-hidden="true">
+    <div class="perspective-marquee-stage">
+      <div class="perspective-marquee-track">
+        <span>Marmer Butik</span><span class="sep">✦</span>
+        <span>Cia das Águas</span><span class="sep">✦</span>
+        <span>Couro Mania</span><span class="sep">✦</span>
+        <span>Vivacqua</span><span class="sep">✦</span>
+        <span>Nuvi</span><span class="sep">✦</span>
+        <span>Sea Hop</span><span class="sep">✦</span>
+        <span>King Farm</span><span class="sep">✦</span>
+        <span>Excluvia</span><span class="sep">✦</span>
+        <span>Marmer Butik</span><span class="sep">✦</span>
+        <span>Cia das Águas</span><span class="sep">✦</span>
+        <span>Couro Mania</span><span class="sep">✦</span>
+        <span>Vivacqua</span><span class="sep">✦</span>
+        <span>Nuvi</span><span class="sep">✦</span>
+        <span>Sea Hop</span><span class="sep">✦</span>
+        <span>King Farm</span><span class="sep">✦</span>
+        <span>Excluvia</span><span class="sep">✦</span>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- PIPELINE DEMO em destaque -->
+<!-- PIPELINE DEMO -->
 <section class="section-band">
   <div class="container">
     <div class="sec-head" data-reveal>
       <span class="eyebrow"><span class="dot"></span> Pipeline visual</span>
-      <h2>Drag, drop, fecha. <em>Sem perder o fio.</em></h2>
+      <h2>Drag, drop, fecha. <span class="display-glow">Sem perder o fio.</span></h2>
       <p class="lede">Cada coluna é uma etapa. Cada card carrega histórico de conversas, e-mails, propostas e gravações automáticas.</p>
     </div>
 
@@ -150,11 +173,11 @@
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:32px; align-items:center;">
         <div>
           <span class="kicker">Card do lead</span>
-          <h3 style="font-size:26px; margin:8px 0 14px; letter-spacing:-0.02em;">Tudo sobre o lead, <em class="display-italic">numa só tela</em>.</h3>
+          <h3 style="font-size:26px; margin:8px 0 14px; letter-spacing:-0.02em;">Tudo sobre o lead, <span class="display-glow">numa só tela.</span></h3>
           <p style="color:var(--text-3); font-size:15px;">
             Conversas de WhatsApp e Instagram unificadas, e-mails sincronizados, propostas com tracking de
             abertura, gravações de reunião com transcrição e tarefas geradas pela IA. O vendedor abre o card
-            e <strong style="color:var(--text)">sabe exatamente o que dizer</strong>.
+            e <strong style="color:var(--text);font-family:var(--font-display);font-weight:600;">sabe exatamente o que dizer</strong>.
           </p>
           <ul style="list-style:none; margin-top:18px; display:grid; gap:8px;">
             <li style="font-size:14px; color:var(--text-2); display:flex; gap:8px; align-items:center;"><span style="width:5px;height:5px;border-radius:50%;background:var(--highlight);"></span> Score de prontidão calculado em tempo real</li>
@@ -166,12 +189,12 @@
           <div style="display:flex; gap:12px; align-items:center; margin-bottom:14px;">
             <div class="avatar" style="background:var(--grad-blue);">DR</div>
             <div>
-              <div style="font-weight:500; font-size:15px;">Diego Ramos</div>
+              <div style="font-weight:600; font-size:15px; font-family:var(--font-display); letter-spacing:-0.01em;">Diego Ramos</div>
               <div style="font-size:12px; color:var(--text-3);">eCommerce Z · CEO</div>
             </div>
             <div style="margin-left:auto; text-align:right;">
               <div style="font-family:var(--font-mono); font-size:11px; color:var(--text-3);">Score</div>
-              <div style="font-size:18px; font-weight:500; color:var(--highlight);">87</div>
+              <div style="font-size:18px; font-weight:600; color:var(--highlight); font-family:var(--font-display);">87</div>
             </div>
           </div>
           <div style="display:flex; gap:6px; margin-bottom:12px;">
@@ -181,10 +204,10 @@
           </div>
           <div style="font-size:11.5px; color:var(--text-3); font-family:var(--font-mono); letter-spacing:.10em; text-transform:uppercase; margin-bottom:8px;">Linha do tempo</div>
           <div style="display:flex; flex-direction:column; gap:6px; font-size:12.5px;">
-            <div style="display:flex; gap:8px; align-items:flex-start;"><span style="color:var(--text-3); min-width:42px;">14:02</span><span style="color:var(--text);">Abriu proposta (3ª vez)</span></div>
-            <div style="display:flex; gap:8px; align-items:flex-start;"><span style="color:var(--text-3); min-width:42px;">11:48</span><span style="color:var(--text);">Respondeu WhatsApp em 2 min</span></div>
-            <div style="display:flex; gap:8px; align-items:flex-start;"><span style="color:var(--text-3); min-width:42px;">Ontem</span><span style="color:var(--text);">Reunião 32 min · transcrição salva</span></div>
-            <div style="display:flex; gap:8px; align-items:flex-start;"><span style="color:var(--text-3); min-width:42px;">3 dias</span><span style="color:var(--text);">Veio do LinkedIn Ads · Lookalike</span></div>
+            <div style="display:flex; gap:8px; align-items:flex-start;"><span style="color:var(--text-3); min-width:42px; font-family:var(--font-mono); font-size:11px;">14:02</span><span style="color:var(--text);">Abriu proposta (3ª vez)</span></div>
+            <div style="display:flex; gap:8px; align-items:flex-start;"><span style="color:var(--text-3); min-width:42px; font-family:var(--font-mono); font-size:11px;">11:48</span><span style="color:var(--text);">Respondeu WhatsApp em 2 min</span></div>
+            <div style="display:flex; gap:8px; align-items:flex-start;"><span style="color:var(--text-3); min-width:42px; font-family:var(--font-mono); font-size:11px;">Ontem</span><span style="color:var(--text);">Reunião 32 min · transcrição salva</span></div>
+            <div style="display:flex; gap:8px; align-items:flex-start;"><span style="color:var(--text-3); min-width:42px; font-family:var(--font-mono); font-size:11px;">3 dias</span><span style="color:var(--text);">Veio do LinkedIn Ads · Lookalike</span></div>
           </div>
         </div>
       </div>
@@ -197,7 +220,7 @@
   <div class="container">
     <div class="sec-head" data-reveal>
       <span class="eyebrow"><span class="dot"></span> Automações</span>
-      <h2>Trabalho repetitivo? <em>Não no Balu.</em></h2>
+      <h2>Trabalho repetitivo? <span class="display-glow">Não no Balu.</span></h2>
       <p class="lede">Gatilhos visuais, condicionais inteligentes e ações multicanal. Tudo sem código, sem Zapier, sem pagar por execução.</p>
     </div>
 
@@ -241,23 +264,23 @@
   <div class="container">
     <div class="sec-head" data-reveal>
       <span class="eyebrow"><span class="dot"></span> Integrações</span>
-      <h2>Conectado em tudo que sua agência <em>já usa</em>.</h2>
+      <h2>Conectado em tudo que sua agência <span class="display-glow">já usa.</span></h2>
       <p class="lede">Sem Zapier no meio, sem custo por execução. Integrações nativas, monitoradas pelo time da Balu.</p>
     </div>
 
     <div class="intg" data-reveal>
-      <div class="intg-item"><div class="ico" style="font-size:22px;font-weight:500;">W</div>WhatsApp Cloud</div>
-      <div class="intg-item"><div class="ico" style="font-size:22px;font-weight:500;">M</div>Meta Ads</div>
-      <div class="intg-item"><div class="ico" style="font-size:22px;font-weight:500;">G</div>Google Ads</div>
-      <div class="intg-item"><div class="ico" style="font-size:22px;font-weight:500;">⌘</div>Google Workspace</div>
-      <div class="intg-item"><div class="ico" style="font-size:22px;font-weight:500;">A</div>Asaas</div>
-      <div class="intg-item"><div class="ico" style="font-size:22px;font-weight:500;">P</div>Postiz</div>
-      <div class="intg-item"><div class="ico" style="font-size:22px;font-weight:500;">n8</div>n8n</div>
-      <div class="intg-item"><div class="ico" style="font-size:22px;font-weight:500;">📷</div>Instagram DMs</div>
-      <div class="intg-item"><div class="ico" style="font-size:22px;font-weight:500;">RD</div>RD Station</div>
-      <div class="intg-item"><div class="ico" style="font-size:22px;font-weight:500;">H</div>HubSpot</div>
-      <div class="intg-item"><div class="ico" style="font-size:22px;font-weight:500;">📊</div>GA4</div>
-      <div class="intg-item"><div class="ico" style="font-size:22px;font-weight:500;">⌥</div>Webhooks</div>
+      <div class="intg-item"><div class="ico" style="font-size:22px;font-weight:600;">W</div>WhatsApp Cloud</div>
+      <div class="intg-item"><div class="ico" style="font-size:22px;font-weight:600;">M</div>Meta Ads</div>
+      <div class="intg-item"><div class="ico" style="font-size:22px;font-weight:600;">G</div>Google Ads</div>
+      <div class="intg-item"><div class="ico" style="font-size:22px;font-weight:600;">⌘</div>Google Workspace</div>
+      <div class="intg-item"><div class="ico" style="font-size:22px;font-weight:600;">A</div>Asaas</div>
+      <div class="intg-item"><div class="ico" style="font-size:22px;font-weight:600;">P</div>Postiz</div>
+      <div class="intg-item"><div class="ico" style="font-size:22px;font-weight:600;">n8</div>n8n</div>
+      <div class="intg-item"><div class="ico" style="font-size:22px;font-weight:600;">IG</div>Instagram DMs</div>
+      <div class="intg-item"><div class="ico" style="font-size:22px;font-weight:600;">RD</div>RD Station</div>
+      <div class="intg-item"><div class="ico" style="font-size:22px;font-weight:600;">H</div>HubSpot</div>
+      <div class="intg-item"><div class="ico" style="font-size:22px;font-weight:600;">GA</div>GA4</div>
+      <div class="intg-item"><div class="ico" style="font-size:22px;font-weight:600;">⌥</div>Webhooks</div>
     </div>
   </div>
 </section>
@@ -267,7 +290,7 @@
   <div class="container">
     <div class="sec-head" data-reveal>
       <span class="eyebrow"><span class="dot"></span> Vendedores reais falando</span>
-      <h2>O CRM que <em>os vendedores abrem por vontade</em>.</h2>
+      <h2>O CRM que <span class="display-glow">os vendedores abrem por vontade.</span></h2>
     </div>
     <div class="testimonial-grid">
       <div class="testimonial" data-reveal>
@@ -307,7 +330,7 @@
   <div class="container">
     <div class="sec-head" data-reveal>
       <span class="eyebrow"><span class="dot"></span> Planos do CRM</span>
-      <h2>Cresça o time. <em>Não cresça a fatura na mesma proporção.</em></h2>
+      <h2>Cresça o time. <span class="display-glow">Não cresça a fatura na mesma proporção.</span></h2>
       <p class="lede">Pagamento por workspace, não por usuário. Convide quantos vendedores quiser.</p>
     </div>
 
@@ -323,7 +346,7 @@
           <li>Automações básicas</li>
           <li>Suporte por e-mail</li>
         </ul>
-        <a href="#contato" class="btn btn-ghost">Começar com Start</a>
+        <a href="#contato" class="btn btn-ghost magnetic">Começar com Start</a>
       </div>
 
       <div class="plan featured" data-reveal style="--reveal-delay:80ms">
@@ -339,7 +362,7 @@
           <li>Integrações nativas com Meta e Google</li>
           <li>Suporte WhatsApp em 5 min</li>
         </ul>
-        <a href="#contato" class="btn btn-accent">Testar Pro grátis
+        <a href="#contato" class="btn btn-accent magnetic">Testar Pro grátis
           <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7 3m4 4l-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
       </div>
@@ -354,7 +377,7 @@
           <li>API + SLAs garantidos</li>
           <li>CSM dedicado</li>
         </ul>
-        <a href="#contato" class="btn btn-ghost">Falar com vendas</a>
+        <a href="#contato" class="btn btn-ghost magnetic">Falar com vendas</a>
       </div>
     </div>
   </div>
@@ -365,14 +388,14 @@
   <div class="container">
     <div class="cta-final" data-reveal>
       <span class="eyebrow"><span class="dot"></span> Próximo passo</span>
-      <h2 style="margin-top:18px;">Vamos colocar o seu funil <em>pra trabalhar</em>.</h2>
+      <h2 style="margin-top:18px;">Vamos colocar o seu funil <span class="display-glow">pra trabalhar.</span></h2>
       <p class="lede">14 dias grátis, sem cartão. Migração assistida pra quem vem de RD, Pipedrive, HubSpot ou planilha.</p>
       <div class="actions">
-        <a href="https://wa.me/5511999999999?text=Quero%20testar%20o%20Balu%20CRM" target="_blank" rel="noopener" class="btn btn-accent">
+        <a href="https://wa.me/5511999999999?text=Quero%20testar%20o%20Balu%20CRM" target="_blank" rel="noopener" class="btn btn-accent magnetic">
           Começar 14 dias grátis
           <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7 3m4 4l-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <a href="index.html" class="btn btn-ghost">Conhecer a Balu Agência</a>
+        <a href="index.html" class="btn btn-ghost magnetic">Conhecer a Balu Agência</a>
       </div>
     </div>
   </div>
@@ -380,41 +403,63 @@
 
 </main>
 
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <img src="assets/logo-white.svg" alt="Balu" />
-        <p>O CRM que pensa antes do seu time pensar. Pipeline visual, IA embutida e integrações nativas — pra você vender, não atualizar status.</p>
-      </div>
-      <div class="footer-col">
-        <h5>Produtos</h5>
-        <a href="index.html">Balu Agência</a>
-        <a href="crm.html">Balu CRM</a>
-        <a href="criacao.html">Sites & Branding</a>
-        <a href="#planos">Planos</a>
-      </div>
-      <div class="footer-col">
-        <h5>Empresa</h5>
-        <a href="index.html#metodo">Método BALU</a>
-        <a href="#contato">Falar com vendas</a>
-        <a href="#">Status</a>
-        <a href="#">Carreiras</a>
-      </div>
-      <div class="footer-col">
-        <h5>Legal</h5>
-        <a href="#">Termos de uso</a>
-        <a href="#">Política de privacidade</a>
-        <a href="#">LGPD</a>
-        <a href="mailto:contato@balu.com.br">contato@balu.com.br</a>
+<!-- CINEMATIC FOOTER -->
+<div class="curtain-footer">
+  <footer class="cinematic-footer">
+    <div class="aurora"></div>
+    <div class="grid-bg"></div>
+    <div class="giant-text">CRM</div>
+
+    <div class="footer-marquee-diagonal">
+      <div class="footer-marquee-diagonal-track">
+        <div>
+          <span>Pipeline que se atualiza sozinho</span> <span class="sep">✦</span>
+          <span>Score de prontidão</span> <span class="sep">✦</span>
+          <span>Follow-up adaptativo</span> <span class="sep">✦</span>
+          <span>WhatsApp Cloud nativo</span> <span class="sep">✦</span>
+          <span>Sem Zapier no meio</span> <span class="sep">✦</span>
+        </div>
+        <div>
+          <span>Pipeline que se atualiza sozinho</span> <span class="sep">✦</span>
+          <span>Score de prontidão</span> <span class="sep">✦</span>
+          <span>Follow-up adaptativo</span> <span class="sep">✦</span>
+          <span>WhatsApp Cloud nativo</span> <span class="sep">✦</span>
+          <span>Sem Zapier no meio</span> <span class="sep">✦</span>
+        </div>
       </div>
     </div>
+
+    <div class="footer-center">
+      <h2 class="text-glow">Pronto pra vender?</h2>
+      <div class="footer-pills">
+        <a href="https://wa.me/5511999999999?text=Quero%20testar%20o%20Balu%20CRM" target="_blank" rel="noopener" class="btn btn-accent magnetic" style="padding:16px 32px; font-size:15px;">
+          Começar 14 dias grátis
+          <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7 3m4 4l-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="mailto:contato@balu.com.br" class="btn btn-ghost magnetic" style="padding:16px 32px; font-size:15px;">
+          Falar com vendas
+        </a>
+      </div>
+      <div class="footer-secondary-links">
+        <a href="index.html" class="glass glass-pill magnetic">Balu Agência</a>
+        <a href="criacao.html" class="glass glass-pill magnetic">Balu Criação</a>
+        <a href="#planos" class="glass glass-pill magnetic">Planos</a>
+        <a href="#" class="glass glass-pill magnetic">Privacidade</a>
+        <a href="#" class="glass glass-pill magnetic">Termos</a>
+      </div>
+    </div>
+
     <div class="footer-bottom">
-      <span>© 2026 Balu — Operação inteligente para agências.</span>
-      <span>Feito em São Paulo · Powered by Eugência.</span>
+      <div class="copyright">© 2026 Balu · Operação inteligente para agências</div>
+      <div class="glass glass-pill made-with">
+        Feito com <span class="heart">❤</span> em SP por <strong>Excluvia</strong>
+      </div>
+      <button class="glass glass-pill magnetic back-to-top" aria-label="Voltar ao topo">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 10l7-7m0 0l7 7m-7-7v18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
     </div>
-  </div>
-</footer>
+  </footer>
+</div>
 
 <script src="assets/main.js" defer></script>
 </body>
