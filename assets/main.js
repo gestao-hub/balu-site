@@ -271,17 +271,32 @@
     });
   });
 
-  // ---- 9e) LocationMap (footer) — tilt + click abre Google Maps ----
-  const MAPS_URL = "https://www.google.com/maps/search/?api=1&query=" +
-    encodeURIComponent("Sapiens Parque, Av. Luiz Boiteux Piazza, 1302 - Canasvieiras, Florianópolis - SC, 88056-000");
-
+  // ---- 9e) LocationMap (footer) — tilt + click expande pra mostrar Google Maps embed ----
   document.querySelectorAll("[data-location-map]").forEach((root) => {
     const card = root.querySelector(".location-map-card");
     if (!card) return;
 
-    // Click abre Google Maps em nova aba
-    root.addEventListener("click", () => {
-      window.open(MAPS_URL, "_blank", "noopener,noreferrer");
+    // Click toggle: expande o card e revela o iframe real do Google Maps
+    root.addEventListener("click", (e) => {
+      // Ignora clicks dentro do iframe (pra não fechar enquanto interage com o mapa)
+      if (e.target.closest(".location-iframe")) return;
+      // Close button explícito fecha
+      if (e.target.closest(".location-close")) {
+        root.classList.remove("expanded");
+        e.stopPropagation();
+        return;
+      }
+      root.classList.toggle("expanded");
+      // Lazy-load do iframe só quando expande pela 1ª vez
+      const iframe = card.querySelector(".location-iframe");
+      if (iframe && root.classList.contains("expanded") && !iframe.src && iframe.dataset.src) {
+        iframe.src = iframe.dataset.src;
+      }
+    });
+
+    // ESC pra fechar
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") root.classList.remove("expanded");
     });
 
     // 3D tilt on mouse move (desktop only)
