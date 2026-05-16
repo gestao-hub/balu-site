@@ -626,22 +626,117 @@ section.tight { padding: 64px 0; }
   border: 1px solid color-mix(in oklch, white 14%, transparent);
   border-radius: var(--radius-lg);
   position: relative;
+  isolation: isolate;
+  overflow: hidden;
   backdrop-filter: blur(16px) saturate(160%);
   -webkit-backdrop-filter: blur(16px) saturate(160%);
-  transition: all 0.6s var(--ease-spring);
+  transition:
+    transform 0.6s var(--ease-spring),
+    border-color 0.6s var(--ease-spring),
+    background 0.6s var(--ease-spring);
 }
-.step:hover { transform: translateY(-3px); border-color: rgba(69,118,255,0.25); }
+
+/* Border gradient animado (estilo Sea Hop) — só aparece no hover */
+.step::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(
+    135deg,
+    var(--accent) 0%,
+    #1285C5 25%,
+    var(--accent-2) 50%,
+    #1285C5 75%,
+    var(--accent) 100%
+  );
+  background-size: 200% 200%;
+  opacity: 0;
+  z-index: 0;
+  pointer-events: none;
+  transition: opacity 0.6s var(--ease-spring);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  animation: step-border-shift 6s ease-in-out infinite;
+}
+.step:hover::before { opacity: 1; }
+@keyframes step-border-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Inner glow ambiente que aparece com o hover */
+.step::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(120% 80% at 30% 0%, rgba(69,118,255,0.14), transparent 60%);
+  opacity: 0;
+  z-index: 0;
+  pointer-events: none;
+  transition: opacity 0.6s var(--ease-spring);
+}
+.step:hover::after { opacity: 1; }
+
+.step:hover {
+  transform: translateY(-6px);
+  background: linear-gradient(145deg,
+    color-mix(in oklch, white 10%, transparent) 0%,
+    color-mix(in oklch, white 2%, transparent) 100%);
+}
+
 .step .num {
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 56px; line-height: 1;
-  background: var(--grad-blue); -webkit-background-clip: text; background-clip: text; color: transparent;
+  background: var(--grad-blue);
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
   filter: drop-shadow(0 0 20px rgba(107,143,255,0.30));
   margin-bottom: 14px;
-  display: block;
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+  transition: filter 0.5s var(--ease-spring), transform 0.5s var(--ease-spring);
 }
-.step h3 { font-size: 17px; margin-bottom: 6px; }
-.step p { font-size: 14px; color: var(--text-3); }
+/* Halo blur grande atrás do número quando hover */
+.step .num::after {
+  content: "";
+  position: absolute;
+  inset: -18px -24px;
+  background: radial-gradient(closest-side, rgba(69,118,255,0.45), transparent 70%);
+  z-index: -1;
+  opacity: 0;
+  filter: blur(24px);
+  transition: opacity 0.6s var(--ease-spring);
+  pointer-events: none;
+}
+.step:hover .num {
+  filter: drop-shadow(0 0 28px rgba(107,143,255,0.65));
+  transform: translateY(-2px);
+}
+.step:hover .num::after { opacity: 1; }
+
+.step h3 {
+  font-size: 17px;
+  margin-bottom: 6px;
+  position: relative;
+  z-index: 1;
+  transition: color 0.4s var(--ease-spring);
+}
+.step:hover h3 { color: var(--accent-2); }
+.step p {
+  font-size: 14px;
+  color: var(--text-3);
+  position: relative;
+  z-index: 1;
+  transition: color 0.4s var(--ease-spring);
+}
+.step:hover p { color: var(--text-2); }
 
 /* ============ Pricing ============ */
 .pricing {
