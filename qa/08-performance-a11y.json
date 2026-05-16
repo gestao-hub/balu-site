@@ -1,0 +1,128 @@
+{
+  "part": "8 de 8 — Performance + Acessibilidade",
+  "task": "Rodar Lighthouse nas 3 páginas (desktop e mobile) + axe DevTools pra a11y + check manual de focus visible, contraste, alt text.",
+  "context": "Meta: Performance ≥ 85, Accessibility ≥ 95, Best Practices ≥ 90, SEO ≥ 90. Aceitar -3-5 pts de Performance se backdrop-filter pesar. Conteúdo é estático, sem SSR — LCP típico é o hero mockup.",
+  "viewports": [
+    { "label": "Desktop", "width": 1440, "height": 900 },
+    { "label": "Mobile (Lighthouse default)", "width": 412, "height": 823 }
+  ],
+  "targets": [
+    { "id": "index", "url": "https://baluhub.com.br/" },
+    { "id": "crm", "url": "https://baluhub.com.br/crm.html" },
+    { "id": "criacao", "url": "https://baluhub.com.br/criacao.html" }
+  ],
+  "performance_checks": [
+    {
+      "id": "lighthouse-scores",
+      "description": "Rodar Lighthouse em cada URL × cada viewport. Coletar 4 scores: Performance, Accessibility, Best Practices, SEO. Meta ≥ 85/95/90/90."
+    },
+    {
+      "id": "lcp-fast",
+      "description": "Largest Contentful Paint < 2.5s desktop, < 4s mobile 3G simulado."
+    },
+    {
+      "id": "fcp-fast",
+      "description": "First Contentful Paint < 1.5s desktop, < 2.5s mobile."
+    },
+    {
+      "id": "cls-near-zero",
+      "description": "Cumulative Layout Shift ≤ 0.1. Suspeitos: fonts loading (Cal Sans flash), marquee animation, widget aparecendo."
+    },
+    {
+      "id": "tbt-low",
+      "description": "Total Blocking Time < 200ms. GSAP carrega via CDN — pode pesar."
+    },
+    {
+      "id": "no-render-blocking",
+      "description": "Recursos render-blocking minimizados. Fontshare CSS é blocking — aceitável."
+    },
+    {
+      "id": "images-optimized",
+      "description": "Imagens (mockups, portfolio) servidas em formato moderno (webp/avif preferível) ou comprimidas. Sem PNGs gigantes desnecessários."
+    },
+    {
+      "id": "no-unused-css-js",
+      "description": "Lighthouse aponta unused CSS/JS — aceitar até ~30KB."
+    }
+  ],
+  "accessibility_checks": [
+    {
+      "id": "alt-text-all-images",
+      "description": "Toda <img> tem alt apropriado: descritivo pra imagens com conteúdo, alt='' pra decorativas. Logos com alt='Balu', mockups com alt descritivo."
+    },
+    {
+      "id": "aria-labels-icon-buttons",
+      "description": "Botões só com ícone têm aria-label: hamburguer ('Menu'), fechar widget ('Fechar chat'), back-to-top ('Voltar ao topo'), dots do marquee ('Ir pra slide N'), expand mapa ('Ver no mapa')."
+    },
+    {
+      "id": "focus-visible-everywhere",
+      "description": "Tab navega na ordem correta. Ring de focus visível em links, botões, inputs do widget. Sem outline:none sem alternativa."
+    },
+    {
+      "id": "wcag-aa-contrast",
+      "description": "Rodar axe DevTools ou Lighthouse a11y. Sem failures de contraste. Suspeitos: white/80 sobre gradient azul claro, muted text sobre dark."
+    },
+    {
+      "id": "no-only-color-state",
+      "description": "Estados (erro, sucesso, ativo) não dependem só de cor — sempre acompanha ícone ou texto."
+    },
+    {
+      "id": "heading-hierarchy",
+      "description": "Hierarquia h1 > h2 > h3 correta. Sem pular níveis. Uma h1 por página."
+    },
+    {
+      "id": "lang-attribute",
+      "description": "<html lang='pt-BR'> em todas as páginas."
+    },
+    {
+      "id": "skip-link",
+      "description": "Idealmente: skip-to-main-content link no início. Não é obrigatório mas é prática."
+    },
+    {
+      "id": "widget-keyboard-trap",
+      "description": "Widget aberto: focus fica contido dentro (modal pattern). Tab cicla nos elementos do widget. Esc fecha. Foco volta pro trigger."
+    },
+    {
+      "id": "form-labels",
+      "description": "Inputs do gate do widget têm <label> associada via for/id. Não pode ter input sem label visível (placeholder não conta)."
+    }
+  ],
+  "console_network_checks": [
+    {
+      "id": "no-console-errors-final",
+      "description": "Re-verificar: zero erros vermelhos em cada URL após scroll completo + abrir widget + fazer 1 interação."
+    },
+    {
+      "id": "no-mixed-content",
+      "description": "Toda request HTTPS. Sem warning mixed content."
+    },
+    {
+      "id": "no-cors-errors",
+      "description": "Sem erros CORS. public-chat-guarded retorna access-control-allow-origin: *."
+    },
+    {
+      "id": "no-deprecated-apis",
+      "description": "Console sem warnings de APIs deprecated (ex: sync XHR antigo)."
+    }
+  ],
+  "output_format": {
+    "lighthouse_results": {
+      "<target>_<viewport>": {
+        "performance": "n",
+        "accessibility": "n",
+        "best_practices": "n",
+        "seo": "n",
+        "lcp_ms": "n",
+        "fcp_ms": "n",
+        "cls": "n",
+        "tbt_ms": "n"
+      }
+    },
+    "a11y_pass": ["lista"],
+    "a11y_fail": [{ "id": "x", "evidence": "...", "wcag_criterion": "ex: 1.4.3 Contrast", "severity": "high|medium|low" }],
+    "console_pass": ["lista"],
+    "console_fail": [{ "id": "x", "evidence": "..." }],
+    "blockers_perf_a11y": ["bugs críticos que pegam o user pela goela"],
+    "recommendations": ["polimentos sugeridos"]
+  }
+}

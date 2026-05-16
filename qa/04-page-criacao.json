@@ -1,0 +1,58 @@
+{
+  "part": "4 de 8 — Página Criação",
+  "task": "QA visual da página de Criação em desktop. Cobrir hero (project tracker), portfólio com sites externos, processo de produção, planos, footer.",
+  "context": "https://baluhub.com.br/criacao.html — vende criação (sites, criativos, gestão de conteúdo). Persona: dono querendo presença digital. Hero: 'Do briefing ao ar em dias.' Botão CTA é 'Briefing' (não 'Entrar'). Mockup hero é timeline de projeto.",
+  "viewports": [
+    { "label": "Desktop", "width": 1440, "height": 900 }
+  ],
+  "url": "https://baluhub.com.br/criacao.html",
+  "sections_checks": [
+    {
+      "id": "hero",
+      "expected": "H1 Cal Sans falando de criação rápida. CTA 'Briefing' (não 'Entrar' — esse botão é específico desta página). Mockup à direita é project tracker timeline ('Do briefing ao ar em dias') com etapas conectadas. Sem dashboard, sem pipeline kanban."
+    },
+    {
+      "id": "portfolio",
+      "expected": "Seção #portfolio com 4-6 cards de sites externos. Cada um: screenshot/thumb + nome + tag/categoria + link clicável target='_blank'. Sea Hop deve estar entre eles."
+    },
+    {
+      "id": "portfolio-sea-hop-effect",
+      "expected": "Card Sea Hop tem efeito especial SEMPRE VISÍVEL (não só no hover): border gradient + halo opacity ~0.30-0.35. Regressão antiga: efeito só aparecia no hover — não pode voltar."
+    },
+    {
+      "id": "portfolio-links-work",
+      "expected": "Click em cada card abre URL externa em nova aba. Sea Hop, Cia das Águas etc — pelo menos os links principais retornam 200."
+    },
+    {
+      "id": "processo",
+      "expected": "Seção de processo/fluxo de criação. Cards .glass com etapas. Visual coerente com método BALU da index."
+    },
+    {
+      "id": "planos",
+      "expected": "3 planos em cards glass. Featured com aurora. CTA magnetic."
+    },
+    {
+      "id": "cinematic-footer",
+      "expected": "Mesmo footer das outras páginas, giant text adaptado pra 'Criação'. Copy: 'Pronto pra colocar no ar?'. Pills magnetic. Bottom row com badge heartbeat e back-to-top. SEM mapa Sapiens."
+    }
+  ],
+  "interactions_to_test": [
+    {
+      "id": "click-portfolio-sea-hop",
+      "steps": ["scroll até #portfolio", "click no card Sea Hop"],
+      "expected": "Abre seahop.com.br (ou URL configurada) em nova aba. Sem erro de console."
+    },
+    {
+      "id": "scroll-full",
+      "steps": ["scroll devagar do topo ao fim"],
+      "expected": "Reveals disparam. Footer revela. Sem jank."
+    }
+  ],
+  "output_format": {
+    "section_pass": ["lista de IDs"],
+    "section_fail": [{ "id": "x", "evidence": "...", "severity": "high|medium|low" }],
+    "interaction_pass": ["lista"],
+    "interaction_fail": [{ "id": "x", "evidence": "..." }],
+    "screenshots": ["hero-tracker", "portfolio", "sea-hop-card", "footer-criacao"]
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "part": "2 de 8 — Página Agência (index)",
+  "task": "QA visual completo da home (index.html) em desktop. Cobrir hero, marquee 3D, método BALU, funcionalidades, pricing, integrações, vs concorrência, footer cinematográfico. Mapa Sapiens Parque é exclusivo desta página.",
+  "context": "https://baluhub.com.br/ — home da Balu Agência. Persona: dono de agência. Hero copy: 'Pare de gerenciar planilha. Comece a escalar.' Mockup do hero é dashboard com 'Bom dia, Eduardo' + KPIs.",
+  "viewports": [
+    { "label": "Desktop", "width": 1440, "height": 900 }
+  ],
+  "url": "https://baluhub.com.br/",
+  "sections_checks": [
+    {
+      "id": "hero",
+      "expected": "H1 Cal Sans + .display-glow span destacando 'escalar'. CTA 'Agendar demo' magnetic com chevron. CTA secundário 'Ver funcionalidades' ghost. Mockup dashboard à direita com 3 dots + URL 'agencia.baluhub.com.br · painel' + KPIs preenchidos. Blobs azul/cyan decorativos atrás sem causar overflow."
+    },
+    {
+      "id": "perspective-marquee",
+      "expected": "Marquee 3D de clientes: perspective 1200px, rotateX(8deg) rotateY(-28deg), animation scroll 30s linear infinite. Nomes reais (Marmer Butik, Cia das Águas, Sea Hop, Nuvi, Vivacqua, Couro Mania, Studio Atlas etc, ~16 nomes em loop). Mask gradient nas bordas. Blur de profundidade (centro nítido, bordas borradas)."
+    },
+    {
+      "id": "marquee-logos-integrações",
+      "expected": "Marquee de 16 logos coloridas em chips brancos: Supabase, OpenAI, Anthropic, Meta, Google, ElevenLabs, WhatsApp (#25D366 verde), Asaas (PNG do Wikimedia) etc. Sem placeholder, sem broken icon. WhatsApp visível contra branco."
+    },
+    {
+      "id": "metodo-balu",
+      "expected": "Seção 'Método BALU' com 5 passos numerados. Step number em Cal Sans com gradient. Conectores entre os passos. NÃO PODE ter seção 'CPU Architecture / Loop Fechado' (foi removida — regressão se aparecer)."
+    },
+    {
+      "id": "funcionalidades",
+      "expected": "Grid de feature cards .glass. Cada um com ícone, título, descrição. Hover: leve scale + sombra."
+    },
+    {
+      "id": "pricing",
+      "expected": "3 planos em cards glass. Featured plan com aurora extra. CTA magnetic em cada um."
+    },
+    {
+      "id": "vs-concorrencia",
+      "expected": "Tabela ou cards comparando Balu vs outras opções. Checks verdes pra Balu, X cinzas pra concorrentes."
+    },
+    {
+      "id": "cinematic-footer",
+      "expected": "Curtain-reveal wrapper com clip-path animado. Texto gigante 'BALU' fazendo parallax negativo. Aurora breathe 8s. Pills glass magnetic (Agendar demo, Privacidade, Termos). Marquee diagonal secundário. Bottom: © 2026 Balu, badge 'Feito com ❤ em SP por Excluvia' com heartbeat, botão ↑ back-to-top."
+    },
+    {
+      "id": "map-sapiens-parque",
+      "expected": "Botão de mapa no canto INFERIOR DIREITO do footer (NÃO em cima do BALU). Glass pill com ícone 📍. Click: expande INLINE com iframe Google Maps embed de 'Sapiens Parque Florianópolis SC'. Não redireciona. Botão muda pra 'fechar mapa'. Click fora ou no fechar: recolhe."
+    }
+  ],
+  "interactions_to_test": [
+    {
+      "id": "scroll-full",
+      "steps": ["scroll devagar do topo ao fim", "scroll rápido de volta"],
+      "expected": "Animações disparam suaves (60fps). Footer revela. Header continua sticky. Sem jank."
+    },
+    {
+      "id": "tilt-mockup",
+      "steps": ["mousemove sobre o mockup do hero"],
+      "expected": "Mockup inclina sutilmente seguindo o cursor."
+    },
+    {
+      "id": "expand-map",
+      "steps": ["click no botão de mapa", "click no fechar"],
+      "expected": "Mapa expande inline com Sapiens Parque. Fecha sem recarregar."
+    },
+    {
+      "id": "back-to-top",
+      "steps": ["scroll até o final", "click no ↑"],
+      "expected": "Scroll suave volta ao topo."
+    }
+  ],
+  "output_format": {
+    "section_pass": ["lista de IDs"],
+    "section_fail": [{ "id": "x", "evidence": "screenshot/descrição", "severity": "high|medium|low" }],
+    "interaction_pass": ["lista"],
+    "interaction_fail": [{ "id": "x", "evidence": "..." }],
+    "screenshots": ["hero", "marquee-3d", "metodo", "footer", "mapa-aberto"]
+  }
+}

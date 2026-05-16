@@ -1,0 +1,59 @@
+{
+  "part": "3 de 8 — Página CRM",
+  "task": "QA visual completo da página CRM em desktop. Cobrir hero (pipeline drag-drop), mockup WhatsApp typing, automações, planos, footer cinematográfico.",
+  "context": "https://baluhub.com.br/crm.html — vende o Balu CRM. Persona: dono de agência precisando de pipeline. Hero copy: 'Seu funil vende sozinho.' Mockup interativo HTML5 drag-and-drop.",
+  "viewports": [
+    { "label": "Desktop", "width": 1440, "height": 900 }
+  ],
+  "url": "https://baluhub.com.br/crm.html",
+  "sections_checks": [
+    {
+      "id": "hero",
+      "expected": "H1 Cal Sans 'Seu funil vende sozinho.' com .display-glow span. CTA 'Testar grátis' magnetic + chevron. Pipeline kanban à direita com 4 colunas (Prospecção/Qualificado/Proposta/Ganho), cards de leads draggable."
+    },
+    {
+      "id": "pipeline-cards-content",
+      "expected": "Cards do mockup têm nomes genéricos (Maria Silva, João Santos, Diego Ramos, Ana Costa etc) + tags de empresa fictícia + valores em R$ + chip de temperatura (Morno/Quente/Frio/Fechado). SEM nome de cliente real exposto."
+    },
+    {
+      "id": "whatsapp-mockup",
+      "expected": "Seção de conversas WhatsApp com mockup de chat. Balão typing com 3 dots animados pulsando. Texto aparece simulando resposta IA."
+    },
+    {
+      "id": "automacoes",
+      "expected": "Seção #automacoes com lista de gatilhos/ações. Cards .glass. Visual de fluxo (conector entre passos ok)."
+    },
+    {
+      "id": "planos",
+      "expected": "3 planos (ex: Starter / Pro / Enterprise) em cards glass. Featured com aurora. CTA magnetic em cada."
+    },
+    {
+      "id": "cinematic-footer",
+      "expected": "Mesmo footer que index, mas giant text adaptado pra 'CRM' (não 'BALU'). Copy do hero do footer: 'Pronto pra vender?'. Pills magnetic. Bottom row com badge heartbeat e back-to-top. SEM mapa Sapiens (só na index)."
+    }
+  ],
+  "interactions_to_test": [
+    {
+      "id": "drag-drop-pipeline",
+      "steps": ["no hero, segurar e arrastar card de 'Maria Silva' de Prospecção pra Qualificado", "soltar"],
+      "expected": "Card movimenta entre colunas. Drop zone destacada durante drag. Pode persistir ou reverter (mock)."
+    },
+    {
+      "id": "scroll-full",
+      "steps": ["scroll devagar do topo ao fim"],
+      "expected": "Animações suaves. Mockups revelam. Footer reveal funciona."
+    },
+    {
+      "id": "tilt-mockup",
+      "steps": ["mousemove sobre o pipeline mockup"],
+      "expected": "Mockup inclina sutilmente."
+    }
+  ],
+  "output_format": {
+    "section_pass": ["lista de IDs"],
+    "section_fail": [{ "id": "x", "evidence": "...", "severity": "high|medium|low" }],
+    "interaction_pass": ["lista"],
+    "interaction_fail": [{ "id": "x", "evidence": "..." }],
+    "screenshots": ["hero-pipeline", "whatsapp-mockup", "footer-crm"]
+  }
+}

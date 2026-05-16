@@ -1,0 +1,105 @@
+{
+  "part": "7 de 8 — Mobile responsivo",
+  "task": "QA específico de mobile nas 3 páginas. Buscar quebras de layout, tap targets pequenos, scroll horizontal, overflow, texto cortado, botões escondidos.",
+  "context": "Site precisa funcionar bem em mobile: header hamburguer < 880px, magnetic desligado em pointer:coarse, backdrop-filter reduzido < 768px, footer pode simplificar curtain reveal se quebrar.",
+  "viewports": [
+    { "label": "Mobile L (iPhone XR)", "width": 414, "height": 896 },
+    { "label": "Mobile M (iPhone X)", "width": 375, "height": 812 },
+    { "label": "Mobile S (iPhone SE)", "width": 320, "height": 568 }
+  ],
+  "targets": [
+    { "id": "index", "url": "https://baluhub.com.br/" },
+    { "id": "crm", "url": "https://baluhub.com.br/crm.html" },
+    { "id": "criacao", "url": "https://baluhub.com.br/criacao.html" }
+  ],
+  "checks_per_target_per_viewport": [
+    {
+      "id": "no-horizontal-overflow",
+      "description": "document.documentElement.scrollWidth ≤ window.innerWidth. Suspeitos: marquee 3D, mockups largos, footer giant text 'BALU/CRM/Criação', blobs decorativos."
+    },
+    {
+      "id": "header-hamburger-visible",
+      "description": "Em < 880px: nav-links desktop somem. Hamburguer (.menu-toggle) aparece. CTA principal continua visível ou vai pro menu mobile."
+    },
+    {
+      "id": "hamburger-opens-menu",
+      "description": "Click no hamburguer: nav links aparecem (pode ser drawer, lista expansível, etc). Click em link: navega + fecha menu."
+    },
+    {
+      "id": "hero-readable",
+      "description": "H1 cabe sem cortar. Mockup do hero pode quebrar pra baixo do texto (stack vertical). Sem texto sobreposto."
+    },
+    {
+      "id": "tap-targets-44px-min",
+      "description": "Botões/links clicáveis têm área de toque ≥ 44×44px. Conferir: hamburguer, CTAs, pills do footer, dots de marquee, ícones do header."
+    },
+    {
+      "id": "magnetic-disabled-mobile",
+      "description": "Em pointer:coarse: botões .magnetic NÃO recebem mousemove handler. Verificar via console: nenhum listener mousemove em .btn-accent."
+    },
+    {
+      "id": "backdrop-filter-reduced",
+      "description": "Em < 768px: .glass tem backdrop-filter: blur(12px) (em vez de 20px). Verificar getComputedStyle.backdropFilter."
+    },
+    {
+      "id": "marquee-readable",
+      "description": "Marquee 3D continua animando. Font-size cai pra clamp(48px, 8vw, 96px). Texto legível."
+    },
+    {
+      "id": "footer-doesnt-break",
+      "description": "Cinematic footer: curtain reveal pode simplificar. Giant text cabe sem cortar. Pills empilham vertical."
+    },
+    {
+      "id": "widget-doesnt-cover-cta",
+      "description": "Widget trigger no canto inferior direito não pode sobrepor CTA fixo ou conteúdo crítico."
+    },
+    {
+      "id": "widget-opens-adapted",
+      "description": "Click no trigger em mobile: painel abre adaptado (pode ser quasi-fullscreen). Textarea não pula com keyboard. Botão fechar acessível."
+    },
+    {
+      "id": "iphone-se-stress",
+      "description": "Em 320px (iPhone SE): tudo cabe. Padding lateral cai pra ~16px. Logo+tag não sobrepõem. CTAs com texto inteiro visível."
+    },
+    {
+      "id": "no-broken-images",
+      "description": "Todas imagens carregam. Sem broken-icon. Mockup screenshots ok. Logos coloridas visíveis."
+    },
+    {
+      "id": "reduced-motion-respect",
+      "description": "Setar prefers-reduced-motion:reduce via DevTools: animações pesadas (breathe, heartbeat, magnetic, GSAP scroll) param ou minimizam."
+    }
+  ],
+  "interactions_to_test": [
+    {
+      "id": "scroll-mobile",
+      "steps": ["scroll devagar do topo ao fim em 375px"],
+      "expected": "60fps consistente. Sem jank no marquee. Footer revela. Widget aparece em 30%."
+    },
+    {
+      "id": "hamburger-tap",
+      "steps": ["em 375px, tap no hamburguer"],
+      "expected": "Menu mobile abre. Navegação funciona."
+    },
+    {
+      "id": "widget-tap",
+      "steps": ["em 375px, scroll 30%+, tap no trigger"],
+      "expected": "Painel abre adaptado. Gate é preenchível. Não há zoom indesejado no input (font-size ≥ 16px)."
+    },
+    {
+      "id": "landscape-rotate",
+      "steps": ["girar pra landscape 812×375"],
+      "expected": "Layout não quebra. Hero pode comprimir mas continua funcional."
+    }
+  ],
+  "output_format": {
+    "per_target_viewport": {
+      "<id>_<viewport>": {
+        "pass": ["lista"],
+        "fail": [{ "id": "x", "evidence": "...", "severity": "high|medium|low" }]
+      }
+    },
+    "blockers_mobile": ["bugs graves de mobile que precisam fix urgente"],
+    "screenshots": ["index-mobile-375", "crm-mobile-375", "criacao-mobile-375", "index-mobile-320-stress"]
+  }
+}

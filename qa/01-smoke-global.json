@@ -1,0 +1,64 @@
+{
+  "part": "1 de 8 — Smoke + checagens globais",
+  "task": "QA cross-page rápido. Validar fundamentos em cada uma das 3 páginas (fonts, console, 404, header, sem scroll horizontal).",
+  "context": "Site Balu (LP) vanilla HTML/CSS/JS em baluhub.com.br. 3 páginas: /, /crm.html, /criacao.html. Identidade: Liquid Glass + Cal Sans + gradient azul deep.",
+  "viewports": [
+    { "label": "Desktop", "width": 1440, "height": 900 }
+  ],
+  "targets": [
+    { "id": "index", "url": "https://baluhub.com.br/" },
+    { "id": "crm", "url": "https://baluhub.com.br/crm.html" },
+    { "id": "criacao", "url": "https://baluhub.com.br/criacao.html" }
+  ],
+  "checks": [
+    {
+      "id": "page-loads-200",
+      "description": "Cada URL retorna HTTP 200, sem erro de rede."
+    },
+    {
+      "id": "no-horizontal-scroll",
+      "description": "document.documentElement.scrollWidth ≤ window.innerWidth. Sem barra horizontal."
+    },
+    {
+      "id": "fonts-cal-sans-loaded",
+      "description": "Network > font filter: arquivos da Fontshare (cal-sans, dm-sans) carregaram com 200. Computed font-family do h1 começa com 'Cal Sans'."
+    },
+    {
+      "id": "header-sticky-glass",
+      "description": "Header .site-header sticky no topo com backdrop-filter blur. Permanece visível ao rolar. Logo Balu SVG branca presente."
+    },
+    {
+      "id": "nav-links-active-state",
+      "description": "Link da página atual no nav tem classe .active. Outros não. Hover funciona em todos."
+    },
+    {
+      "id": "no-console-errors",
+      "description": "Zero erros vermelhos no Console em load + scroll lento até o fim. Warnings amarelos ok se vierem de extensões/bot."
+    },
+    {
+      "id": "no-404-or-5xx",
+      "description": "Network: zero requests com 4xx/5xx. Atenção: fonts, GSAP CDN, Iconify, asset Asaas externo, mockup screenshots."
+    },
+    {
+      "id": "gsap-loaded",
+      "description": "window.gsap e window.ScrollTrigger existem (CDN cdnjs cloudflare 3.12.5)."
+    },
+    {
+      "id": "intersection-reveal-fires",
+      "description": "Elementos data-reveal recebem classe .is-revealed quando entram na viewport (fade + translateY=0)."
+    },
+    {
+      "id": "magnetic-on-desktop-only",
+      "description": "Botões .magnetic: em pointer:fine (desktop) recebem mousemove handler; em pointer:coarse (mobile) NÃO recebem. Verificar via window.matchMedia."
+    }
+  ],
+  "output_format": {
+    "per_target": {
+      "<id>": {
+        "pass": ["lista de IDs"],
+        "fail": [{ "id": "x", "evidence": "o que viu" }]
+      }
+    },
+    "blockers": ["bugs críticos que impedem QA das outras partes"]
+  }
+}

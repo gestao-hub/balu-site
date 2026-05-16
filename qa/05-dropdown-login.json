@@ -1,0 +1,77 @@
+{
+  "part": "5 de 8 — Dropdown de login no header",
+  "task": "QA do dropdown que abre ao clicar 'Entrar' no header. Validar visual, posicionamento, comportamento em scroll/resize, links pras 2 plataformas. Testar nas páginas index e crm (criacao não tem dropdown — tem 'Briefing').",
+  "context": "Header tem botão 'Entrar' com chevron que abre menu glass com 2 opções: Balu Agência (agencia.baluhub.com.br) e Balu CRM (crm.baluhub.com.br). Fix recente: menu é portaled pra <body> via JS pq o backdrop-filter do header criava containing block que clipava position:fixed.",
+  "viewports": [
+    { "label": "Desktop", "width": 1440, "height": 900 },
+    { "label": "Tablet", "width": 768, "height": 1024 },
+    { "label": "Mobile M", "width": 375, "height": 812 }
+  ],
+  "targets": [
+    { "id": "index", "url": "https://baluhub.com.br/" },
+    { "id": "crm", "url": "https://baluhub.com.br/crm.html" }
+  ],
+  "checks": [
+    {
+      "id": "trigger-visible",
+      "description": "Botão 'Entrar' com chevron à direita visível no header (desktop). Aria-expanded='false' inicialmente."
+    },
+    {
+      "id": "menu-portaled-to-body",
+      "description": "Eval: document.querySelector('[data-login-menu]').parentElement.tagName === 'BODY' (NÃO 'DIV' nem 'HEADER'). Crítico pra não clipar."
+    },
+    {
+      "id": "menu-renders-on-click",
+      "description": "Click no trigger: menu aparece com fade+scale spring. Aria-expanded='true'. Chevron rotaciona 180°. Eval: getComputedStyle(menu).opacity > 0.9, position='fixed', zIndex='9999'."
+    },
+    {
+      "id": "menu-content",
+      "description": "Menu tem exatamente 2 opções: 'Balu Agência' (href https://agencia.baluhub.com.br) e 'Balu CRM' (href https://crm.baluhub.com.br). Cada uma com ícone à esquerda + título strong + descrição + chevron arrow."
+    },
+    {
+      "id": "menu-positioned-below-trigger",
+      "description": "Menu posicionado logo abaixo do botão (top = trigger.bottom + ~12px), alinhado pela direita (right edge ≤ trigger right edge). Sem estourar viewport."
+    },
+    {
+      "id": "menu-reposicionа-on-scroll",
+      "description": "Abrir menu, scrolar a página. Menu reposiciona pra continuar abaixo do botão (event listener scroll, true)."
+    },
+    {
+      "id": "menu-reposiciona-on-resize",
+      "description": "Abrir menu, redimensionar janela. Reposiciona corretamente."
+    },
+    {
+      "id": "close-click-outside",
+      "description": "Menu aberto, click em qualquer lugar fora dele: fecha. Aria-expanded volta pra 'false'."
+    },
+    {
+      "id": "close-escape",
+      "description": "Menu aberto, tecla Esc: fecha. Foco volta pro trigger."
+    },
+    {
+      "id": "close-after-option-click",
+      "description": "Click numa opção: navega pra URL em nova aba (target='_blank' rel='noopener') E fecha o menu."
+    },
+    {
+      "id": "toggle-on-second-click",
+      "description": "Click no trigger com menu aberto: fecha."
+    },
+    {
+      "id": "mobile-behavior",
+      "description": "Em < 880px: nav-links desktop somem, hamburguer aparece. Botão 'Entrar' continua visível? Se sim, dropdown ainda funciona. Se vai pro menu mobile, confirmar comportamento."
+    },
+    {
+      "id": "no-clipping-visual",
+      "description": "Screenshot do menu aberto: nenhuma parte cortada pelo header. Visível integralmente abaixo do botão."
+    }
+  ],
+  "output_format": {
+    "per_target_viewport": {
+      "<id>_<viewport>": {
+        "pass": ["lista"],
+        "fail": [{ "id": "x", "evidence": "..." }]
+      }
+    },
+    "screenshots": ["menu-aberto-desktop-index", "menu-aberto-mobile"]
+  }
+}
