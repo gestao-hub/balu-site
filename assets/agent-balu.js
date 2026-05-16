@@ -8,8 +8,8 @@
   "use strict";
 
   const CFG = {
-    // Endpoint do public-chat do Balu CRM (Supabase envsirumquqpmkcayncr)
-    BACKEND_URL: "https://envsirumquqpmkcayncr.supabase.co/functions/v1/public-chat",
+    // Endpoint guarded (4 gaps: origin, rate limit por visitor, anti-injection server-side, output guard)
+    BACKEND_URL: "https://envsirumquqpmkcayncr.supabase.co/functions/v1/public-chat-guarded",
     SUPABASE_ANON: "sb_publishable_g6WyB24Jy7DsL1bELPEGtQ__R_oBN7E",
     // Widget "Balu LP Widget" criado em chat_widgets — vinculado ao agente "Balu LP"
     WIDGET_ID: "fc065444-c2d2-40ed-85c6-9ee63b8a15ff",
@@ -19,38 +19,8 @@
     MIN_INTERVAL_MS: 1500,
     STORAGE_KEY_LEAD: "balu_widget_lead_v2",
     STORAGE_KEY_MSGS: "balu_widget_msgs_v2",
-    GREETING: "Oi! Sou o Balu 🤝 Posso te explicar como a plataforma funciona, te ajudar a escolher o plano certo e marcar uma call com o Michel quando você quiser. Por onde começamos?",
+    GREETING: "Oi! Sou o Balu 🤝 Posso te explicar como a plataforma funciona, te ajudar a escolher o plano certo e chamar um atendente quando você quiser. Por onde começamos?",
   };
-
-  // Parser de SSE stream do public-chat (formato: "data: {...}\n\ndata: [DONE]\n\n")
-  async function parseSSEStream(resp) {
-    if (!resp.body) {
-      const t = await resp.text();
-      return t || "";
-    }
-    const reader = resp.body.getReader();
-    const decoder = new TextDecoder();
-    let full = "";
-    let buf = "";
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      buf += decoder.decode(value, { stream: true });
-      const lines = buf.split("\n");
-      buf = lines.pop() || "";
-      for (const line of lines) {
-        if (!line.startsWith("data: ")) continue;
-        const payload = line.slice(6).trim();
-        if (!payload || payload === "[DONE]") continue;
-        try {
-          const json = JSON.parse(payload);
-          const piece = json?.choices?.[0]?.delta?.content;
-          if (piece) full += piece;
-        } catch (_) { /* ignore parse errors */ }
-      }
-    }
-    return full;
-  }
 
   async function callPublicChat({ message, visitorId, sessionId }) {
     const resp = await fetch(CFG.BACKEND_URL, {
@@ -68,6 +38,22 @@
       }),
     });
     return resp;
+  }
+
+  async function readChatReply(resp) {
+    const sessionId = resp.headers.get("X-Session-Id");
+    let data = null;
+    try { data = await resp.json(); } catch (_) { data = null; }
+    return {
+      ok: resp.ok && !!data,
+      status: resp.status,
+      sessionId,
+      reply: data?.reply || "",
+      blocked: !!data?.blocked,
+      firstTurn: !!data?.first_turn,
+      fallback: !!data?.fallback,
+      raw: data,
+    };
   }
 
   // ---------- Anti-prompt-injection (defesa client-side, EN + PT-BR) ----------
@@ -259,7 +245,7 @@
   function renderGate() {
     const intro = el("div", { class: "balu-gate-intro" }, [
       el("h3", { text: "Antes de conversar, preciso te conhecer 👋" }),
-      el("p", { text: "Em 30 segundos a gente já tá no chat. Seus dados ficam comigo e com o Michel — nada de spam." }),
+      el("p", { text: "Em 30 segundos a gente já tá no chat. Seus dados ficam comigo e com o atendente — nada de spam." }),
     ]);
     function field(name, label, type, placeholder, errMsg, autocomplete) {
       const input = el("input", {
@@ -335,8 +321,8 @@
     lead.visitorId = `lp-${lead.email}`;
 
     // INIT silenciosa: cria sessão no Balu CRM + injeta dados do lead como user message
-    // pra Michel ver os dados de cara na aba Conversas. public-chat detecta first-turn e
-    // retorna o welcome (que ignoramos — já mostramos local).
+    // pro atendente ver os dados de cara na aba Conversas. public-chat-guarded detecta
+    // first-turn, retorna o welcome (que ignoramos — já mostramos local) e devolve X-Session-Id.
     const initMsg = `[LEAD CAPTURADO via LP] Nome: ${lead.name} · WhatsApp: ${lead.whatsapp} · Email: ${lead.email} · Origem: ${lead.sourceUrl}`;
     try {
       const initResp = await callPublicChat({
@@ -344,9 +330,9 @@
         visitorId: lead.visitorId,
         sessionId: null,
       });
-      lead.sessionId = initResp.headers.get("X-Session-Id") || null;
-      // Drena stream pra completar a request (não usamos a resposta)
-      await parseSSEStream(initResp);
+      const initData = await readChatReply(initResp);
+      lead.sessionId = initData.sessionId || null;
+      if (!initData.ok) lead._initFailed = true;
     } catch (err) {
       console.warn("[balu-agent] init falhou — modo degradado:", err);
       lead._initFailed = true;
@@ -358,7 +344,7 @@
     state.messages = [{
       role: "agent",
       content: lead._initFailed
-        ? `Oi, ${firstName}! Tô com instabilidade rápida aqui — já guardei seus dados, mas se eu travar, o Michel te chama no WhatsApp em até 1h 🤝`
+        ? `Oi, ${firstName}! Tô com instabilidade rápida aqui — já guardei seus dados, mas se eu travar, um atendente te chama no WhatsApp em até 1h 🤝`
         : CFG.GREETING.replace("Oi!", `Oi, ${firstName}!`),
       ts: Date.now(),
     }];
@@ -445,22 +431,24 @@
           visitorId: state.lead.visitorId,
           sessionId: state.lead.sessionId,
         });
-        if (!resp.ok) {
-          const errBody = await resp.text().catch(() => "");
-          throw new Error(`HTTP ${resp.status}: ${errBody.slice(0, 120)}`);
+        const data = await readChatReply(resp);
+        if (!data.ok && resp.status === 429) {
+          appendMsg("agent", "Calma aí, tô recebendo muitas mensagens 🙏 Dá 1 minutinho e me chama de novo.");
+        } else if (!data.ok && resp.status === 403) {
+          appendMsg("agent", "Esse canal não tá autorizado por aqui. Se quiser, manda no WhatsApp que um atendente responde rapidinho.");
+        } else if (!data.ok) {
+          throw new Error(`HTTP ${resp.status}`);
+        } else {
+          if (data.sessionId && data.sessionId !== state.lead.sessionId) {
+            state.lead.sessionId = data.sessionId;
+            storageSet(CFG.STORAGE_KEY_LEAD, state.lead);
+          }
+          appendMsg("agent", data.reply || "Hmm, deixa eu pensar… pode reformular?");
         }
-        // Atualiza session_id se o backend devolveu novo (primeira chamada se init falhou)
-        const newSid = resp.headers.get("X-Session-Id");
-        if (newSid && newSid !== state.lead.sessionId) {
-          state.lead.sessionId = newSid;
-          storageSet(CFG.STORAGE_KEY_LEAD, state.lead);
-        }
-        const reply = await parseSSEStream(resp);
-        appendMsg("agent", reply || "Hmm, deixa eu pensar… pode reformular?");
       } catch (err) {
         console.warn("[balu-agent] send falhou:", err);
         appendMsg("agent",
-          "Tô com instabilidade rápida aqui 😬 Pode tentar de novo? Se continuar travado, o Michel te chama no WhatsApp em 1h pelos dados que você deixou."
+          "Tô com instabilidade rápida aqui 😬 Pode tentar de novo? Se continuar travado, um atendente te chama no WhatsApp em 1h pelos dados que você deixou."
         );
       } finally {
         hideTyping();
