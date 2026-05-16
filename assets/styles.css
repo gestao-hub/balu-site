@@ -34,10 +34,10 @@
   --grad-card: linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.00) 100%);
   --grad-glow: linear-gradient(180deg, #F5F7FA 0%, rgba(245,247,250,0.4) 100%);
 
-  /* Typography */
-  --font-display: "Cal Sans", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+  /* Typography — Inter Variable (alternativa livre ao SF Pro Display/Text) */
+  --font-display: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", "Cascadia Mono", monospace;
 
   /* Spacing & radii */
   --radius-sm: 8px;
@@ -174,11 +174,13 @@ h4 {
   font-weight: 600;
 }
 
-/* Body 17px Apple-style (não 16px), tabular numerics globais */
+/* Body 17px Apple-style (não 16px), Inter OpenType features pra ficar SF Pro-like */
 body {
   font-size: 17px;
-  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
-  font-variant-numeric: oldstyle-nums;
+  /* cv11 = single-storey alt (closest to SF Pro), ss03 = curly quotes, cv02/cv03 = SF-style a/g */
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "cv11" 1, "ss03" 1, "ss01" 1, "cv02" 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 .kpi .val,
 .plan-price,
