@@ -579,10 +579,92 @@ section.theme-light-alt .work-preview .live-badge {
 
 .nav-cta { display: flex; gap: 8px; align-items: center; }
 
+/* ===== Login dropdown ===== */
+.login-dropdown { position: relative; }
+.login-dropdown > .btn .chev {
+  margin-left: 6px;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0.85;
+}
+.login-dropdown.open > .btn .chev { transform: rotate(180deg); }
+.login-menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  min-width: 280px;
+  padding: 8px;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 80;
+  opacity: 0;
+  transform: translateY(-6px) scale(0.97);
+  pointer-events: none;
+  transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.42s cubic-bezier(0.175, 0.885, 0.32, 1.4);
+}
+.login-menu[data-open="true"] {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+.login-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  color: var(--text);
+  text-decoration: none;
+  font-family: var(--font-sans);
+  transition: background 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.login-option:hover {
+  background: rgba(255,255,255,0.06);
+  transform: translateX(2px);
+}
+.login-option-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, color-mix(in oklch, var(--accent) 30%, transparent), color-mix(in oklch, var(--accent-deep) 25%, transparent));
+  border: 1px solid color-mix(in oklch, var(--accent) 30%, transparent);
+  color: var(--text);
+  flex-shrink: 0;
+}
+.login-option-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.login-option-text strong {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+.login-option-text span {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.3;
+}
+.login-option-arrow {
+  margin-left: auto;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.4);
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.login-option:hover .login-option-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 @media (max-width: 880px) {
   .site-header { top: 12px; }
   .nav-links { display: none; }
   .nav { padding: 8px 8px 8px 16px; }
+  .login-menu { min-width: 240px; right: -8px; }
 }
 
 /* ============ Buttons — glass pills ============ */

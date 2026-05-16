@@ -93,6 +93,40 @@
     });
   }
 
+  // ---- 2.1) Login dropdown ----
+  document.querySelectorAll("[data-login-dropdown]").forEach((dd) => {
+    const trigger = dd.querySelector("[data-login-trigger]");
+    const menu = dd.querySelector("[data-login-menu]");
+    if (!trigger || !menu) return;
+    const closeMenu = () => {
+      dd.classList.remove("open");
+      menu.removeAttribute("data-open");
+      trigger.setAttribute("aria-expanded", "false");
+    };
+    const openMenu = () => {
+      dd.classList.add("open");
+      menu.setAttribute("data-open", "true");
+      trigger.setAttribute("aria-expanded", "true");
+    };
+    trigger.addEventListener("click", (e) => {
+      e.stopPropagation();
+      dd.classList.contains("open") ? closeMenu() : openMenu();
+    });
+    menu.addEventListener("click", (e) => e.stopPropagation());
+    document.addEventListener("click", (e) => {
+      if (!dd.contains(e.target)) closeMenu();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && dd.classList.contains("open")) {
+        closeMenu();
+        trigger.focus();
+      }
+    });
+    menu.querySelectorAll(".login-option").forEach((opt) => {
+      opt.addEventListener("click", () => closeMenu());
+    });
+  });
+
   // ---- 3) Magnetic buttons (desktop only) ----
   if (isFinePointer && !prefersReducedMotion) {
     const easeReturn = "cubic-bezier(0.175, 0.885, 0.32, 2.2)";
