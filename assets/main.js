@@ -779,4 +779,82 @@
   } else {
     window.addEventListener("load", initGSAP);
   }
+
+  // ---- 10.5) Anchor CTAs — feedback visual + smooth scroll consciente ----
+  document.querySelectorAll('a[href^="#"], a[href^="/#"]').forEach((a) => {
+    a.addEventListener("click", () => {
+      const href = a.getAttribute("href");
+      const hash = href.startsWith("#") ? href : (href.indexOf("#") >= 0 ? href.substring(href.indexOf("#")) : "");
+      if (!hash || hash === "#") return;
+      const target = document.querySelector(hash);
+      if (!target) return;
+      // pulse CTA before scrolling
+      a.style.transform = "scale(0.96)";
+      setTimeout(() => { a.style.transform = ""; }, 200);
+    });
+  });
+
+  // ---- 11) Lead form (#contato) — captura silenciosa via public-chat-guarded ----
+  const LEAD_BACKEND = "https://envsirumquqpmkcayncr.supabase.co/functions/v1/public-chat-guarded";
+  const LEAD_ANON = "sb_publishable_g6WyB24Jy7DsL1bELPEGtQ__R_oBN7E";
+  const LEAD_WIDGET_ID = "fc065444-c2d2-40ed-85c6-9ee63b8a15ff";
+  const RE_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const RE_PHONE = /^[\d\s()\-+]{10,20}$/;
+
+  document.querySelectorAll("[data-lead-form]").forEach((form) => {
+    const submit = form.querySelector(".lead-form-submit");
+    const success = form.querySelector(".lead-form-success");
+    const formType = form.dataset.leadForm;
+    function setError(name, msg) {
+      const input = form.querySelector(`[name="${name}"]`);
+      const err = form.querySelector(`[data-error-for="${name}"]`);
+      if (input) input.classList.toggle("invalid", !!msg);
+      if (err) err.textContent = msg || "";
+    }
+    function clearAllErrors() {
+      form.querySelectorAll("input, textarea").forEach((i) => i.classList.remove("invalid"));
+      form.querySelectorAll("[data-error-for]").forEach((e) => (e.textContent = ""));
+    }
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      clearAllErrors();
+      const data = Object.fromEntries(new FormData(form).entries());
+      let ok = true;
+      if (!data.name || data.name.trim().length < 2) { setError("name", "Como prefere ser chamado?"); ok = false; }
+      const phoneDigits = (data.whatsapp || "").replace(/\D/g, "");
+      if (!RE_PHONE.test(data.whatsapp || "") || phoneDigits.length < 10) {
+        setError("whatsapp", "Número com DDD, por favor."); ok = false;
+      }
+      if (!RE_EMAIL.test(data.email || "")) {
+        setError("email", "E-mail inválido."); ok = false;
+      }
+      if (!ok) return;
+
+      submit.classList.add("is-loading");
+      submit.disabled = true;
+      const visitorId = `lead-form-${formType}-${data.email.toLowerCase().trim()}`;
+      const message = `[LEAD FORM ${formType.toUpperCase()}] Nome: ${data.name.trim()} · WhatsApp: ${data.whatsapp.trim()} · E-mail: ${data.email.trim().toLowerCase()} · Contexto: ${(data.context || "—").slice(0, 500)} · Origem: ${location.href}`;
+      try {
+        const resp = await fetch(LEAD_BACKEND, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            apikey: LEAD_ANON,
+            Authorization: `Bearer ${LEAD_ANON}`,
+          },
+          body: JSON.stringify({ widget_id: LEAD_WIDGET_ID, message, visitor_id: visitorId }),
+        });
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        // Sucesso
+        form.querySelectorAll("input, textarea, button, .lead-form-row, .lead-form-cta, .lead-form-field, .lead-form-privacy").forEach((el) => { el.style.display = "none"; });
+        success.hidden = false;
+        success.scrollIntoView({ behavior: "smooth", block: "center" });
+      } catch (err) {
+        console.warn("[lead-form] send failed:", err);
+        submit.classList.remove("is-loading");
+        submit.disabled = false;
+        setError("email", "Tivemos um problema. Tenta o WhatsApp ali no canto?");
+      }
+    });
+  });
 })();

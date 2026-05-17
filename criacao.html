@@ -10,7 +10,7 @@
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#4576FF" />
-  <link rel="canonical" href="https://baluhub.com.br/criacao.html" />
+  <link rel="canonical" href="https://baluhub.com.br/criacao" />
 
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,7 +29,7 @@
   <meta property="og:site_name" content="Balu" />
   <meta property="og:title" content="Balu Criação — Sites com SEO + GEO prontos em dias" />
   <meta property="og:description" content="Do briefing ao ar em dias. Sites com SEO técnico e GEO (pra ChatGPT, Claude, Perplexity) entregues pela Balu pra sua agência revender." />
-  <meta property="og:url" content="https://baluhub.com.br/criacao.html" />
+  <meta property="og:url" content="https://baluhub.com.br/criacao" />
   <meta property="og:image" content="https://baluhub.com.br/og-image-criacao.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -45,7 +45,7 @@
     "serviceType": "Criação de sites com SEO + GEO white-label",
     "provider": { "@type": "Organization", "name": "Balu", "url": "https://baluhub.com.br/" },
     "areaServed": { "@type": "Country", "name": "Brasil" },
-    "url": "https://baluhub.com.br/criacao.html",
+    "url": "https://baluhub.com.br/criacao",
     "description": "Sites, landing pages e identidade visual com SEO técnico e GEO (otimização para LLMs como ChatGPT, Claude e Perplexity) entregues em dias, não meses. White-label para agências revenderem.",
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
@@ -57,6 +57,31 @@
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Identidade visual e design system" } }
       ]
     }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://baluhub.com.br/" },
+      { "@type": "ListItem", "position": 2, "name": "Criação", "item": "https://baluhub.com.br/criacao" }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Quanto tempo leva pra entregar um site?", "acceptedAnswer": { "@type": "Answer", "text": "Prazo médio de 9 dias úteis do briefing ao deploy. LPs simples saem em 4-5 dias. Sites institucionais médios em 12-15 dias. Projetos com identidade visual completa em 20-25 dias." } },
+      { "@type": "Question", "name": "É white-label? Posso revender pra meus clientes?", "acceptedAnswer": { "@type": "Answer", "text": "Sim. Trabalhamos como produção da sua agência. Você fatura, define preço, entrega ao cliente. A Balu não aparece. Margem mínima garantida de 50% pra agência parceira." } },
+      { "@type": "Question", "name": "Qual stack vocês usam?", "acceptedAnswer": { "@type": "Answer", "text": "Astro, Next.js ou Webflow conforme o caso. Hospedagem Vercel ou Hostinger. Sempre com SEO técnico (sitemap, Schema, canonical, Core Web Vitals) e GEO (llms.txt, FAQ Schema, dados estruturados pra ChatGPT, Claude, Perplexity) no deploy." } },
+      { "@type": "Question", "name": "Vocês mexem em WordPress?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, mantemos sites em WordPress de clientes que já estão na plataforma. Mas não recomendamos pra novos projetos — JAMstack moderno é mais rápido, seguro e barato de manter." } },
+      { "@type": "Question", "name": "O que entra no SEO + GEO de deploy?", "acceptedAnswer": { "@type": "Answer", "text": "SEO: sitemap.xml, robots.txt, canonical URLs, Open Graph + Twitter cards, Schema.org (Organization + WebSite + Article quando blog), Core Web Vitals no verde. GEO: llms.txt na raiz, FAQ Schema, dados estruturados pra LLMs citarem o conteúdo do site." } }
+    ]
   }
   </script>
 </head>
@@ -82,14 +107,14 @@
 
 <header class="site-header glass glass-pill">
   <div class="nav">
-    <a href="index.html" class="brand" aria-label="Balu — Home">
+    <a href="/" class="brand" aria-label="Balu — Home">
       <img src="assets/logo-white.svg" alt="Balu" />
       <span class="brand-tag">Criação</span>
     </a>
     <nav class="nav-links" aria-label="Navegação principal">
-      <a href="index.html">Agência</a>
-      <a href="crm.html">CRM</a>
-      <a href="criacao.html" class="active">Criação</a>
+      <a href="/">Agência</a>
+      <a href="/crm">CRM</a>
+      <a href="/criacao" class="active">Criação</a>
       <a href="#portfolio">Portfólio</a>
       <a href="#processo">Processo</a>
     </nav>
@@ -560,13 +585,42 @@
       <span class="eyebrow"><span class="dot"></span> Vamos começar</span>
       <h2 style="margin-top:18px;">Briefing. <span class="display-glow">No ar.</span></h2>
       <p class="lede">Resposta de orçamento em até 24h úteis. Primeira entrega visual em até 3 dias úteis.</p>
-      <div class="actions">
-        <a href="https://wa.me/5512991548086?text=Quero%20um%20or%C3%A7amento%20da%20Balu%20Cria%C3%A7%C3%A3o" target="_blank" rel="noopener" class="btn btn-accent magnetic">
-          Pedir orçamento
-          <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7 3m4 4l-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-        <a href="index.html" class="btn btn-ghost magnetic">Ver a plataforma Balu</a>
-      </div>
+
+      <form class="lead-form" data-lead-form="criacao" novalidate>
+        <div class="lead-form-row">
+          <div class="lead-form-field">
+            <label for="lf-name-cri">Nome</label>
+            <input id="lf-name-cri" name="name" type="text" required minlength="2" maxlength="80" placeholder="Seu nome" autocomplete="given-name" />
+            <span class="lead-form-error" data-error-for="name"></span>
+          </div>
+          <div class="lead-form-field">
+            <label for="lf-whatsapp-cri">WhatsApp</label>
+            <input id="lf-whatsapp-cri" name="whatsapp" type="tel" required placeholder="(11) 99999-0000" autocomplete="tel" inputmode="tel" />
+            <span class="lead-form-error" data-error-for="whatsapp"></span>
+          </div>
+        </div>
+        <div class="lead-form-field">
+          <label for="lf-email-cri">E-mail</label>
+          <input id="lf-email-cri" name="email" type="email" required placeholder="voce@suaagencia.com" autocomplete="email" inputmode="email" />
+          <span class="lead-form-error" data-error-for="email"></span>
+        </div>
+        <div class="lead-form-field">
+          <label for="lf-brief-cri">Sobre o projeto <span class="lead-form-optional">(opcional)</span></label>
+          <textarea id="lf-brief-cri" name="context" rows="3" maxlength="500" placeholder="Tipo de site (institucional, LP, e-commerce), prazo desejado..."></textarea>
+        </div>
+        <div class="lead-form-cta">
+          <button type="submit" class="btn btn-accent magnetic lead-form-submit">
+            <span class="label">Pedir orçamento</span>
+            <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7 3m4 4l-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <a href="/" class="btn btn-ghost magnetic">Ver a plataforma Balu</a>
+        </div>
+        <p class="lead-form-privacy">Ao enviar você concorda com a nossa <a href="/politica-de-privacidade">política de privacidade</a>. Sem spam.</p>
+        <div class="lead-form-success" hidden>
+          <strong>Recebemos! 🎉</strong>
+          <span>Resposta com proposta em até 24h úteis no e-mail e WhatsApp.</span>
+        </div>
+      </form>
     </div>
   </div>
 </section>
@@ -611,8 +665,8 @@
         </a>
       </div>
       <div class="footer-secondary-links">
-        <a href="index.html" class="glass glass-pill magnetic">Balu Agência</a>
-        <a href="crm.html" class="glass glass-pill magnetic">Balu CRM</a>
+        <a href="/" class="glass glass-pill magnetic">Balu Agência</a>
+        <a href="/crm" class="glass glass-pill magnetic">Balu CRM</a>
         <a href="#processo" class="glass glass-pill magnetic">Processo</a>
         <a href="#" class="glass glass-pill magnetic">Privacidade</a>
         <a href="#" class="glass glass-pill magnetic">Termos</a>
@@ -630,5 +684,6 @@
 
 <script src="assets/main.js" defer></script>
 <script src="assets/agent-balu.js" defer></script>
+<script src="assets/cookie-banner.js" defer></script>
 </body>
 </html>
