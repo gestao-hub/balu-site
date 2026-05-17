@@ -82,7 +82,11 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; overflow-x: clip; }
+html { scroll-behavior: smooth; }
+/* overflow-x:clip em html quebrava position:sticky do .site-header.
+   Movemos pro body + section pra preservar sticky context. */
+body { overflow-x: hidden; }
+section { overflow-x: clip; }
 
 body {
   background: var(--bg);
@@ -794,6 +798,31 @@ section.theme-light-alt .work-preview .live-badge {
   font-size: 13px; color: var(--text-3); display: inline-flex; align-items: center; gap: 6px;
 }
 .hero-actions .meta strong { color: var(--text); font-weight: 600; font-family: var(--font-display); }
+
+/* Hero social proof (above-fold) */
+.hero-social-proof {
+  margin-top: 22px;
+  display: flex; align-items: center; gap: 12px;
+  font-size: 13px; color: var(--text-3);
+}
+.hero-social-avatars {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+.hero-social-avatars span {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.95);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 12px;
+  border: 2px solid var(--bg);
+  margin-left: -8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.hero-social-avatars span:first-child { margin-left: 0; }
+.hero-social-text strong { color: var(--text); font-weight: 600; font-family: var(--font-display); }
 
 /* ============ Cards / surfaces ============ */
 .card {
@@ -1994,22 +2023,59 @@ details.card[open] summary::after { transform: rotate(45deg); }
 @media (max-width: 880px) {
   .menu-toggle {
     display: inline-flex; align-items: center; justify-content: center;
-    width: 38px; height: 38px;
+    width: 44px; height: 44px;       /* CRT-3 touch target Apple HIG */
     background: transparent; border: 1px solid var(--border-strong); border-radius: 999px;
     color: var(--text); cursor: pointer;
   }
+  /* Hamburger menu posicionado como fixed pra escapar do overflow:hidden + backdrop-filter
+     do .site-header (mesmo padrão que login dropdown usa). */
   .nav-mobile-open .nav-links {
     display: flex; flex-direction: column; gap: 0;
-    position: absolute; left: 12px; right: 12px; top: calc(100% + 8px);
+    position: fixed; left: 12px; right: 12px; top: 84px;
     padding: 16px; border-radius: var(--radius-lg);
-    background: rgba(7,10,18,0.92);
+    background: rgba(7,10,18,0.95);
     backdrop-filter: blur(24px) saturate(180%);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
     border: 1px solid color-mix(in oklch, white 10%, transparent);
     box-shadow: var(--shadow-glass);
+    z-index: 9998;
   }
-  .nav-mobile-open .nav-links a { padding: 12px 14px; border-bottom: 1px solid var(--border); border-radius: 0; }
+  .nav-mobile-open .nav-links a {
+    padding: 14px; border-bottom: 1px solid var(--border); border-radius: 0;
+    min-height: 44px;                 /* CRT-3 touch target */
+    display: flex; align-items: center;
+  }
   .nav-mobile-open .nav-links a:last-child { border-bottom: none; }
+
+  /* CRT-3 — Touch targets >= 48px em mobile pra TODOS os botões */
+  .btn { min-height: 48px; padding: 13px 22px; }
+  .btn-accent, .btn-ghost, .btn-primary { min-height: 48px; }
+
+  /* Login dropdown trigger também */
+  .login-dropdown > .btn { min-height: 48px; }
+
+  /* IMP-3 — Footer cinematic simplificado em mobile:
+     curtain-reveal pinning é demanding e atrapalha scroll por toque.
+     Vira footer estático de altura natural. */
+  .curtain-footer {
+    height: auto;
+    clip-path: none;
+    margin-top: 40px;
+  }
+  .cinematic-footer {
+    position: relative;
+    height: auto;
+    min-height: auto;
+    bottom: auto; left: auto; right: auto;
+    padding: 40px 20px 32px;
+  }
+  .cinematic-footer .giant-text {
+    font-size: clamp(58px, 16vw, 96px) !important;
+    transform: none !important;
+    will-change: auto;
+  }
+  .footer-marquee-diagonal { display: none; }
+  .footer-location { position: relative; right: auto; bottom: auto; margin: 16px auto 0; display: flex; justify-content: center; }
 }
 
 /* ============ Footer adaptations for cinematic context ============ */

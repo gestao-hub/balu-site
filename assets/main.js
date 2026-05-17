@@ -634,21 +634,20 @@
     const { gsap, ScrollTrigger } = window;
     gsap.registerPlugin(ScrollTrigger);
 
-    // 9a) Hero mockup scroll-in (blur + scale + opacity)
+    // 9a) Hero mockup entry — fade + lift leve (sem blur initial pra não quebrar LCP)
     document.querySelectorAll(".hero-mockup .mockup").forEach((mk) => {
       gsap.fromTo(
         mk,
-        { filter: "blur(14px)", opacity: 0, y: 40, scale: 0.94 },
+        { opacity: 0.6, y: 20, scale: 0.98 },
         {
-          filter: "blur(0px)",
           opacity: 1,
           y: 0,
           scale: 1,
-          duration: 1.4,
+          duration: 0.9,
           ease: "power3.out",
           scrollTrigger: {
             trigger: mk,
-            start: "top 85%",
+            start: "top 95%",
             toggleActions: "play none none none",
           },
         }
