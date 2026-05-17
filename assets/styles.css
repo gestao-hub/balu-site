@@ -988,9 +988,38 @@ section.theme-light-alt .work-preview .live-badge {
 .steps {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
   counter-reset: step;
+  position: relative;
 }
 @media (max-width: 980px) { .steps { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 540px) { .steps { grid-template-columns: 1fr; } }
+
+/* Conectores horizontais entre os steps (linha + seta) — só desktop */
+.step-connector {
+  position: absolute;
+  top: 64px;                /* alinhado com a linha do número .num */
+  height: 2px;
+  width: calc(100% / 4);    /* largura de uma coluna do grid */
+  pointer-events: none;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    color-mix(in oklch, var(--accent) 50%, transparent) 50%,
+    transparent 100%);
+  opacity: 0.6;
+}
+.step-connector::after {
+  content: "›";
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-58%);
+  font-size: 18px;
+  color: var(--accent);
+  font-weight: 600;
+}
+.step-connector.c1 { left: calc(100% / 4); }
+.step-connector.c2 { left: calc(200% / 4); }
+.step-connector.c3 { left: calc(300% / 4); }
+@media (max-width: 980px) { .step-connector { display: none; } }
 .step {
   padding: 32px 28px 28px;
   background: linear-gradient(145deg,
@@ -1746,13 +1775,19 @@ section.theme-light-alt .work-preview .live-badge {
   font-size: 14.5px; align-items: center;
   transition: background 0.4s var(--ease-spring);
 }
+.vs-table.vs-4col .vs-row { grid-template-columns: 2.2fr 1fr 1fr 1fr; }
 .vs-row:hover { background: rgba(255,255,255,0.02); }
 .vs-row:last-child { border-bottom: none; }
 .vs-row.header { background: rgba(255,255,255,0.025); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-3); }
 .vs-row.header span:nth-child(3) { color: var(--accent-2); }
+.vs-table.vs-4col .vs-row.header span:nth-child(3) { color: var(--text-3); }
+.vs-table.vs-4col .vs-row.header span:nth-child(4) { color: var(--accent-2); font-weight: 600; }
 .vs-row span.bad { color: #FF8C8C; }
 .vs-row span.good { color: var(--highlight); }
 .vs-row span:first-child { color: var(--text-2); }
+@media (max-width: 720px) {
+  .vs-table.vs-4col .vs-row { grid-template-columns: 1.6fr 0.8fr 0.8fr 0.8fr; padding: 12px 14px; font-size: 12.5px; }
+}
 
 /* ============ Integrations cloud ============ */
 .intg {

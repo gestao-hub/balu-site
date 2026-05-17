@@ -281,9 +281,26 @@
   }
 
   // ---- 8) Back to top (cinematic footer) ----
+  // ScrollTrigger pinning do curtain-footer intercepta scroll smooth nativo,
+  // travando antes do topo. Animar manualmente via rAF garante chegada em 0.
   document.querySelectorAll(".back-to-top").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const start = window.pageYOffset || document.documentElement.scrollTop;
+      if (start <= 1) return;
+      const duration = Math.min(900, Math.max(450, start * 0.35));
+      const startTime = performance.now();
+      const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+      function step(now) {
+        const elapsed = now - startTime;
+        const t = Math.min(1, elapsed / duration);
+        const y = start * (1 - easeOutCubic(t));
+        // scrollTo sem behavior:smooth pra bypassa pinning
+        window.scrollTo(0, y);
+        if (t < 1) requestAnimationFrame(step);
+        else window.scrollTo(0, 0); // garante 0 absoluto
+      }
+      requestAnimationFrame(step);
     });
   });
 
