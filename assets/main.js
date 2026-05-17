@@ -597,53 +597,33 @@
     recalc();
   });
 
-  // ---- 9e) LocationMap (footer) — tilt + click expande pra mostrar Google Maps embed ----
+  // ---- 9e) LocationMap (footer) — pill expandível pra Google Maps embed ----
   document.querySelectorAll("[data-location-map]").forEach((root) => {
-    const card = root.querySelector(".location-map-card");
-    if (!card) return;
+    const trigger = root.querySelector(".map-pill-trigger");
+    const closeBtn = root.querySelector(".map-pill-close");
+    const iframe = root.querySelector(".map-pill-iframe");
+    if (!trigger) return;
 
-    // Click toggle: expande o card e revela o iframe real do Google Maps
-    root.addEventListener("click", (e) => {
-      // Ignora clicks dentro do iframe (pra não fechar enquanto interage com o mapa)
-      if (e.target.closest(".location-iframe")) return;
-      // Close button explícito fecha
-      if (e.target.closest(".location-close")) {
-        root.classList.remove("expanded");
-        e.stopPropagation();
-        return;
-      }
-      root.classList.toggle("expanded");
-      // Lazy-load do iframe só quando expande pela 1ª vez
-      const iframe = card.querySelector(".location-iframe");
-      if (iframe && root.classList.contains("expanded") && !iframe.src && iframe.dataset.src) {
-        iframe.src = iframe.dataset.src;
-      }
+    const open = () => {
+      root.classList.add("expanded");
+      trigger.setAttribute("aria-expanded", "true");
+      if (iframe && !iframe.src && iframe.dataset.src) iframe.src = iframe.dataset.src;
+    };
+    const close = () => {
+      root.classList.remove("expanded");
+      trigger.setAttribute("aria-expanded", "false");
+    };
+
+    trigger.addEventListener("click", (e) => {
+      e.stopPropagation();
+      root.classList.contains("expanded") ? close() : open();
     });
-
-    // ESC pra fechar
+    if (closeBtn) closeBtn.addEventListener("click", (e) => { e.stopPropagation(); close(); });
+    document.addEventListener("click", (e) => {
+      if (root.classList.contains("expanded") && !root.contains(e.target)) close();
+    });
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") root.classList.remove("expanded");
-    });
-
-    // 3D tilt on mouse move (desktop only)
-    if (!isFinePointer || prefersReducedMotion) return;
-    let rafId = null;
-    root.addEventListener("mousemove", (e) => {
-      if (rafId) cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(() => {
-        const r = root.getBoundingClientRect();
-        const cx = r.left + r.width / 2;
-        const cy = r.top + r.height / 2;
-        const dx = (e.clientX - cx) / (r.width / 2);
-        const dy = (e.clientY - cy) / (r.height / 2);
-        const rotY = dx * 8;
-        const rotX = -dy * 8;
-        card.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
-      });
-    });
-    root.addEventListener("mouseleave", () => {
-      if (rafId) cancelAnimationFrame(rafId);
-      card.style.transform = "rotateX(0deg) rotateY(0deg)";
+      if (e.key === "Escape" && root.classList.contains("expanded")) close();
     });
   });
 
