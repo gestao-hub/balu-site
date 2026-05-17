@@ -2021,32 +2021,165 @@ details.card[open] summary::after { transform: rotate(45deg); }
 
 /* ============ Mobile menu toggle ============ */
 .menu-toggle { display: none; }
+.menu-icon-close { display: none; }
+.mobile-menu { display: none; }
 @media (max-width: 880px) {
   .menu-toggle {
     display: inline-flex; align-items: center; justify-content: center;
-    width: 44px; height: 44px;       /* CRT-3 touch target Apple HIG */
-    background: transparent; border: 1px solid var(--border-strong); border-radius: 999px;
+    width: 44px; height: 44px;
+    background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+    border: 1px solid color-mix(in oklch, white 16%, transparent);
+    border-radius: 999px;
     color: var(--text); cursor: pointer;
+    transition: background 0.3s var(--ease-spring), border-color 0.3s var(--ease-spring), transform 0.4s var(--ease-spring);
   }
-  /* Hamburger menu posicionado como fixed pra escapar do overflow:hidden + backdrop-filter
-     do .site-header (mesmo padrão que login dropdown usa). */
-  .nav-mobile-open .nav-links {
-    display: flex; flex-direction: column; gap: 0;
-    position: fixed; left: 12px; right: 12px; top: 84px;
-    padding: 16px; border-radius: var(--radius-lg);
-    background: rgba(7,10,18,0.95);
+  .menu-toggle:active { transform: scale(0.94); }
+  .nav-mobile-open .menu-toggle {
+    background: linear-gradient(145deg, rgba(69,118,255,0.22), rgba(69,118,255,0.08));
+    border-color: rgba(69,118,255,0.45);
+  }
+  .nav-mobile-open .menu-icon-open { display: none; }
+  .nav-mobile-open .menu-icon-close { display: inline-block; }
+
+  /* Em mobile esconde nav-links inline + login dropdown + CTA do header — tudo vai pro mobile menu */
+  .site-header .nav-links,
+  .site-header .login-dropdown,
+  .site-header .nav-cta > .btn-accent { display: none !important; }
+  .site-header .nav-cta { gap: 0; }
+
+  /* Mobile menu — drawer top que aparece embaixo do header */
+  .mobile-menu {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 84px;
+    left: 12px;
+    right: 12px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    padding: 18px;
+    background: rgba(10, 14, 26, 0.96);
     backdrop-filter: blur(24px) saturate(180%);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid color-mix(in oklch, white 10%, transparent);
-    box-shadow: var(--shadow-glass);
+    border: 1px solid color-mix(in oklch, white 12%, transparent);
+    border-radius: 22px;
+    box-shadow: 0 30px 80px -10px rgba(0,0,0,0.65), inset 0 1px 1px rgba(255,255,255,0.08);
     z-index: 9998;
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+    transform-origin: top center;
+    pointer-events: none;
+    transition: opacity 0.32s var(--ease-spring),
+                transform 0.42s cubic-bezier(0.175, 0.885, 0.32, 1.3);
   }
-  .nav-mobile-open .nav-links a {
-    padding: 14px; border-bottom: 1px solid var(--border); border-radius: 0;
-    min-height: 44px;                 /* CRT-3 touch target */
-    display: flex; align-items: center;
+  .nav-mobile-open .mobile-menu {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
   }
-  .nav-mobile-open .nav-links a:last-child { border-bottom: none; }
+
+  .mobile-menu-section { display: flex; flex-direction: column; gap: 4px; margin-bottom: 6px; }
+  .mobile-menu-section + .mobile-menu-section {
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    margin-top: 4px;
+  }
+  .mobile-menu-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-3);
+    text-transform: uppercase;
+    letter-spacing: 0.10em;
+    padding: 0 12px 6px;
+    margin: 0;
+  }
+
+  /* Links de navegação simples (Agência/CRM/Criação/Blog etc) */
+  .mobile-menu-section > a:not(.mobile-menu-login) {
+    display: flex;
+    align-items: center;
+    padding: 12px 14px;
+    border-radius: 12px;
+    color: var(--text-2);
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    min-height: 44px;
+    transition: background 0.25s var(--ease-spring), color 0.25s var(--ease-spring), transform 0.25s var(--ease-spring);
+  }
+  .mobile-menu-section > a:not(.mobile-menu-login):active {
+    background: rgba(255,255,255,0.05);
+    color: var(--text);
+    transform: translateX(2px);
+  }
+  .mobile-menu-section > a.active {
+    background: rgba(69,118,255,0.12);
+    color: var(--accent-2);
+  }
+
+  /* Login items (ícone + nome + descrição + seta) */
+  .mobile-menu-login {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 12px;
+    color: var(--text);
+    text-decoration: none;
+    min-height: 56px;
+    transition: background 0.25s var(--ease-spring), transform 0.25s var(--ease-spring);
+  }
+  .mobile-menu-login:active {
+    background: rgba(255,255,255,0.06);
+    transform: translateX(2px);
+  }
+  .mobile-menu-login-icon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, rgba(69,118,255,0.30), rgba(30,79,204,0.18));
+    border: 1px solid rgba(69,118,255,0.30);
+    color: var(--text);
+    flex-shrink: 0;
+  }
+  .mobile-menu-login-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+  .mobile-menu-login-text strong {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 14.5px;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .mobile-menu-login-text span {
+    font-size: 12px;
+    color: var(--text-3);
+    line-height: 1.35;
+  }
+  .mobile-menu-arrow { color: var(--accent-2); flex-shrink: 0; opacity: 0.7; }
+
+  /* CTA primário sticky no fim do menu */
+  .mobile-menu-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 14px;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, var(--accent), #3661E5);
+    color: white !important;
+    border-radius: 999px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    min-height: 50px;
+    box-shadow: 0 10px 25px -8px rgba(69,118,255,0.45), inset 0 1px 1px rgba(255,255,255,0.20);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.4), box-shadow 0.3s var(--ease-spring);
+  }
+  .mobile-menu-cta:active { transform: scale(0.97); }
 
   /* CRT-3 — Touch targets >= 48px em mobile pra TODOS os botões */
   .btn { min-height: 48px; padding: 13px 22px; }

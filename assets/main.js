@@ -88,7 +88,8 @@
         header.classList.contains("nav-mobile-open") ? "true" : "false"
       );
     });
-    header.querySelectorAll(".nav-links a").forEach((a) => {
+    // Fecha menu ao clicar em qualquer link/CTA dentro do mobile menu OU nav-links
+    header.querySelectorAll(".nav-links a, .mobile-menu a").forEach((a) => {
       a.addEventListener("click", () => {
         header.classList.remove("nav-mobile-open");
         toggle.setAttribute("aria-expanded", "false");
