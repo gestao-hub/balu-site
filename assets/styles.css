@@ -2574,6 +2574,17 @@ details.card[open] summary::after { transform: rotate(45deg); }
   border-bottom: 1px solid var(--border);
   background: rgba(0,0,0,0.10);
 }
+@media (max-width: 600px) {
+  .wizard-steps {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 14px 16px;
+    gap: 8px;
+  }
+  .wizard-steps::-webkit-scrollbar { display: none; }
+  .wizard-step-line { min-width: 24px; }
+}
 .wizard-step {
   display: flex; align-items: center; gap: 8px;
   font-family: var(--font-display);
@@ -4097,3 +4108,21 @@ section.theme-light-alt .lead-form textarea::placeholder { color: #94A3B5; }
 .vs-page ul { padding-left: 24px; }
 .vs-page li { margin-bottom: 10px; color: var(--text-2); font-size: 15.5px; line-height: 1.55; }
 .vs-page .cta-final { margin-top: 60px; }
+
+/* ============ Grid responsivo 2 colunas (vira 1 em mobile) ============ */
+.grid-2col-responsive {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  align-items: start;
+}
+.grid-2col-responsive.grid-2col-text {
+  gap: 32px;
+  align-items: center;
+}
+@media (max-width: 720px) {
+  .grid-2col-responsive {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
