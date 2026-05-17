@@ -97,7 +97,8 @@
     if (!text) return "";
     return text
       .replace(/<\/?\s*(script|iframe|object|embed|style|link)[^>]*>/gi, "")
-      .replace(/ /g, "")
+      .replace(/ /g, " ")                  // normaliza nbsp pra espaço
+      .replace(/[ \t]+/g, " ")                  // colapsa espaços múltiplos (não remove os normais!)
       .slice(0, CFG.MAX_INPUT_LEN)
       .trim();
   }
@@ -467,11 +468,85 @@
     }
   }
 
-  // ---------- Mensagens (XSS-safe: sem innerHTML em conteúdo) ----------
+  // ---------- Mini markdown renderer XSS-safe (DOM methods, nunca innerHTML) ----------
+  function renderInlineMd(parent, text) {
+    const re = /(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`)/g;
+    let lastIdx = 0;
+    for (const match of text.matchAll(re)) {
+      const idx = match.index;
+      const token = match[0];
+      if (idx > lastIdx) parent.appendChild(document.createTextNode(text.slice(lastIdx, idx)));
+      if (token.startsWith("**") && token.endsWith("**")) {
+        const s = document.createElement("strong");
+        s.textContent = token.slice(2, -2);
+        parent.appendChild(s);
+      } else if (token.startsWith("`") && token.endsWith("`")) {
+        const c = document.createElement("code");
+        c.textContent = token.slice(1, -1);
+        parent.appendChild(c);
+      } else {
+        const e = document.createElement("em");
+        e.textContent = token.slice(1, -1);
+        parent.appendChild(e);
+      }
+      lastIdx = idx + token.length;
+    }
+    if (lastIdx < text.length) parent.appendChild(document.createTextNode(text.slice(lastIdx)));
+  }
+
+  function renderMarkdown(container, raw) {
+    container.textContent = "";
+    const text = String(raw || "");
+    if (!text) return;
+    const lines = text.split(/\r?\n/);
+    let i = 0;
+    while (i < lines.length) {
+      const trimmed = lines[i].trim();
+      if (/^[-*•]\s+/.test(trimmed)) {
+        const ul = document.createElement("ul");
+        while (i < lines.length && /^[-*•]\s+/.test(lines[i].trim())) {
+          const li = document.createElement("li");
+          renderInlineMd(li, lines[i].trim().replace(/^[-*•]\s+/, ""));
+          ul.appendChild(li);
+          i++;
+        }
+        container.appendChild(ul);
+        continue;
+      }
+      if (/^\d+\.\s+/.test(trimmed)) {
+        const ol = document.createElement("ol");
+        while (i < lines.length && /^\d+\.\s+/.test(lines[i].trim())) {
+          const li = document.createElement("li");
+          renderInlineMd(li, lines[i].trim().replace(/^\d+\.\s+/, ""));
+          ol.appendChild(li);
+          i++;
+        }
+        container.appendChild(ol);
+        continue;
+      }
+      if (trimmed.startsWith(">")) {
+        const bq = document.createElement("blockquote");
+        renderInlineMd(bq, trimmed.replace(/^>\s?/, ""));
+        container.appendChild(bq);
+        i++;
+        continue;
+      }
+      if (trimmed === "") { i++; continue; }
+      const p = document.createElement("p");
+      renderInlineMd(p, trimmed);
+      container.appendChild(p);
+      i++;
+    }
+  }
+
+  // ---------- Mensagens (XSS-safe via DOM methods, nunca innerHTML com conteúdo) ----------
   function messageEl(m) {
     const div = el("div", { class: "balu-msg " + m.role });
-    // Conteúdo SEMPRE como text nodes (nunca innerHTML com m.content)
-    div.textContent = String(m.content || "");
+    if (m.role === "agent") {
+      renderMarkdown(div, m.content);
+    } else {
+      div.textContent = String(m.content || "");
+    }
     return div;
   }
   function appendMsg(role, content) {

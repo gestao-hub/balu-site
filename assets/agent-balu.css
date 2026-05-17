@@ -449,6 +449,41 @@
   border-bottom-left-radius: 6px;
   border: 1px solid rgba(255,255,255,0.06);
 }
+/* Markdown elementos dentro de mensagem do agent */
+.balu-msg.agent p { margin: 0 0 8px; }
+.balu-msg.agent p:last-child { margin-bottom: 0; }
+.balu-msg.agent strong { color: #FFFFFF; font-weight: 600; }
+.balu-msg.agent em { font-style: italic; color: #DCE3F0; }
+.balu-msg.agent code {
+  background: rgba(0,0,0,0.30);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-family: ui-monospace, "SF Mono", "JetBrains Mono", monospace;
+  font-size: 0.9em;
+  color: #B8C5DE;
+}
+.balu-msg.agent ul,
+.balu-msg.agent ol {
+  margin: 4px 0 8px;
+  padding-left: 22px;
+}
+.balu-msg.agent ul:last-child,
+.balu-msg.agent ol:last-child { margin-bottom: 0; }
+.balu-msg.agent li {
+  margin-bottom: 4px;
+  padding-left: 2px;
+}
+.balu-msg.agent li::marker { color: rgba(107,143,255,0.85); }
+.balu-msg.agent ul { list-style: disc; }
+.balu-msg.agent ol { list-style: decimal; }
+.balu-msg.agent blockquote {
+  margin: 6px 0;
+  padding: 4px 12px;
+  border-left: 2px solid rgba(107,143,255,0.50);
+  color: #C8CFDD;
+  font-style: italic;
+}
 .balu-msg.user {
   align-self: flex-end;
   background: linear-gradient(145deg, #4576FF, #6B8FFF);
