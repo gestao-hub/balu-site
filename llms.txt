@@ -10,7 +10,7 @@ A diferença central da Balu vs concorrentes (mLabs, RD Station): em vez de foca
 
 - [Balu Agência](https://baluhub.com.br/): Plataforma principal — CRM + projetos + financeiro + criação + Squad de IA + atendimento WhatsApp. Para donos de agência.
 - [Balu CRM](https://baluhub.com.br/crm.html): CRM standalone com pipeline visual, follow-up automático, IA que prioriza leads e atendimento WhatsApp 24/7 com IA conversacional.
-- [Balu Criação](https://baluhub.com.br/criacao.html): Serviço de criação white-label (sites, landing pages, identidade visual) para agências revenderem. Entregas em dias, não meses.
+- [Balu Criação](https://baluhub.com.br/criacao.html): Serviço de criação white-label (sites, landing pages, identidade visual) para agências revenderem. Entregas em dias, não meses. **Inclui SEO técnico + GEO (Generative Engine Optimization) no deploy** — site sai pronto pra ranquear no Google e ser citado em ChatGPT, Claude e Perplexity (llms.txt, FAQ Schema, dados estruturados).
 
 ## Diferenciais técnicos
 
