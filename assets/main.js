@@ -80,33 +80,44 @@
   // ---- 2) Mobile nav toggle ----
   const toggle = document.querySelector(".menu-toggle");
   const header = document.querySelector(".site-header");
+  const mobileMenu = document.querySelector(".mobile-menu");
   if (toggle && header) {
+    // Portal: move .mobile-menu pra body (backdrop-filter do header clipa position:fixed filho)
+    if (mobileMenu && mobileMenu.parentElement === header) {
+      document.body.appendChild(mobileMenu);
+    }
+    function syncOpenClass() {
+      const open = header.classList.contains("nav-mobile-open");
+      if (mobileMenu) mobileMenu.classList.toggle("is-open", open);
+    }
     toggle.addEventListener("click", () => {
       header.classList.toggle("nav-mobile-open");
+      syncOpenClass();
       toggle.setAttribute(
         "aria-expanded",
         header.classList.contains("nav-mobile-open") ? "true" : "false"
       );
     });
-    // Fecha menu ao clicar em qualquer link/CTA dentro do mobile menu OU nav-links
-    header.querySelectorAll(".nav-links a, .mobile-menu a").forEach((a) => {
-      a.addEventListener("click", () => {
-        header.classList.remove("nav-mobile-open");
-        toggle.setAttribute("aria-expanded", "false");
-      });
+    function close() {
+      header.classList.remove("nav-mobile-open");
+      syncOpenClass();
+      toggle.setAttribute("aria-expanded", "false");
+    }
+    // Fecha ao clicar em qualquer link/CTA dentro do mobile menu OU nav-links
+    document.querySelectorAll(".nav-links a, .mobile-menu a").forEach((a) => {
+      a.addEventListener("click", close);
     });
     // Fechar menu ao clicar fora (overlay-style UX)
     document.addEventListener("click", (e) => {
-      if (header.classList.contains("nav-mobile-open") && !header.contains(e.target)) {
-        header.classList.remove("nav-mobile-open");
-        toggle.setAttribute("aria-expanded", "false");
-      }
+      if (!header.classList.contains("nav-mobile-open")) return;
+      if (header.contains(e.target)) return;
+      if (mobileMenu && mobileMenu.contains(e.target)) return;
+      close();
     });
     // Esc fecha
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && header.classList.contains("nav-mobile-open")) {
-        header.classList.remove("nav-mobile-open");
-        toggle.setAttribute("aria-expanded", "false");
+        close();
         toggle.focus();
       }
     });
