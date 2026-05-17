@@ -89,7 +89,25 @@
       );
     });
     header.querySelectorAll(".nav-links a").forEach((a) => {
-      a.addEventListener("click", () => header.classList.remove("nav-mobile-open"));
+      a.addEventListener("click", () => {
+        header.classList.remove("nav-mobile-open");
+        toggle.setAttribute("aria-expanded", "false");
+      });
+    });
+    // Fechar menu ao clicar fora (overlay-style UX)
+    document.addEventListener("click", (e) => {
+      if (header.classList.contains("nav-mobile-open") && !header.contains(e.target)) {
+        header.classList.remove("nav-mobile-open");
+        toggle.setAttribute("aria-expanded", "false");
+      }
+    });
+    // Esc fecha
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && header.classList.contains("nav-mobile-open")) {
+        header.classList.remove("nav-mobile-open");
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.focus();
+      }
     });
   }
 

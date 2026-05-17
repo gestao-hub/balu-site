@@ -1,0 +1,27 @@
+{
+  "name": "Balu — Plataforma para Agências",
+  "short_name": "Balu",
+  "description": "Plataforma única com IA para gestão de agências de marketing. CRM, projetos, financeiro, criação e Squad de IA em loop fechado.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#101729",
+  "theme_color": "#4576FF",
+  "orientation": "portrait-primary",
+  "lang": "pt-BR",
+  "categories": ["business", "productivity", "marketing"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/og-image.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

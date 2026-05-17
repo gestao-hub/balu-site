@@ -8,6 +8,8 @@
   <meta name="keywords" content="software para agência de marketing, CRM para agência, gestão de agência digital, IA para marketing, automação de agência, Balu Agência, plataforma Balu, plataforma única agência" />
   <meta name="author" content="Balu" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#4576FF" />
   <link rel="canonical" href="https://baluhub.com.br/" />
 
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
@@ -16,10 +18,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.bunny.net">
   <link href="https://fonts.bunny.net/css?family=dm-sans:400,500,600&display=swap" rel="stylesheet">
+  <link rel="preload" href="assets/fonts/cal-sans-latin-400.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="assets/styles.css" />
   <link rel="stylesheet" href="assets/agent-balu.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" async></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" async></script>
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
@@ -110,6 +113,7 @@
   </script>
 </head>
 <body>
+<a class="skip-link" href="#main">Pular pra conteúdo</a>
 
 <!-- ============ SVG Glass Distortion Filter (shared) ============ -->
 <svg style="display:none" aria-hidden="true">
@@ -182,7 +186,7 @@
   </div>
 </header>
 
-<main>
+<main id="main">
 
 <!-- ============ HERO ============ -->
 <section class="hero">
@@ -988,39 +992,39 @@
   </div>
   <div class="logos-marquee" aria-hidden="true">
     <div class="logos-marquee-track">
-      <span class="logo-item" title="Supabase"><img src="https://api.iconify.design/logos/supabase.svg" alt="Supabase"></span>
-      <span class="logo-item" title="OpenAI"><img src="https://api.iconify.design/logos/openai.svg" alt="OpenAI"></span>
-      <span class="logo-item" title="Anthropic"><img src="https://api.iconify.design/logos/anthropic.svg" alt="Anthropic"></span>
-      <span class="logo-item" title="Meta"><img src="https://api.iconify.design/logos/meta.svg" alt="Meta"></span>
-      <span class="logo-item" title="WhatsApp"><img src="https://cdn.simpleicons.org/whatsapp/25D366" alt="WhatsApp"></span>
-      <span class="logo-item" title="Google Gemini"><img src="https://api.iconify.design/logos/google-gemini.svg" alt="Google Gemini"></span>
-      <span class="logo-item" title="Google Ads"><img src="https://api.iconify.design/logos/google-ads.svg" alt="Google Ads"></span>
-      <span class="logo-item" title="TikTok Ads"><img src="https://api.iconify.design/logos/tiktok.svg" alt="TikTok"></span>
-      <span class="logo-item" title="Hostinger"><img src="https://cdn.simpleicons.org/hostinger/673DE6" alt="Hostinger"></span>
-      <span class="logo-item" title="Vercel"><img src="https://api.iconify.design/logos/vercel.svg" alt="Vercel"></span>
-      <span class="logo-item" title="Figma"><img src="https://api.iconify.design/logos/figma.svg" alt="Figma"></span>
-      <span class="logo-item" title="Asaas"><img src="https://upload.wikimedia.org/wikipedia/commons/7/77/Logo_Asaas2026.png" alt="Asaas"></span>
-      <span class="logo-item" title="Stripe"><img src="https://api.iconify.design/logos/stripe.svg" alt="Stripe"></span>
-      <span class="logo-item" title="Notion"><img src="https://api.iconify.design/logos/notion.svg" alt="Notion"></span>
-      <span class="logo-item" title="ClickUp"><img src="https://cdn.simpleicons.org/clickup/7B68EE" alt="ClickUp"></span>
-      <span class="logo-item" title="ElevenLabs"><img src="https://cdn.simpleicons.org/elevenlabs/000000" alt="ElevenLabs"></span>
+      <span class="logo-item" title="Supabase"><img src="https://api.iconify.design/logos/supabase.svg" alt="Supabase" loading="lazy" decoding="async"></span>
+      <span class="logo-item" title="OpenAI"><img src="https://api.iconify.design/logos/openai.svg" alt="OpenAI" loading="lazy" decoding="async"></span>
+      <span class="logo-item" title="Anthropic"><img src="https://api.iconify.design/logos/anthropic.svg" alt="Anthropic" loading="lazy" decoding="async"></span>
+      <span class="logo-item" title="Meta"><img src="https://api.iconify.design/logos/meta.svg" alt="Meta" loading="lazy" decoding="async"></span>
+      <span class="logo-item" title="WhatsApp"><img src="https://cdn.simpleicons.org/whatsapp/25D366" alt="WhatsApp" loading="lazy" decoding="async"></span>
+      <span class="logo-item" title="Google Gemini"><img src="https://api.iconify.design/logos/google-gemini.svg" alt="Google Gemini" loading="lazy" decoding="async"></span>
+      <span class="logo-item" title="Google Ads"><img src="https://api.iconify.design/logos/google-ads.svg" alt="Google Ads" loading="lazy" decoding="async"></span>
+      <span class="logo-item" title="TikTok Ads"><img src="https://api.iconify.design/logos/tiktok.svg" alt="TikTok" loading="lazy" decoding="async"></span>
+      <span class="logo-item" title="Hostinger"><img src="https://cdn.simpleicons.org/hostinger/673DE6" alt="Hostinger" loading="lazy" decoding="async"></span>
+      <span class="logo-item" title="Vercel"><img src="https://api.iconify.design/logos/vercel.svg" alt="Vercel" loading="lazy" decoding="async"></span>
+      <span class="logo-item" title="Figma"><img src="https://api.iconify.design/logos/figma.svg" alt="Figma" loading="lazy" decoding="async"></span>
+      <span class="logo-item" title="Asaas"><img src="https://upload.wikimedia.org/wikipedia/commons/7/77/Logo_Asaas2026.png" alt="Asaas" loading="lazy" decoding="async"></span>
+      <span class="logo-item" title="Stripe"><img src="https://api.iconify.design/logos/stripe.svg" alt="Stripe" loading="lazy" decoding="async"></span>
+      <span class="logo-item" title="Notion"><img src="https://api.iconify.design/logos/notion.svg" alt="Notion" loading="lazy" decoding="async"></span>
+      <span class="logo-item" title="ClickUp"><img src="https://cdn.simpleicons.org/clickup/7B68EE" alt="ClickUp" loading="lazy" decoding="async"></span>
+      <span class="logo-item" title="ElevenLabs"><img src="https://cdn.simpleicons.org/elevenlabs/000000" alt="ElevenLabs" loading="lazy" decoding="async"></span>
       <!-- duplicado pra loop infinito -->
-      <span class="logo-item"><img src="https://api.iconify.design/logos/supabase.svg" alt=""></span>
-      <span class="logo-item"><img src="https://api.iconify.design/logos/openai.svg" alt=""></span>
-      <span class="logo-item"><img src="https://api.iconify.design/logos/anthropic.svg" alt=""></span>
-      <span class="logo-item"><img src="https://api.iconify.design/logos/meta.svg" alt=""></span>
-      <span class="logo-item"><img src="https://cdn.simpleicons.org/whatsapp/25D366" alt=""></span>
-      <span class="logo-item"><img src="https://api.iconify.design/logos/google-gemini.svg" alt=""></span>
-      <span class="logo-item"><img src="https://api.iconify.design/logos/google-ads.svg" alt=""></span>
-      <span class="logo-item"><img src="https://api.iconify.design/logos/tiktok.svg" alt=""></span>
-      <span class="logo-item"><img src="https://cdn.simpleicons.org/hostinger/673DE6" alt=""></span>
-      <span class="logo-item"><img src="https://api.iconify.design/logos/vercel.svg" alt=""></span>
-      <span class="logo-item"><img src="https://api.iconify.design/logos/figma.svg" alt=""></span>
-      <span class="logo-item"><img src="https://upload.wikimedia.org/wikipedia/commons/7/77/Logo_Asaas2026.png" alt=""></span>
-      <span class="logo-item"><img src="https://api.iconify.design/logos/stripe.svg" alt=""></span>
-      <span class="logo-item"><img src="https://api.iconify.design/logos/notion.svg" alt=""></span>
-      <span class="logo-item"><img src="https://cdn.simpleicons.org/clickup/7B68EE" alt=""></span>
-      <span class="logo-item"><img src="https://cdn.simpleicons.org/elevenlabs/000000" alt=""></span>
+      <span class="logo-item"><img src="https://api.iconify.design/logos/supabase.svg" alt="" loading="lazy" decoding="async"></span>
+      <span class="logo-item"><img src="https://api.iconify.design/logos/openai.svg" alt="" loading="lazy" decoding="async"></span>
+      <span class="logo-item"><img src="https://api.iconify.design/logos/anthropic.svg" alt="" loading="lazy" decoding="async"></span>
+      <span class="logo-item"><img src="https://api.iconify.design/logos/meta.svg" alt="" loading="lazy" decoding="async"></span>
+      <span class="logo-item"><img src="https://cdn.simpleicons.org/whatsapp/25D366" alt="" loading="lazy" decoding="async"></span>
+      <span class="logo-item"><img src="https://api.iconify.design/logos/google-gemini.svg" alt="" loading="lazy" decoding="async"></span>
+      <span class="logo-item"><img src="https://api.iconify.design/logos/google-ads.svg" alt="" loading="lazy" decoding="async"></span>
+      <span class="logo-item"><img src="https://api.iconify.design/logos/tiktok.svg" alt="" loading="lazy" decoding="async"></span>
+      <span class="logo-item"><img src="https://cdn.simpleicons.org/hostinger/673DE6" alt="" loading="lazy" decoding="async"></span>
+      <span class="logo-item"><img src="https://api.iconify.design/logos/vercel.svg" alt="" loading="lazy" decoding="async"></span>
+      <span class="logo-item"><img src="https://api.iconify.design/logos/figma.svg" alt="" loading="lazy" decoding="async"></span>
+      <span class="logo-item"><img src="https://upload.wikimedia.org/wikipedia/commons/7/77/Logo_Asaas2026.png" alt="" loading="lazy" decoding="async"></span>
+      <span class="logo-item"><img src="https://api.iconify.design/logos/stripe.svg" alt="" loading="lazy" decoding="async"></span>
+      <span class="logo-item"><img src="https://api.iconify.design/logos/notion.svg" alt="" loading="lazy" decoding="async"></span>
+      <span class="logo-item"><img src="https://cdn.simpleicons.org/clickup/7B68EE" alt="" loading="lazy" decoding="async"></span>
+      <span class="logo-item"><img src="https://cdn.simpleicons.org/elevenlabs/000000" alt="" loading="lazy" decoding="async"></span>
     </div>
   </div>
 </section>

@@ -300,8 +300,8 @@ section.theme-light {
   --border-strong: rgba(15, 19, 32, 0.16);
   --text: #101729;
   --text-2: #3D4760;
-  --text-3: #6F7991;
-  --muted: #9CA3B5;
+  --text-3: #5A6479; /* WCAG AA */
+  --muted: #6F7991;
   --accent-deep: #1E4FCC;
   --shadow-glass:
     0 4px 16px rgba(15, 19, 32, 0.06),
@@ -326,8 +326,8 @@ section.theme-light-alt {
   --border-strong: rgba(15, 19, 32, 0.16);
   --text: #101729;
   --text-2: #3D4760;
-  --text-3: #6F7991;
-  --muted: #9CA3B5;
+  --text-3: #5A6479; /* WCAG AA */
+  --muted: #6F7991;
   --accent-deep: #1E4FCC;
   --shadow-glass:
     0 4px 16px rgba(15, 19, 32, 0.06),
@@ -3640,4 +3640,26 @@ section.theme-light-alt .trust-badge { color: #475569; }
 @media (max-width: 600px) {
   .trust-badges { gap: 12px 18px; }
   .trust-badge { font-size: 12px; }
+}
+
+/* ============ Skip-to-content link (a11y) ============ */
+.skip-link {
+  position: absolute;
+  top: -100px; left: 16px;
+  z-index: 99999;
+  background: var(--accent);
+  color: white;
+  padding: 14px 22px;
+  border-radius: 12px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  transition: top 0.3s var(--ease-spring);
+  box-shadow: 0 8px 24px rgba(69,118,255,0.45);
+}
+.skip-link:focus, .skip-link:focus-visible {
+  top: 16px;
+  outline: 2px solid white;
+  outline-offset: 2px;
 }
