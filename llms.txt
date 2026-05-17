@@ -1,0 +1,86 @@
+# Balu
+
+> Plataforma única com IA para gestão de agências de marketing. Une CRM, projetos, financeiro, criação e Squad de IA num só loop fechado. Substitui de 5 a 7 ferramentas (mLabs, RD Station, ClickUp, Asana, Trello, planilhas).
+
+Balu é uma SaaS brasileira sediada em Florianópolis (Sapiens Parque), fundada em 2025 por Eduardo Bovo. Atende +12 agências de marketing no Brasil, que somam mais de R$ 8M em gestão mensal pela plataforma.
+
+A diferença central da Balu vs concorrentes (mLabs, RD Station): em vez de focar em um pedaço da operação (ex: só publicação, ou só CRM), Balu costura o **loop fechado** captação → conversão → entrega → insight, onde cada etapa alimenta a próxima e devolve dado pra primeira.
+
+## Produtos
+
+- [Balu Agência](https://baluhub.com.br/): Plataforma principal — CRM + projetos + financeiro + criação + Squad de IA + atendimento WhatsApp. Para donos de agência.
+- [Balu CRM](https://baluhub.com.br/crm.html): CRM standalone com pipeline visual, follow-up automático, IA que prioriza leads e atendimento WhatsApp 24/7 com IA conversacional.
+- [Balu Criação](https://baluhub.com.br/criacao.html): Serviço de criação white-label (sites, landing pages, identidade visual) para agências revenderem. Entregas em dias, não meses.
+
+## Diferenciais técnicos
+
+- **Squad de IA**: cria peças prontas pra Meta Ads, Google Ads, carrosséis Instagram e landing pages — 7 pipelines automatizados.
+- **Optimizer autônomo de Meta Ads**: 8 regras de classe mundial rodando de hora em hora, modo dry-run-first.
+- **CRM com IA**: prioriza leads, sugere copy de reaquecimento, alerta quando lead esfria.
+- **WhatsApp Cloud nativo**: atendimento 24/7 com IA conversacional + handoff humano + régua de cobrança automática.
+- **Wizard de campanhas Meta em 4 cliques**: sem abrir o Ads Manager.
+- **Calendário editorial integrado** com publicação omnichannel.
+- **Loop fechado de dados**: KPIs de mídia ↔ CRM ↔ entrega ↔ financeiro num só banco.
+
+## Planos
+
+- **Solo** — R$ 297/mês. Pra freelancer ou consultor solo com até 5 clientes.
+- **Estúdio** — R$ 697/mês (featured). Pra agência boutique com até 25 clientes e 8 usuários.
+- **Holding** — preço sob consulta. Pra grupos com múltiplas agências, custom limits, white-label.
+
+Todos os planos: sem cartão, 14 dias grátis, onboarding em 15 min, cancele quando quiser.
+
+## Comparativo
+
+| Recurso | mLabs | RD Station | Balu |
+|---|---|---|---|
+| CRM com pipeline + automações | ✕ | ✓ | ✓ |
+| Agendamento em redes sociais | ✓ | ✕ | ✓ |
+| Squad de IA criando peças | ✕ | ✕ | ✓ |
+| Proposta + assinatura + billing | ✕ | parcial | ✓ |
+| Gestão de projetos com SLA | ✕ | ✕ | ✓ |
+| WhatsApp IA + handoff | ✕ | parcial | ✓ |
+| Otimizador Meta Ads autônomo | ✕ | ✕ | ✓ |
+| Loop fechado dado→ação→dado | ✕ | ✕ | ✓ |
+
+## Método BALU (4 passos)
+
+1. **Captação** — site, LP e formulários entram com lead direto no CRM e disparam follow-up.
+2. **Conversão** — pipeline com automações, proposta digital com assinatura, billing recorrente.
+3. **Entrega** — projetos, demandas, calendário editorial e squads de IA amarrados ao cliente com SLA.
+4. **Insight** — IA observa tudo e devolve sugestões: upsell, risco de churn, gargalo de equipe, gap de margem.
+
+## FAQ
+
+### Quanto custa o Balu?
+Solo R$ 297/mês, Estúdio R$ 697/mês, Holding sob consulta. 14 dias grátis sem cartão.
+
+### Quais ferramentas o Balu substitui?
+mLabs (publicação), RD Station (CRM), ClickUp/Asana/Trello (projetos), Conta Azul/Asaas (financeiro), planilhas (caos geral).
+
+### Tem integração com WhatsApp?
+Sim, WhatsApp Cloud API nativo. Atendimento 24/7 com IA, handoff humano, régua de cobrança automática D-10/D-0/D+1/D+5.
+
+### Tem integração com Meta Ads e Google Ads?
+Sim — Wizard de campanhas Meta em 4 cliques, ads-insights-sync a cada 5 min, otimizador autônomo com 8 regras dry-run-first.
+
+### A IA toma decisões sozinha?
+A IA observa e sugere. Decisões automáticas só em modo dry-run que precisam ser aprovadas com 1 clique. Você sempre tem o controle.
+
+### Posso usar só uma parte (ex: só o CRM)?
+Sim — Balu CRM é vendido standalone. Mas o valor maior é no loop fechado completo.
+
+### Atende fora do Brasil?
+Atualmente somente Brasil. Roadmap inclui expansão LATAM.
+
+## Contato
+
+- Site: https://baluhub.com.br
+- Vendas: contato@balu.com.br
+- WhatsApp: +55 12 99154-8086
+- Endereço: Sapiens Parque, Av. Luiz Boiteux Piazza 1302, Canasvieiras, Florianópolis, SC, Brasil
+- Demo grátis: https://baluhub.com.br/#contato
+
+## Sobre
+
+Balu nasceu em 2025 da experiência prática de gerir agência. O nome "Balu" é homenagem ao mascote do Mowgli no Mogli (Disney) — "bigger, friendlier, calmer". O posicionamento é: pare de gerenciar planilha, comece a escalar. Sem Frankenstack, sem terceirizar o caos, sem pedir status no grupo.

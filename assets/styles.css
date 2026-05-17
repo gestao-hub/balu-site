@@ -611,7 +611,7 @@ section.theme-light-alt .work-preview .live-badge {
   min-width: 280px;
   padding: 8px;
   border-radius: 18px;
-  display: flex;
+  display: none;             /* MEL-3: não polui DOM quando fechado */
   flex-direction: column;
   gap: 4px;
   z-index: 9999;
@@ -622,6 +622,7 @@ section.theme-light-alt .work-preview .live-badge {
               transform 0.42s cubic-bezier(0.175, 0.885, 0.32, 1.4);
 }
 .login-menu[data-open="true"] {
+  display: flex;
   opacity: 1;
   transform: translateY(0) scale(1);
   pointer-events: auto;
@@ -3563,4 +3564,80 @@ input.wa-input-field::placeholder { color: var(--text-3); }
   .map-pill-trigger,
   .map-pill-expanded,
   .map-pill-status .dot { transition: none; animation: none; }
+}
+
+/* ============ FAQ section (GEO + UX) ============ */
+.faq-list { display: flex; flex-direction: column; gap: 12px; margin-top: 28px; }
+.faq-item {
+  background: linear-gradient(145deg,
+    color-mix(in oklch, white 6%, transparent),
+    color-mix(in oklch, white 1%, transparent));
+  border: 1px solid color-mix(in oklch, white 12%, transparent);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: border-color 0.4s var(--ease-spring), background 0.4s var(--ease-spring);
+}
+section.theme-light .faq-item,
+section.theme-light-alt .faq-item {
+  background: rgba(255,255,255,0.65);
+  border-color: rgba(15,19,32,0.08);
+}
+.faq-item[open] { border-color: color-mix(in oklch, var(--accent) 30%, transparent); }
+section.theme-light .faq-item[open],
+section.theme-light-alt .faq-item[open] { border-color: rgba(69,118,255,0.30); background: white; }
+.faq-item summary {
+  padding: 18px 22px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  user-select: none;
+  letter-spacing: -0.01em;
+}
+section.theme-light .faq-item summary,
+section.theme-light-alt .faq-item summary { color: #101729; }
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  content: "+";
+  font-size: 22px; font-weight: 400;
+  color: var(--accent-2);
+  transition: transform 0.4s var(--ease-spring);
+  flex-shrink: 0;
+}
+.faq-item[open] summary::after { transform: rotate(45deg); }
+.faq-item p {
+  padding: 0 22px 20px;
+  font-size: 14.5px; line-height: 1.6; color: var(--text-2);
+  margin: 0;
+}
+section.theme-light .faq-item p,
+section.theme-light-alt .faq-item p { color: #4B5468; }
+.faq-item p a { color: var(--accent-2); text-decoration: underline; }
+
+/* ============ Trust badges (pricing) ============ */
+.trust-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px 24px;
+  margin: -8px 0 28px;
+}
+.trust-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: var(--text-2);
+  font-family: var(--font-sans);
+  font-weight: 500;
+}
+.trust-badge svg { color: #7DD8B7; }
+section.theme-light .trust-badge,
+section.theme-light-alt .trust-badge { color: #475569; }
+@media (max-width: 600px) {
+  .trust-badges { gap: 12px 18px; }
+  .trust-badge { font-size: 12px; }
 }
