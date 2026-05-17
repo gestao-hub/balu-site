@@ -646,3 +646,166 @@
   .balu-msg { animation: none !important; }
   .balu-widget-trigger:hover { transform: scale(1.05); }
 }
+
+/* ============ Refinamentos UX widget (streaming, quick replies, copy, etc) ============ */
+
+/* Wrap p/ mensagem + botão copiar */
+.balu-msg-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  max-width: 82%;
+}
+.balu-msg-wrap.user { align-self: flex-end; align-items: flex-end; }
+.balu-msg-wrap.agent { align-self: flex-start; }
+.balu-msg-wrap .balu-msg { max-width: 100%; }
+
+/* Botão copiar (aparece on hover) */
+.balu-msg-copy {
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 4px 8px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  color: #8E97AE;
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.2s cubic-bezier(0.16,1,0.3,1);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+}
+.balu-msg-wrap:hover .balu-msg-copy { opacity: 1; }
+.balu-msg-copy:hover { background: rgba(255,255,255,0.08); color: #fff; }
+.balu-msg-copy.copied { background: rgba(125,216,183,0.20); color: #7DD8B7; border-color: rgba(125,216,183,0.30); }
+.balu-msg-copy.copied::after { content: " Copiado"; }
+
+/* Markdown headings inline */
+.balu-msg.agent h3.balu-md-h1,
+.balu-msg.agent h4.balu-md-h2,
+.balu-msg.agent h5.balu-md-h3,
+.balu-msg.agent h6.balu-md-h4 {
+  font-family: inherit;
+  font-weight: 700;
+  color: #fff;
+  margin: 8px 0 4px;
+  line-height: 1.25;
+}
+.balu-msg.agent .balu-md-h1 { font-size: 1.15em; }
+.balu-msg.agent .balu-md-h2 { font-size: 1.05em; }
+.balu-msg.agent .balu-md-h3 { font-size: 1em; color: #DCE3F0; }
+.balu-msg.agent .balu-md-h4 { font-size: 0.95em; color: #C8CFDD; }
+
+/* Links nas respostas */
+.balu-msg.agent a {
+  color: #6B8FFF;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+.balu-msg.agent a:hover { color: #8DABFF; text-decoration-thickness: 2px; }
+
+/* Typing label "Balu está digitando…" */
+.balu-typing {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  align-self: flex-start;
+  color: #8E97AE;
+  font-size: 12px;
+}
+.balu-typing-dots {
+  display: inline-flex;
+  gap: 3px;
+}
+.balu-typing-dots span {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #6B8FFF;
+  animation: balu-typing-bounce 1.2s ease-in-out infinite;
+}
+.balu-typing-dots span:nth-child(2) { animation-delay: 0.15s; }
+.balu-typing-dots span:nth-child(3) { animation-delay: 0.30s; }
+.balu-typing-label { font-style: italic; opacity: 0.8; }
+
+/* Quick replies (chips clicáveis após resposta do agent) */
+.balu-quick-replies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 4px 0 4px 0;
+  align-self: flex-start;
+  max-width: 100%;
+  animation: balu-qr-in 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+@keyframes balu-qr-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.balu-quick-reply {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 12px;
+  background: linear-gradient(145deg, rgba(69,118,255,0.15), rgba(69,118,255,0.06));
+  border: 1px solid rgba(107,143,255,0.30);
+  color: #B8C5DE;
+  font-size: 12.5px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16,1,0.3,1);
+  font-family: inherit;
+  font-weight: 500;
+}
+.balu-quick-reply:hover {
+  background: linear-gradient(145deg, rgba(69,118,255,0.25), rgba(69,118,255,0.12));
+  border-color: rgba(107,143,255,0.50);
+  color: #fff;
+  transform: translateY(-1px);
+}
+.balu-quick-reply:active { transform: translateY(0); }
+.balu-quick-reply-icon { font-size: 13px; }
+
+/* Banner "continuar conversa anterior" */
+.balu-continue-banner {
+  align-self: stretch;
+  margin: 0 0 8px;
+  padding: 10px 14px;
+  background: rgba(125,216,183,0.08);
+  border: 1px solid rgba(125,216,183,0.20);
+  border-radius: 12px;
+  font-size: 12px;
+  color: #C8CFDD;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.balu-continue-reset {
+  background: transparent;
+  border: none;
+  color: #7DD8B7;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: inherit;
+  padding: 0;
+}
+.balu-continue-reset:hover { color: #A2E5C9; }
+
+/* Header status off-hours visual */
+.balu-panel-head-info .status.off-hours { color: #FFB36B; }
+.balu-panel-head-info .status.off-hours::before {
+  content: "";
+  display: inline-block;
+  width: 6px; height: 6px;
+  background: #FFB36B;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+}

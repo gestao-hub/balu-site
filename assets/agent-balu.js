@@ -8,11 +8,10 @@
   "use strict";
 
   const CFG = {
-    // Endpoint guarded (4 gaps: origin, rate limit por visitor, anti-injection server-side, output guard)
     BACKEND_URL: "https://envsirumquqpmkcayncr.supabase.co/functions/v1/public-chat-guarded",
     SUPABASE_ANON: "sb_publishable_g6WyB24Jy7DsL1bELPEGtQ__R_oBN7E",
-    // Widget "Balu LP Widget" criado em chat_widgets — vinculado ao agente "Balu LP"
     WIDGET_ID: "fc065444-c2d2-40ed-85c6-9ee63b8a15ff",
+    WHATSAPP: "5512991548086",
     SCROLL_TRIGGER_PCT: 0.30,
     SESSION_TTL_MS: 7 * 24 * 60 * 60 * 1000,
     MAX_INPUT_LEN: 1500,
@@ -20,7 +19,37 @@
     STORAGE_KEY_LEAD: "balu_widget_lead_v2",
     STORAGE_KEY_MSGS: "balu_widget_msgs_v2",
     GREETING: "Oi! Sou o Balu 🤝 Posso te explicar como a plataforma funciona, te ajudar a escolher o plano certo e chamar um atendente quando você quiser. Por onde começamos?",
+    // Quick replies sugeridos depois do greeting + após cada resposta sem chip ativo
+    QUICK_REPLIES: [
+      { text: "Quanto custa?", icon: "💸" },
+      { text: "Quero ver demo", icon: "🎬" },
+      { text: "Como funciona o WhatsApp com IA?", icon: "💬" },
+      { text: "Falar com humano", icon: "👋", action: "handoff" },
+    ],
+    // Trigger contextual: se #planos fica visível >X ms sem widget aberto, abre proativo
+    CONTEXTUAL_TRIGGER_SECTION: "#planos",
+    CONTEXTUAL_TRIGGER_MS: 60_000,
+    // Qualificação progressiva após N trocas user
+    QUALIFY_AFTER_TURNS: 4,
+    // Horário comercial (SP timezone, hora local 9-19h)
+    OFFICE_HOURS: { start: 9, end: 19 },
   };
+
+  // Intenções que disparam handoff direto pro WhatsApp
+  const HANDOFF_PATTERNS = [
+    /\b(quero\s+falar\s+com|me\s+passa\s+pra|chama\s+um|chama\s+o)\s+(humano|pessoa|atendente|gente|alguém|alguem|vendedor|consultor)\b/i,
+    /\b(quero\s+humano|atendente\s+humano|fala(r)?\s+com\s+(humano|pessoa))\b/i,
+    /\bnão\s+quero\s+(ia|robô|robo|bot)\b/i,
+    /\bwhatsapp\b/i,
+  ];
+  // Intenções que disparam tag CRM (registro de interesse)
+  const INTENT_TAGS = [
+    { re: /\b(enterprise|holding|cust(om|omiza)|whitelabel|white\s*label)\b/i, tag: "interesse-enterprise" },
+    { re: /\b(estúdio|estudio|plano\s*pro|697)\b/i, tag: "interesse-estudio" },
+    { re: /\b(solo|freelance|consultor|297)\b/i, tag: "interesse-solo" },
+    { re: /\b(integraç|integrac|api|webhook)\b/i, tag: "interesse-integracao" },
+    { re: /\b(migra(r|ção|cao)|mlabs|rd\s*station|pipedrive|hubspot)\b/i, tag: "interesse-migracao" },
+  ];
 
   async function callPublicChat({ message, visitorId, sessionId }) {
     const resp = await fetch(CFG.BACKEND_URL, {
@@ -191,9 +220,18 @@
   ]);
   const panel = el("div", { class: "balu-widget-panel", role: "dialog", "aria-label": "Chat com Balu" });
   const headerAvatar = el("div", { class: "balu-panel-avatar" }, [svg("0 0 24 24", ICON_BOT)]);
+  const headerStatusText = el("div", { class: "status" });
+  function refreshHeaderStatus() {
+    headerStatusText.textContent = isOfficeHours()
+      ? "Online · responde em segundos"
+      : nextOfficeHour();
+    headerStatusText.classList.toggle("off-hours", !isOfficeHours());
+  }
+  refreshHeaderStatus();
+  setInterval(refreshHeaderStatus, 60_000);
   const headerInfo = el("div", { class: "balu-panel-head-info" }, [
     el("div", { class: "name", text: "Balu · Agente da Balu" }),
-    el("div", { class: "status", text: "Online · responde em segundos" }),
+    headerStatusText,
   ]);
   const headerClose = el("button", { class: "balu-panel-close", type: "button", "aria-label": "Fechar chat" }, [
     svg("0 0 14 14", ICON_X_SMALL),
@@ -226,11 +264,73 @@
   }, { passive: true });
   checkScrollTrigger();
 
+  // ---------- Trigger contextual (item 9) — se #planos fica visível >60s, abre proativo ----------
+  function setupContextualTrigger() {
+    const target = document.querySelector(CFG.CONTEXTUAL_TRIGGER_SECTION);
+    if (!target || !("IntersectionObserver" in window)) return;
+    let timer = null;
+    let triggered = false;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting && !triggered && !state.isOpen) {
+          timer = setTimeout(() => {
+            triggered = true;
+            if (!state.isOpen && state.isVisible) {
+              // Trigger contextual: abre widget proativo
+              const hint = root.querySelector(".balu-widget-hint");
+              if (hint) hint.textContent = "Posso te ajudar a escolher o plano? 🎯";
+              triggerBtn.click();
+            }
+          }, CFG.CONTEXTUAL_TRIGGER_MS);
+        } else if (timer) {
+          clearTimeout(timer);
+          timer = null;
+        }
+      });
+    }, { threshold: 0.4 });
+    observer.observe(target);
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupContextualTrigger);
+  } else {
+    setupContextualTrigger();
+  }
+
+  // ---------- Pre-warm backend (item 14) — request silent quando gate abrir ----------
+  let prewarmed = false;
+  function prewarmBackend() {
+    if (prewarmed) return;
+    prewarmed = true;
+    try {
+      // OPTIONS sem dados pra esquentar edge function cold start
+      fetch(CFG.BACKEND_URL, { method: "OPTIONS" }).catch(() => {});
+    } catch (_) { /* ignore */ }
+  }
+
+  // ---------- Status horário comercial (item 17) ----------
+  function isOfficeHours() {
+    const h = new Date().getHours();
+    return h >= CFG.OFFICE_HOURS.start && h < CFG.OFFICE_HOURS.end;
+  }
+  function nextOfficeHour() {
+    const now = new Date();
+    const h = now.getHours();
+    if (h < CFG.OFFICE_HOURS.start) {
+      return `Atendentes humanos voltam em ${CFG.OFFICE_HOURS.start - h}h`;
+    }
+    // After hours: tomorrow morning
+    const hoursToTomorrow = 24 - h + CFG.OFFICE_HOURS.start;
+    return `Atendentes humanos voltam às ${CFG.OFFICE_HOURS.start}h (em ~${hoursToTomorrow}h)`;
+  }
+
   // ---------- Open/close ----------
   function open() {
     state.isOpen = true;
     root.classList.add("open");
+    prewarmBackend(); // pre-warm edge function (item 14)
     renderBody();
+    // Foco automático no input após render (item 5)
+    setTimeout(focusInput, 100);
   }
   function close() {
     state.isOpen = false;
@@ -364,7 +464,25 @@
   // ---------- Chat ----------
   function renderChat() {
     bodyEl.textContent = "";
-    const messagesList = el("div", { class: "balu-messages" });
+    const messagesList = el("div", { class: "balu-messages", role: "log", "aria-live": "polite", "aria-atomic": "false", "aria-relevant": "additions" });
+    // Continuar conversa anterior (item 8): se >5 msgs prévias, mostra aviso reset
+    if (state.messages.length > 5 && !state.shownContinueBanner) {
+      state.shownContinueBanner = true;
+      const banner = el("div", { class: "balu-continue-banner" }, [
+        el("span", { text: "👋 De volta? Continue a conversa ou " }),
+        el("button", { class: "balu-continue-reset", type: "button", text: "comece do zero" }),
+      ]);
+      banner.querySelector(".balu-continue-reset").addEventListener("click", () => {
+        state.messages = [{
+          role: "agent",
+          content: CFG.GREETING.replace("Oi!", `Oi, ${state.lead.name.split(" ")[0]}!`),
+          ts: Date.now(),
+        }];
+        storageSet(CFG.STORAGE_KEY_MSGS, state.messages);
+        renderChat();
+      });
+      messagesList.appendChild(banner);
+    }
     const inputArea = el("div", { class: "balu-input-area" });
     const inputWrap = el("div", { class: "balu-input-wrap" });
     const input = el("textarea", {
@@ -417,9 +535,16 @@
       const text = sanitizeInput(input.value);
       if (!text) return;
 
+      // Auto-handoff (item 3): se intent de "falar com humano" detectada, pula IA
+      if (HANDOFF_PATTERNS.some(re => re.test(text))) {
+        input.value = "";
+        input.dispatchEvent(new Event("input"));
+        return doHandoff(text);
+      }
+
       if (looksInjectionAttempt(text)) {
         appendMsg("user", text);
-        appendMsg("agent", "Vou continuar focado na Balu, beleza? 🙂 Como posso te ajudar com a plataforma?");
+        appendMsg("agent", "Vou continuar focado na Balu, beleza? 🙂 Como posso te ajudar com a plataforma?", { stream: true });
         input.value = "";
         input.dispatchEvent(new Event("input"));
         return;
@@ -433,18 +558,30 @@
       sendBtn.disabled = true;
       showTyping();
       root.classList.add("speaking");
+      // Remove quick replies enquanto envia
+      const oldQR = bodyEl.querySelector(".balu-quick-replies");
+      if (oldQR) oldQR.remove();
+
+      // Intent tags (item 10): prefixa msg com [TAGS:...] pra backend logar no lead
+      const tags = detectIntentTags(text);
+      const enrichedText = tags.length ? `[INTENT:${tags.join(",")}] ${text}` : text;
 
       try {
-        const resp = await callPublicChat({
-          message: text,
-          visitorId: state.lead.visitorId,
-          sessionId: state.lead.sessionId,
-        });
+        // Retry automático 1x em falha de rede (item 15)
+        const fetchWithRetry = async () => {
+          try {
+            return await callPublicChat({ message: enrichedText, visitorId: state.lead.visitorId, sessionId: state.lead.sessionId });
+          } catch (err) {
+            await new Promise(r => setTimeout(r, 800));
+            return await callPublicChat({ message: enrichedText, visitorId: state.lead.visitorId, sessionId: state.lead.sessionId });
+          }
+        };
+        const resp = await fetchWithRetry();
         const data = await readChatReply(resp);
         if (!data.ok && resp.status === 429) {
-          appendMsg("agent", "Calma aí, tô recebendo muitas mensagens 🙏 Dá 1 minutinho e me chama de novo.");
+          appendMsg("agent", "Calma aí, tô recebendo muitas mensagens 🙏 Dá 1 minutinho e me chama de novo.", { stream: true });
         } else if (!data.ok && resp.status === 403) {
-          appendMsg("agent", "Esse canal não tá autorizado por aqui. Se quiser, manda no WhatsApp que um atendente responde rapidinho.");
+          appendMsg("agent", "Esse canal não tá autorizado por aqui. Se quiser, manda no WhatsApp que um atendente responde rapidinho.", { stream: true });
         } else if (!data.ok) {
           throw new Error(`HTTP ${resp.status}`);
         } else {
@@ -452,12 +589,17 @@
             state.lead.sessionId = data.sessionId;
             storageSet(CFG.STORAGE_KEY_LEAD, state.lead);
           }
-          appendMsg("agent", data.reply || "Hmm, deixa eu pensar… pode reformular?");
+          appendMsg("agent", data.reply || "Hmm, deixa eu pensar… pode reformular?", { stream: true });
+          // Title notification (item 16): se aba sem foco, mostra contador
+          notifyTabIfBackground();
+          // Qualificação progressiva (item 11): após N trocas
+          maybeQualify();
         }
       } catch (err) {
         console.warn("[balu-agent] send falhou:", err);
         appendMsg("agent",
-          "Tô com instabilidade rápida aqui 😬 Pode tentar de novo? Se continuar travado, um atendente te chama no WhatsApp em 1h pelos dados que você deixou."
+          "Tô com instabilidade rápida aqui 😬 Pode tentar de novo? Se continuar travado, um atendente te chama no WhatsApp em 1h pelos dados que você deixou.",
+          { stream: true }
         );
       } finally {
         hideTyping();
@@ -468,15 +610,66 @@
     }
   }
 
+  // ---------- Title aba (item 16) — notifica quando aba está em background ----------
+  let unreadCount = 0;
+  const originalTitle = typeof document !== "undefined" ? document.title : "";
+  function notifyTabIfBackground() {
+    if (typeof document === "undefined") return;
+    if (!document.hidden) return;
+    unreadCount++;
+    document.title = `(${unreadCount}) Balu respondeu · ${originalTitle}`;
+  }
+  if (typeof document !== "undefined") {
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden && unreadCount > 0) {
+        unreadCount = 0;
+        document.title = originalTitle;
+      }
+    });
+  }
+
+  // ---------- Qualificação progressiva (item 11) ----------
+  function maybeQualify() {
+    if (state.qualified) return;
+    const userMsgs = state.messages.filter(m => m.role === "user").length;
+    if (userMsgs < CFG.QUALIFY_AFTER_TURNS) return;
+    state.qualified = true; // só pergunta 1 vez por sessão
+    setTimeout(() => {
+      appendMsg("agent",
+        "Antes de continuar, posso te perguntar duas coisas pra te ajudar melhor?\n\n" +
+        "1. **Tamanho da agência?** (Solo, 5-10 clientes, 10-25, 25+)\n" +
+        "2. **Maior dor hoje?** (CRM, mídia, criação, financeiro, gestão)\n\n" +
+        "Pode responder em texto livre — só me dá um contexto.",
+        { stream: true }
+      );
+    }, 1200);
+  }
+
   // ---------- Mini markdown renderer XSS-safe (DOM methods, nunca innerHTML) ----------
+  function isSafeUrl(url) {
+    return /^(https?:\/\/|mailto:|tel:|\/)/.test(url);
+  }
   function renderInlineMd(parent, text) {
-    const re = /(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`)/g;
+    // Ordem importa: links primeiro (mais específico), depois bold, italic, code
+    const re = /(\[[^\]]+\]\((?:https?:\/\/|mailto:|tel:|\/)[^)\s]+\)|\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`)/g;
     let lastIdx = 0;
     for (const match of text.matchAll(re)) {
       const idx = match.index;
       const token = match[0];
       if (idx > lastIdx) parent.appendChild(document.createTextNode(text.slice(lastIdx, idx)));
-      if (token.startsWith("**") && token.endsWith("**")) {
+      if (token.startsWith("[")) {
+        const linkMatch = token.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+        if (linkMatch && isSafeUrl(linkMatch[2])) {
+          const a = document.createElement("a");
+          a.href = linkMatch[2];
+          a.textContent = linkMatch[1];
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+          parent.appendChild(a);
+        } else {
+          parent.appendChild(document.createTextNode(token));
+        }
+      } else if (token.startsWith("**") && token.endsWith("**")) {
         const s = document.createElement("strong");
         s.textContent = token.slice(2, -2);
         parent.appendChild(s);
@@ -502,6 +695,17 @@
     let i = 0;
     while (i < lines.length) {
       const trimmed = lines[i].trim();
+      // Headings ###, ##, # (limit a h4 visualmente)
+      const headingMatch = trimmed.match(/^(#{1,4})\s+(.+)$/);
+      if (headingMatch) {
+        const level = Math.min(4, headingMatch[1].length);
+        const h = document.createElement("h" + (level + 2 > 6 ? 6 : level + 2));
+        h.className = "balu-md-h" + level;
+        renderInlineMd(h, headingMatch[2]);
+        container.appendChild(h);
+        i++;
+        continue;
+      }
       if (/^[-*•]\s+/.test(trimmed)) {
         const ul = document.createElement("ul");
         while (i < lines.length && /^[-*•]\s+/.test(lines[i].trim())) {
@@ -541,22 +745,82 @@
 
   // ---------- Mensagens (XSS-safe via DOM methods, nunca innerHTML com conteúdo) ----------
   function messageEl(m) {
+    const wrap = el("div", { class: "balu-msg-wrap " + m.role });
     const div = el("div", { class: "balu-msg " + m.role });
     if (m.role === "agent") {
       renderMarkdown(div, m.content);
+      // Botão copiar (item 7) — só agent
+      const copyBtn = el("button", {
+        class: "balu-msg-copy",
+        type: "button",
+        title: "Copiar resposta",
+        "aria-label": "Copiar resposta",
+      });
+      copyBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="3" y="3" width="8" height="9" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M5 3V1.5h7.5V11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>';
+      copyBtn.addEventListener("click", () => {
+        try { navigator.clipboard.writeText(String(m.content || "")); } catch(_) {}
+        copyBtn.classList.add("copied");
+        copyBtn.title = "Copiado!";
+        setTimeout(() => { copyBtn.classList.remove("copied"); copyBtn.title = "Copiar resposta"; }, 1500);
+      });
+      wrap.appendChild(div);
+      wrap.appendChild(copyBtn);
     } else {
       div.textContent = String(m.content || "");
+      wrap.appendChild(div);
     }
-    return div;
+    return wrap;
   }
-  function appendMsg(role, content) {
+  function appendMsg(role, content, opts = {}) {
     const msg = { role, content, ts: Date.now() };
     state.messages.push(msg);
     storageSet(CFG.STORAGE_KEY_MSGS, state.messages.slice(-50));
     const list = bodyEl.querySelector(".balu-messages");
     if (list) {
-      list.appendChild(messageEl(msg));
-      scrollToBottom();
+      const node = messageEl(msg);
+      // Streaming simulado (item 1): revela palavra por palavra agent msgs
+      if (role === "agent" && opts.stream && content) {
+        const div = node.querySelector(".balu-msg");
+        const fullText = String(content);
+        div.textContent = "";
+        list.appendChild(node);
+        scrollToBottom();
+        streamText(div, fullText).then(() => {
+          // Re-render markdown final + adicionar quick replies + intent tag
+          renderMarkdown(div, fullText);
+          maybeAddQuickReplies(list);
+          focusInput();
+        });
+      } else {
+        list.appendChild(node);
+        scrollToBottom();
+        if (role === "agent") {
+          maybeAddQuickReplies(list);
+          focusInput();
+        }
+      }
+    }
+  }
+  // Streaming simulado por chunks de palavras (não bloqueia segurança do output guard
+  // que rodou no backend antes da resposta voltar)
+  function streamText(node, text) {
+    return new Promise((resolve) => {
+      const words = text.split(/(\s+)/); // mantém espaços
+      let i = 0;
+      const step = () => {
+        if (i >= words.length) return resolve();
+        node.textContent += words[i++];
+        scrollToBottom();
+        const delay = Math.random() * 22 + 18; // 18-40ms — natural mas rápido
+        setTimeout(step, delay);
+      };
+      step();
+    });
+  }
+  function focusInput() {
+    const inp = bodyEl.querySelector(".balu-input");
+    if (inp && document.activeElement !== inp && state.isOpen) {
+      try { inp.focus({ preventScroll: true }); } catch(_) {}
     }
   }
   function scrollToBottom() {
@@ -567,10 +831,58 @@
     const list = bodyEl.querySelector(".balu-messages");
     if (!list || list.querySelector(".balu-typing")) return;
     const t = el("div", { class: "balu-typing" }, [
-      el("span"), el("span"), el("span"),
+      el("div", { class: "balu-typing-dots" }, [el("span"), el("span"), el("span")]),
+      el("span", { class: "balu-typing-label", text: "Balu está digitando…" }),
     ]);
     list.appendChild(t);
     scrollToBottom();
+  }
+
+  // Quick replies (item 2) — sugestões clicáveis após resposta do agent
+  function maybeAddQuickReplies(list) {
+    const old = list.querySelector(".balu-quick-replies");
+    if (old) old.remove();
+    if (state.isSending) return;
+    const wrap = el("div", { class: "balu-quick-replies", role: "group", "aria-label": "Sugestões" });
+    CFG.QUICK_REPLIES.forEach((q) => {
+      const b = el("button", { class: "balu-quick-reply", type: "button" });
+      if (q.icon) {
+        const ic = document.createElement("span");
+        ic.className = "balu-quick-reply-icon";
+        ic.textContent = q.icon;
+        b.appendChild(ic);
+      }
+      b.appendChild(document.createTextNode(q.text));
+      b.addEventListener("click", () => {
+        if (q.action === "handoff") return doHandoff("Quero falar com humano");
+        const inp = bodyEl.querySelector(".balu-input");
+        if (inp) {
+          inp.value = q.text;
+          inp.dispatchEvent(new Event("input"));
+          // dispara send automaticamente
+          const sendBtn = bodyEl.querySelector(".balu-send");
+          if (sendBtn) sendBtn.click();
+        }
+      });
+      wrap.appendChild(b);
+    });
+    list.appendChild(wrap);
+    scrollToBottom();
+  }
+
+  // Handoff direto pro WhatsApp (item 3)
+  function doHandoff(userMsg) {
+    appendMsg("user", userMsg);
+    appendMsg("agent", "Beleza! Te encaminho pro WhatsApp agora. Um atendente humano vai continuar daqui 🤝");
+    const ctx = `Lead vindo do chat IA da LP (${state.lead?.name || "anônimo"}). Última mensagem: "${userMsg}".`;
+    const url = `https://wa.me/${CFG.WHATSAPP}?text=${encodeURIComponent(ctx)}`;
+    setTimeout(() => { window.open(url, "_blank", "noopener"); }, 800);
+  }
+  // Detecta tags de intenção pra anexar à mensagem que vai pro backend
+  function detectIntentTags(text) {
+    const tags = [];
+    INTENT_TAGS.forEach(t => { if (t.re.test(text)) tags.push(t.tag); });
+    return tags;
   }
   function hideTyping() {
     const t = bodyEl.querySelector(".balu-typing");
