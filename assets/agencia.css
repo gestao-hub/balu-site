@@ -171,3 +171,20 @@ h3{font-family:var(--font-ui);font-weight:700;font-size:clamp(18px,2.4vw,20px)}
 .faq .faq-chevron{transition:transform .2s;color:var(--primary);font-size:20px}
 .faq details[open] .faq-chevron{transform:rotate(180deg)}
 .faq details p{padding:0 0 18px;color:var(--text-secondary);font-size:15px;max-width:64ch}
+/* CTA Final */
+.cta-final{text-align:center;background:var(--bg-surface)}
+.cta-final-sub{max-width:50ch;margin:14px auto 24px}
+.cta-final .btn-cta{margin:0 auto}
+.cta-final-tripwire{display:inline-block;margin-top:16px;color:var(--primary);font-weight:600;font-size:14px;border-bottom:1px solid var(--primary)}
+/* Footer */
+.site-footer{background:var(--bg-dark);color:var(--text-secondary-on-dark);padding:32px 0}
+.footer-inner{display:flex;flex-direction:column;gap:14px;align-items:center;text-align:center}
+.footer-links{display:flex;gap:18px;flex-wrap:wrap;justify-content:center}
+.footer-links a{font-size:14px;color:var(--text-on-dark)}
+.footer-copy{font-size:13px}
+/* Sticky CTA */
+.sticky-cta{position:fixed;bottom:0;left:0;right:0;z-index:99;padding:12px 16px;background:#fff;border-top:1px solid var(--border);display:none;box-shadow:0 -4px 16px rgba(10,22,40,.08)}
+.sticky-cta .btn-cta{width:100%;justify-content:center;padding:14px}
+.sticky-cta.show{display:block}
+@media (min-width:769px){.sticky-cta{display:none!important}}
+@media (max-width:768px){body{padding-bottom:84px}}
