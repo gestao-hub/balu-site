@@ -1,0 +1,32 @@
+/* ===== Balu Agência LP — tema claro ===== */
+:root{
+  --bg-base:#FFFFFF; --bg-dark:#0A1628; --bg-surface:#F5F7FB; --border:#E2E8F0;
+  --border-dark:rgba(255,255,255,.08);
+  --primary:#1F88C2; --primary-deep:#14507E; --primary-light:#2FA3D9; --primary-bg:rgba(31,136,194,.10);
+  --cta:#FF6B35; --cta-hover:#E85A28;
+  --danger:#E05252; --success:#22C87A;
+  --text-primary:#0A1628; --text-secondary:#5A6B82; --text-muted:#94A3B8;
+  --text-on-dark:#F0F4FA; --text-secondary-on-dark:#94A3B8;
+  --radius-sm:8px; --radius-md:12px; --radius-lg:16px; --radius-xl:24px;
+  --font-display:'Instrument Serif',Georgia,serif;
+  --font-ui:'DM Sans','Inter',system-ui,sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --shadow-sm:0 1px 3px rgba(10,22,40,.06),0 1px 2px rgba(10,22,40,.04);
+  --shadow-md:0 8px 24px rgba(10,22,40,.08);
+  --maxw:1120px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-ui);font-size:16px;line-height:1.6;color:var(--text-primary);background:var(--bg-base);-webkit-font-smoothing:antialiased}
+img,video{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+section{padding:56px 0}
+.eyebrow{font-family:var(--font-mono);font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--primary)}
+h1,h2{font-family:var(--font-display);font-weight:400;line-height:1.12;letter-spacing:-.01em}
+h1{font-size:clamp(30px,7vw,56px)}
+h2{font-size:clamp(24px,5vw,40px)}
+h3{font-family:var(--font-ui);font-weight:700;font-size:clamp(18px,2.4vw,20px)}
+.display-accent{color:var(--primary);font-style:italic}
+.muted{color:var(--text-secondary)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
