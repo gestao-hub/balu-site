@@ -162,3 +162,12 @@ h3{font-family:var(--font-ui);font-weight:700;font-size:clamp(18px,2.4vw,20px)}
 .oferta-side .btn{width:100%;justify-content:center;font-size:15px;padding:14px}
 .oferta-bumps{font-size:12px;color:var(--text-muted);margin-top:10px}
 @media (min-width:768px){.oferta-grid{grid-template-columns:1.4fr 1fr;align-items:start}}
+/* FAQ */
+.faq h2{margin:10px 0 28px}
+.faq-list{max-width:760px;margin:0 auto}
+.faq details{border-bottom:1px solid var(--border)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 0;font-weight:600;font-size:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq .faq-chevron{transition:transform .2s;color:var(--primary);font-size:20px}
+.faq details[open] .faq-chevron{transform:rotate(180deg)}
+.faq details p{padding:0 0 18px;color:var(--text-secondary);font-size:15px;max-width:64ch}
