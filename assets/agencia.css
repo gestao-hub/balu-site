@@ -258,3 +258,11 @@ h3{font-family:var(--font-display);font-weight:600;font-size:clamp(18px,2.4vw,20
   .marquee-track [aria-hidden="true"]{display:none}
   .dor-card:hover,.metodo-card:hover,.benef-card:hover,.depo-card:hover{transform:none}
 }
+
+/* ========== Ritmo de fundo das seções (alternância clara + ambiente sutil) ========== */
+.metodo{background:radial-gradient(90% 70% at 100% 0%,rgba(31,136,194,.07),transparent 55%),var(--bg-surface)}
+.beneficios{background:var(--bg-surface)}
+.comparativo{background:var(--bg-surface)}
+.faq{background:var(--bg-surface)}
+.oferta{background:radial-gradient(70% 60% at 0% 100%,rgba(31,136,194,.05),transparent 55%)}
+.cta-final{background:radial-gradient(120% 100% at 50% 0%,var(--primary-bg),var(--bg-surface) 60%)}
