@@ -68,3 +68,7 @@ h3{font-family:var(--font-ui);font-weight:700;font-size:clamp(18px,2.4vw,20px)}
 .marquee-track{display:flex;gap:48px;align-items:center;justify-content:center;flex-wrap:wrap}
 .marquee-track img{height:36px;width:auto;opacity:.6;filter:grayscale(1);transition:opacity .2s}
 .marquee-track img:hover{opacity:1;filter:none}
+
+/* foco visível (acessibilidade) */
+:focus-visible{outline:3px solid var(--primary);outline-offset:3px;border-radius:2px}
+.btn:focus-visible{outline-color:#fff;outline-offset:-3px}
