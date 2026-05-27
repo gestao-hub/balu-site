@@ -76,7 +76,7 @@ h3{font-family:var(--font-display);font-weight:600;font-size:clamp(18px,2.4vw,20
   .stats-strip{grid-template-columns:repeat(3,1fr)}
 }
 .logobar{padding:32px 0;background:var(--bg-surface);border-block:1px solid var(--border)}
-.logobar-label{text-align:center;font-size:13px;color:var(--text-muted);margin-bottom:20px;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.1em}
+.logobar-label{text-align:center;font-size:13px;color:var(--text-secondary);margin-bottom:24px;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.1em}
 .marquee{overflow:hidden}
 .marquee-track{display:flex;gap:48px;align-items:center;justify-content:center;flex-wrap:wrap}
 .marquee-track img{height:36px;width:auto;opacity:.6;filter:grayscale(1);transition:opacity .2s}
@@ -233,7 +233,9 @@ h3{font-family:var(--font-display);font-weight:600;font-size:clamp(18px,2.4vw,20
 .marquee{-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
 .marquee-track{flex-wrap:nowrap;justify-content:flex-start;gap:0;width:max-content;animation:marquee 32s linear infinite}
 .marquee:hover .marquee-track{animation-play-state:paused}
-.marquee-track img{flex:none;margin-right:48px}
+.marquee-track img,.marquee-track .client-name{flex:none;margin-right:56px}
+.client-name{font-family:var(--font-display);font-weight:600;font-size:clamp(18px,4.5vw,22px);line-height:1;letter-spacing:-.01em;color:var(--text-secondary);white-space:nowrap;transition:color .2s}
+.client-name:hover{color:var(--primary-deep)}
 @keyframes marquee{to{transform:translateX(-50%)}}
 
 /* D — micro-interações */
@@ -253,6 +255,6 @@ h3{font-family:var(--font-display);font-weight:600;font-size:clamp(18px,2.4vw,20
   .btn-cta::after{display:none}
   .marquee-track{flex-wrap:wrap;justify-content:center;width:auto;row-gap:20px}
   .marquee{-webkit-mask-image:none;mask-image:none}
-  .marquee-track img[aria-hidden="true"]{display:none}
+  .marquee-track [aria-hidden="true"]{display:none}
   .dor-card:hover,.metodo-card:hover,.benef-card:hover,.depo-card:hover{transform:none}
 }
