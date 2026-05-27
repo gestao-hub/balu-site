@@ -30,3 +30,35 @@ h3{font-family:var(--font-ui);font-weight:700;font-size:clamp(18px,2.4vw,20px)}
 .display-accent{color:var(--primary);font-style:italic}
 .muted{color:var(--text-secondary)}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
+.reveal.visible{opacity:1;transform:none}
+/* botões */
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-ui);font-weight:700;border-radius:var(--radius-md);padding:16px 28px;font-size:16px;line-height:1;transition:background .2s,transform .1s;cursor:pointer;border:0}
+.btn:active{transform:translateY(1px)}
+.btn-cta{background:var(--cta);color:#fff;box-shadow:var(--shadow-md)}
+.btn-cta:hover{background:var(--cta-hover)}
+.btn-secondary{background:var(--primary-bg);color:var(--primary);border:1px solid var(--primary)}
+/* barra urgência */
+.urgency-bar{background:var(--primary-deep);color:var(--text-on-dark);font-size:13px;text-align:center;padding:10px 16px}
+.urgency-bar a{color:#fff;font-weight:600;border-bottom:1px solid rgba(255,255,255,.5)}
+/* hero */
+.hero{padding-top:40px}
+.hero-grid{display:grid;gap:32px;align-items:center}
+.hero-copy>*+*{margin-top:18px}
+.hero-sub{font-size:clamp(16px,2.2vw,18px);color:var(--text-secondary);max-width:46ch}
+.hero-sub strong{color:var(--primary)}
+.btn-cta{width:100%;justify-content:center}
+.hero-microcopy{font-size:13px;color:var(--text-muted)}
+.hero-secondary-link{display:inline-block;color:var(--primary);font-weight:600;font-size:14px}
+.hero-visual img{border-radius:var(--radius-lg);box-shadow:var(--shadow-md);border:1px solid var(--border)}
+.stats-strip{display:grid;grid-template-columns:1fr;gap:14px;margin-top:40px}
+.stat{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:18px 20px;text-align:center}
+.stat-num{display:block;font-family:var(--font-display);font-size:30px;color:var(--primary)}
+.stat-lbl{font-size:13px;color:var(--text-secondary)}
+@media (min-width:768px){
+  .hero-grid{grid-template-columns:1.05fr .95fr}
+  .btn-cta{width:auto}
+  .stats-strip{grid-template-columns:repeat(3,1fr)}
+}
