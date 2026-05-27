@@ -3,7 +3,7 @@
   --bg-base:#FFFFFF; --bg-dark:#0A1628; --bg-surface:#F5F7FB; --border:#E2E8F0;
   --border-dark:rgba(255,255,255,.08);
   --primary:#1F88C2; --primary-deep:#14507E; --primary-light:#2FA3D9; --primary-bg:rgba(31,136,194,.10);
-  --cta:#FF6B35; --cta-hover:#E85A28;
+  --cta:#C94E1E; --cta-hover:#A83D17; /* laranja escurecido p/ passar WCAG AA (4.57:1 c/ texto branco) */
   --danger:#E05252; --success:#22C87A;
   --text-primary:#0A1628; --text-secondary:#5A6B82; --text-muted:#94A3B8;
   --text-on-dark:#F0F4FA; --text-secondary-on-dark:#94A3B8;
