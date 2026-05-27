@@ -87,3 +87,14 @@ h3{font-family:var(--font-ui);font-weight:700;font-size:clamp(18px,2.4vw,20px)}
 .dor-card h3{color:var(--danger);margin-bottom:8px;font-size:17px}
 .dor-card p{font-size:15px;color:var(--text-secondary)}
 @media (min-width:768px){.dor-grid{grid-template-columns:repeat(3,1fr)}}
+
+/* 4. Solução — Método BALU */
+.metodo-sub{max-width:54ch;margin:10px 0 32px}
+.metodo-grid{display:grid;grid-template-columns:1fr;gap:16px}
+.metodo-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:24px;box-shadow:var(--shadow-sm);position:relative}
+.metodo-step{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:var(--primary-bg);color:var(--primary);font-weight:800;font-family:var(--font-mono);margin-bottom:12px}
+.metodo-card h3{margin-bottom:8px}
+.metodo-card p{font-size:15px;color:var(--text-secondary)}
+.metodo-card strong{color:var(--primary)}
+.loop-indicator{margin-top:24px;text-align:center;font-family:var(--font-mono);font-size:13px;color:var(--primary);letter-spacing:.04em}
+@media (min-width:768px){.metodo-grid{grid-template-columns:repeat(4,1fr)}}
