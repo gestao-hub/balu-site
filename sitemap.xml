@@ -9,6 +9,12 @@
     <image:image><image:loc>https://baluhub.com.br/og-image.png</image:loc></image:image>
   </url>
   <url>
+    <loc>https://baluhub.com.br/agencia</loc>
+    <lastmod>2026-05-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://baluhub.com.br/crm</loc>
     <lastmod>2026-05-17</lastmod>
     <changefreq>weekly</changefreq>
