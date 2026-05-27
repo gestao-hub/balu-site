@@ -37,7 +37,20 @@
       return;
     }
     var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var el = e.target;
+        // stagger entre irmãos .reveal do mesmo container (limpa depois p/ não atrasar o hover)
+        var sibs = el.parentElement ? [].slice.call(el.parentElement.children).filter(function (c) { return c.classList.contains('reveal'); }) : [];
+        var idx = sibs.indexOf(el);
+        var delay = idx > 0 ? Math.min(idx, 6) * 70 : 0;
+        if (delay) {
+          el.style.transitionDelay = delay + 'ms';
+          setTimeout(function () { el.style.transitionDelay = ''; }, delay + 600);
+        }
+        el.classList.add('visible');
+        io.unobserve(el);
+      });
     }, { threshold: 0.1 });
     els.forEach(function (el) { io.observe(el); });
   }
@@ -55,7 +68,50 @@
     onScroll();
   }
 
+  function prefersReduced() {
+    return window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  }
+
+  // 5. Count-up nos números (anima 0 → valor ao entrar na viewport)
+  function wireCountUp() {
+    var els = document.querySelectorAll('[data-count]');
+    if (!els.length) return;
+    if (!('IntersectionObserver' in window) || prefersReduced()) return; // mantém o valor final do HTML
+    function run(el) {
+      var target = parseInt(el.getAttribute('data-count'), 10) || 0;
+      var dur = 1100, start = null;
+      function step(ts) {
+        if (start === null) start = ts;
+        var p = Math.min((ts - start) / dur, 1);
+        var eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+        el.textContent = Math.round(eased * target);
+        if (p < 1) requestAnimationFrame(step);
+        else el.textContent = target;
+      }
+      el.textContent = '0';
+      requestAnimationFrame(step);
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { run(e.target); io.unobserve(e.target); } });
+    }, { threshold: 0.5 });
+    els.forEach(function (el) { io.observe(el); });
+  }
+
+  // 6. Barra de progresso de scroll
+  function wireScrollProgress() {
+    var bar = document.querySelector('.scroll-progress > span');
+    if (!bar) return;
+    function onScroll() {
+      var h = document.documentElement;
+      var max = h.scrollHeight - h.clientHeight;
+      var pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+      bar.style.width = pct + '%';
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
-    wireWhatsApp(); wireReveal(); wireStickyCta();
+    wireWhatsApp(); wireReveal(); wireStickyCta(); wireCountUp(); wireScrollProgress();
   });
 })();

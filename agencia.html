@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" href="assets/fonts/cal-sans-latin-400.woff2" as="font" type="font/woff2" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/agencia.css?v=2" />
+  <link rel="stylesheet" href="assets/agencia.css?v=3" />
   <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
 
   <!-- Open Graph -->
@@ -74,6 +74,7 @@
   </script>
 </head>
 <body>
+  <div class="scroll-progress" aria-hidden="true"><span></span></div>
   <!-- 0. Barra de urgência -->
   <header class="site-banner">
     <div class="urgency-bar"><span aria-hidden="true">⚡</span> Onboarding guiado gratuito para as próximas agências · <a href="#oferta">Fale com o Michel →</a></div>
@@ -95,12 +96,17 @@
           <a href="#metodo" class="hero-secondary-link">Ver planos e como funciona ↓</a>
         </div>
         <div class="hero-visual reveal">
-          <img src="assets/screenshots/agencia-dashboard.png" alt="Dashboard do Balu Agência" width="1280" height="720" fetchpriority="high" />
+          <div class="hero-mockup">
+            <div class="browser-frame">
+              <div class="browser-bar" aria-hidden="true"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="browser-url">app.baluhub.com.br</span></div>
+              <img src="assets/screenshots/agencia-dashboard.png" alt="Dashboard do Balu Agência" width="1280" height="720" fetchpriority="high" />
+            </div>
+          </div>
         </div>
       </div>
       <div class="wrap stats-strip reveal">
-        <div class="stat"><span class="stat-num">10+</span><span class="stat-lbl">ferramentas substituídas</span></div>
-        <div class="stat"><span class="stat-num">8 regras</span><span class="stat-lbl">de otimização rodando 24/7</span></div>
+        <div class="stat"><span class="stat-num"><span data-count="10">10</span>+</span><span class="stat-lbl">ferramentas substituídas</span></div>
+        <div class="stat"><span class="stat-num"><span data-count="8">8</span> regras</span><span class="stat-lbl">de otimização rodando 24/7</span></div>
         <div class="stat"><span class="stat-num">1 plataforma</span><span class="stat-lbl">toda a operação da agência</span></div>
       </div>
     </section>
@@ -118,6 +124,14 @@
             <img src="assets/portfolio/bangalo.png" alt="Bangalô" loading="lazy" width="1440" height="900">
             <img src="assets/portfolio/tiagomonaco.png" alt="Tiago Mônaco" loading="lazy" width="1440" height="900">
             <img src="assets/portfolio/piperhub.png" alt="Piper Hub" loading="lazy" width="1440" height="900">
+            <!-- set duplicado p/ loop contínuo (decorativo) -->
+            <img src="assets/portfolio/vivacqua.png" alt="" aria-hidden="true" loading="lazy" width="1440" height="900">
+            <img src="assets/portfolio/seahop.png" alt="" aria-hidden="true" loading="lazy" width="1440" height="900">
+            <img src="assets/portfolio/esaenergia.png" alt="" aria-hidden="true" loading="lazy" width="1440" height="900">
+            <img src="assets/portfolio/upperground.png" alt="" aria-hidden="true" loading="lazy" width="1440" height="900">
+            <img src="assets/portfolio/bangalo.png" alt="" aria-hidden="true" loading="lazy" width="1440" height="900">
+            <img src="assets/portfolio/tiagomonaco.png" alt="" aria-hidden="true" loading="lazy" width="1440" height="900">
+            <img src="assets/portfolio/piperhub.png" alt="" aria-hidden="true" loading="lazy" width="1440" height="900">
           </div>
         </div>
       </div>
@@ -167,7 +181,8 @@
           <div class="metodo-card reveal"><span class="metodo-step">3</span><h3>Entrega</h3><p>Campanhas, criativos com <strong>Squad de IA</strong>, calendário editorial e SLA — tudo amarrado ao cliente certo.</p></div>
           <div class="metodo-card reveal"><span class="metodo-step">4</span><h3>Insight</h3><p>O <strong>Estrategista IA</strong> observa tudo e devolve sugestões: upsell, risco de churn, gargalo, gap de margem.</p></div>
         </div>
-        <p class="loop-indicator reveal"><span aria-hidden="true">↺</span> O Insight realimenta a Captação — esse é o Loop Fechado.</p>
+        <div class="loop-flow reveal" aria-hidden="true"></div>
+        <p class="loop-indicator reveal"><span class="loop-icon" aria-hidden="true">↺</span> O Insight realimenta a Captação — esse é o <strong>Loop Fechado</strong>.</p>
       </div>
     </section>
 
@@ -214,7 +229,7 @@
         <span class="eyebrow reveal">QUEM JÁ ESTÁ DENTRO</span>
         <h2 class="reveal">Resultado real de <span class="display-accent">quem saiu do caos.</span></h2>
         <div class="depo-highlight reveal">
-          <div class="depo-bignum">60 dias</div>
+          <div class="depo-bignum"><span data-count="60">60</span> dias</div>
           <blockquote>Saí do operacional em 60 dias. A Balu fez o que três SaaS combinados nunca conseguiram.</blockquote>
           <div class="depo-meta"><span class="avatar" aria-hidden="true">MB</span><div><strong>Marina B.</strong><span>Sócia · agência com 18 contas</span></div></div>
         </div>
@@ -223,10 +238,10 @@
           <div class="depo-card reveal"><blockquote>O optimizer de mídia salvou um lançamento meu. Pausou 4 criativos no domingo e me explicou por quê na segunda.</blockquote><div class="depo-meta"><span class="avatar" aria-hidden="true">JT</span><div><strong>Júlia T.</strong><span>Head de Mídia · agência paulistana</span></div></div></div>
         </div>
         <div class="kpi-grid reveal">
-          <div class="kpi"><span class="kpi-val">7+</span><span class="kpi-lbl">ferramentas substituídas</span></div>
-          <div class="kpi"><span class="kpi-val">15 min</span><span class="kpi-lbl">onboarding médio</span></div>
-          <div class="kpi"><span class="kpi-val">68%</span><span class="kpi-lbl">menos retrabalho</span></div>
-          <div class="kpi"><span class="kpi-val">+3 p.p.</span><span class="kpi-lbl">de margem</span></div>
+          <div class="kpi"><span class="kpi-val"><span data-count="7">7</span>+</span><span class="kpi-lbl">ferramentas substituídas</span></div>
+          <div class="kpi"><span class="kpi-val"><span data-count="15">15</span> min</span><span class="kpi-lbl">onboarding médio</span></div>
+          <div class="kpi"><span class="kpi-val"><span data-count="68">68</span>%</span><span class="kpi-lbl">menos retrabalho</span></div>
+          <div class="kpi"><span class="kpi-val">+<span data-count="3">3</span> p.p.</span><span class="kpi-lbl">de margem</span></div>
         </div>
       </div>
     </section>
@@ -333,6 +348,6 @@
     <a class="btn btn-cta" data-wa href="#">Falar com o Michel no WhatsApp</a>
   </div>
 
-  <script src="assets/agencia.js?v=1" defer></script>
+  <script src="assets/agencia.js?v=2" defer></script>
 </body>
 </html>

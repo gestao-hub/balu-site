@@ -202,3 +202,57 @@ h3{font-family:var(--font-display);font-weight:600;font-size:clamp(18px,2.4vw,20
 .sticky-cta.show{display:block}
 @media (min-width:769px){.sticky-cta{display:none!important}}
 @media (max-width:768px){body{padding-bottom:84px}}
+
+/* ========== Efeitos & animações ========== */
+/* Barra de progresso de scroll */
+.scroll-progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:200;pointer-events:none}
+.scroll-progress>span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--primary-light))}
+
+/* A — Hero: mesh sutil, glow e mockup com moldura de browser + float */
+.hero{position:relative;overflow-x:clip;background:radial-gradient(120% 80% at 100% 0%,rgba(31,136,194,.06),transparent 50%)}
+.hero-visual{position:relative;isolation:isolate}
+.hero-visual::before{content:"";position:absolute;inset:-14% -10%;z-index:-1;background:radial-gradient(60% 60% at 60% 40%,rgba(31,136,194,.22),transparent 70%);filter:blur(22px)}
+.hero-mockup{animation:float 6s ease-in-out infinite;will-change:transform}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.browser-frame{border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow-md);background:#fff}
+.browser-frame img{border:0;border-radius:0;box-shadow:none}
+.browser-bar{display:flex;align-items:center;gap:7px;padding:10px 14px;background:#F1F4F9;border-bottom:1px solid var(--border)}
+.browser-bar .dot{width:10px;height:10px;border-radius:50%;background:#CDD5E0}
+.browser-bar .dot:nth-child(1){background:#FF5F57}.browser-bar .dot:nth-child(2){background:#FEBC2E}.browser-bar .dot:nth-child(3){background:#28C840}
+.browser-url{margin-left:10px;font-family:var(--font-mono);font-size:11px;color:var(--text-muted);background:#fff;border:1px solid var(--border);border-radius:6px;padding:3px 12px}
+
+/* B — count-up: largura estável */
+.stat-num,.kpi-val,.depo-bignum{font-variant-numeric:tabular-nums}
+
+/* C — Loop Fechado animado + marquee contínuo */
+.loop-flow{height:3px;border-radius:3px;margin:28px auto 0;max-width:520px;background:linear-gradient(90deg,var(--primary-bg),var(--primary),var(--primary-bg));background-size:200% 100%;animation:loopflow 3s linear infinite}
+@keyframes loopflow{to{background-position:-200% 0}}
+.loop-icon{display:inline-block;color:var(--primary);animation:spin 7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loop-indicator strong{color:var(--primary)}
+.marquee{-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.marquee-track{flex-wrap:nowrap;justify-content:flex-start;gap:0;width:max-content;animation:marquee 32s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.marquee-track img{flex:none;margin-right:48px}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* D — micro-interações */
+.dor-card,.metodo-card,.benef-card,.depo-card{transition:transform .2s ease,box-shadow .2s ease}
+.dor-card:hover,.metodo-card:hover,.benef-card:hover,.depo-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+.btn-cta{position:relative;overflow:hidden}
+.btn-cta::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);transition:left .5s ease}
+.btn-cta:hover::after{left:120%}
+.sticky-cta .btn-cta{animation:ctapulse 2.4s ease-in-out infinite}
+@keyframes ctapulse{0%,100%{box-shadow:0 0 0 0 rgba(201,78,30,0)}50%{box-shadow:0 0 0 6px rgba(201,78,30,.18)}}
+.faq details[open]>p{animation:faqIn .28s ease}
+@keyframes faqIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+
+/* Acessibilidade: respeitar prefers-reduced-motion */
+@media (prefers-reduced-motion:reduce){
+  .hero-mockup,.loop-icon,.loop-flow,.marquee-track,.sticky-cta .btn-cta{animation:none!important}
+  .btn-cta::after{display:none}
+  .marquee-track{flex-wrap:wrap;justify-content:center;width:auto;row-gap:20px}
+  .marquee{-webkit-mask-image:none;mask-image:none}
+  .marquee-track img[aria-hidden="true"]{display:none}
+  .dor-card:hover,.metodo-card:hover,.benef-card:hover,.depo-card:hover{transform:none}
+}
