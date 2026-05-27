@@ -1,4 +1,16 @@
 /* ===== Balu Agência LP — tema claro ===== */
+/* Cal Sans self-hosted (display). Origem: @fontsource/cal-sans. Range 400-700
+   declarado p/ evitar faux-bold ao usar font-weight:600 ("semibold"). */
+@font-face{
+  font-family:"Cal Sans";
+  font-style:normal;
+  font-weight:400 700;
+  font-display:swap;
+  src:url("fonts/cal-sans-latin-400.woff2") format("woff2");
+  unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+    U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC,
+    U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 :root{
   --bg-base:#FFFFFF; --bg-dark:#0A1628; --bg-surface:#F5F7FB; --border:#E2E8F0;
   --border-dark:rgba(255,255,255,.08);
@@ -8,8 +20,9 @@
   --text-primary:#0A1628; --text-secondary:#5A6B82; --text-muted:#94A3B8;
   --text-on-dark:#F0F4FA; --text-secondary-on-dark:#94A3B8;
   --radius-sm:8px; --radius-md:12px; --radius-lg:16px; --radius-xl:24px;
-  --font-display:'Instrument Serif',Georgia,serif;
-  --font-ui:'DM Sans','Inter',system-ui,sans-serif;
+  /* trocar "Manrope" por "Axiforma" quando os arquivos forem self-hosted */
+  --font-display:'Cal Sans','Manrope','Inter',sans-serif;
+  --font-ui:'Manrope','Inter',system-ui,sans-serif;
   --font-mono:'JetBrains Mono',monospace;
   --shadow-sm:0 1px 3px rgba(10,22,40,.06),0 1px 2px rgba(10,22,40,.04);
   --shadow-md:0 8px 24px rgba(10,22,40,.08);
@@ -18,16 +31,16 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:var(--font-ui);font-size:16px;line-height:1.6;color:var(--text-primary);background:var(--bg-base);-webkit-font-smoothing:antialiased}
-img,video{max-width:100%;display:block}
+img,video{max-width:100%;display:block;height:auto}
 a{color:inherit;text-decoration:none}
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
 section{padding:56px 0}
 .eyebrow{font-family:var(--font-mono);font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--primary)}
-h1,h2{font-family:var(--font-display);font-weight:400;line-height:1.12;letter-spacing:-.01em}
+h1,h2{font-family:var(--font-display);font-weight:600;line-height:1.1;letter-spacing:-.02em}
 h1{font-size:clamp(30px,7vw,56px)}
 h2{font-size:clamp(24px,5vw,40px)}
-h3{font-family:var(--font-ui);font-weight:700;font-size:clamp(18px,2.4vw,20px)}
-.display-accent{color:var(--primary);font-style:italic}
+h3{font-family:var(--font-display);font-weight:600;font-size:clamp(18px,2.4vw,20px);letter-spacing:-.01em}
+.display-accent{color:var(--primary)}
 .muted{color:var(--text-secondary)}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 
@@ -80,7 +93,7 @@ h3{font-family:var(--font-ui);font-weight:700;font-size:clamp(18px,2.4vw,20px)}
 .frankenstack-tools{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:20px}
 .frankenstack-tools span{font-family:var(--font-mono);font-size:13px;color:var(--text-secondary-on-dark);border:1px dashed rgba(224,82,82,.5);border-radius:var(--radius-sm);padding:6px 12px}
 .frankenstack-name{font-family:var(--font-display);font-size:clamp(22px,4vw,30px)}
-.frankenstack-name strong{color:var(--danger);font-style:italic;font-weight:400}
+.frankenstack-name strong{color:var(--danger);font-weight:600}
 .frankenstack-sub{color:var(--text-secondary-on-dark);max-width:54ch;margin:12px auto 0;font-size:15px}
 .dor-grid{display:grid;grid-template-columns:1fr;gap:16px}
 .dor-card{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:22px}
