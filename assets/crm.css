@@ -1,0 +1,56 @@
+/* ===== Balu CRM LP — específico do CRM =====
+   Tokens, fontes, base, hero, marquee, efeitos e ritmo geral vêm de
+   assets/agencia.css. Aqui ficam APENAS Before/After, Ponte, Casos de uso
+   e overrides de background pro ritmo correto na ordem do CRM. */
+
+/* ===== Before / After ===== */
+.before-after h2{margin:10px 0 28px}
+.ba-grid{display:grid;grid-template-columns:1fr;gap:20px}
+.ba-col{background:var(--bg-base);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 18px}
+.ba-col-head{font-family:var(--font-display);font-weight:600;font-size:18px;margin-bottom:14px;letter-spacing:-.01em}
+.ba-antes{border-left:3px solid var(--danger)}
+.ba-depois{border-left:3px solid var(--success)}
+.ba-antes .ba-col-head{color:var(--danger)}
+.ba-depois .ba-col-head{color:var(--success)}
+.ba-col ul{list-style:none;margin:0;padding:0}
+.ba-item{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--border)}
+.ba-item:first-child{border-top:0}
+.ba-mark{flex:none;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;line-height:1;margin-top:2px}
+.ba-mark.cross{background:rgba(224,82,82,.12);color:var(--danger)}
+.ba-mark.check-pop{background:rgba(34,200,122,.14);color:var(--success);transform:scale(0);transition:transform .35s cubic-bezier(.34,1.56,.64,1) .15s}
+.ba-item.visible .ba-mark.check-pop{transform:scale(1)}
+.ba-text{font-size:15px;color:var(--text-secondary);line-height:1.55}
+.ba-text strong{color:var(--primary)}
+@media (min-width:768px){.ba-grid{grid-template-columns:1fr 1fr;gap:24px}}
+@media (prefers-reduced-motion:reduce){
+  .ba-mark.check-pop{transform:scale(1);transition:none}
+}
+
+/* ===== A Ponte (3 passos) ===== */
+.ponte h2{margin:10px 0 28px}
+.ponte-grid{display:grid;grid-template-columns:1fr;gap:16px}
+.ponte-card{background:var(--bg-base);border:1px solid var(--border);border-radius:var(--radius-md);padding:24px;box-shadow:var(--shadow-sm);position:relative}
+.ponte-step{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:var(--primary-bg);color:var(--primary);font-weight:800;font-family:var(--font-mono);margin-bottom:12px}
+.ponte-card h3{margin-bottom:8px}
+.ponte-card p{font-size:15px;color:var(--text-secondary)}
+.ponte-card strong{color:var(--primary)}
+@media (min-width:768px){.ponte-grid{grid-template-columns:repeat(3,1fr)}}
+
+/* ===== Casos de uso por persona ===== */
+.casos-uso h2{margin:10px 0 28px}
+.casos-grid{display:grid;grid-template-columns:1fr;gap:16px}
+.caso-card{background:var(--bg-base);border:1px solid var(--border);border-radius:var(--radius-md);padding:24px;box-shadow:var(--shadow-sm)}
+.caso-tag{display:inline-block;font-family:var(--font-mono);font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--primary);background:var(--primary-bg);padding:5px 10px;border-radius:6px;margin-bottom:14px}
+.caso-card h3{margin-bottom:8px;font-size:18px}
+.caso-card p{font-size:15px;color:var(--text-secondary);line-height:1.55}
+@media (min-width:768px){.casos-grid{grid-template-columns:repeat(3,1fr)}}
+
+/* ===== Overrides de fundo (ritmo alternado pra ordem do CRM) ===== */
+.depoimentos{background:var(--bg-surface)}
+.comparativo{background:var(--bg-base)}
+.oferta{background:radial-gradient(70% 60% at 0% 100%,rgba(31,136,194,.05),transparent 55%),var(--bg-surface)}
+.faq{background:var(--bg-base)}
+.ponte{background:radial-gradient(90% 70% at 100% 0%,rgba(31,136,194,.07),transparent 55%),var(--bg-surface)}
+
+/* WCAG 2.5.5 — tap target ≥48px no tripwire (override agencia.css) */
+.oferta-side .btn{min-height:48px;padding-top:14px;padding-bottom:14px}

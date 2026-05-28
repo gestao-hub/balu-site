@@ -1,6 +1,13 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/crm",
+      "has": [{ "type": "host", "value": "lp.baluhub.com.br" }],
+      "destination": "/lp-crm.html"
+    }
+  ],
   "headers": [
     {
       "source": "/assets/(.*).woff2",
