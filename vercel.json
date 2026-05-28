@@ -5,7 +5,7 @@
     {
       "source": "/crm",
       "has": [{ "type": "host", "value": "lp.baluhub.com.br" }],
-      "destination": "/lp-crm.html"
+      "destination": "/lp-crm"
     }
   ],
   "headers": [
