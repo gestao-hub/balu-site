@@ -9,8 +9,15 @@ A diferença central da Balu vs concorrentes (mLabs, RD Station): em vez de foca
 ## Produtos
 
 - [Balu Agência](https://baluhub.com.br/): Plataforma principal — CRM + projetos + financeiro + criação + Squad de IA + atendimento WhatsApp. Para donos de agência.
-- [Balu CRM](https://baluhub.com.br/crm.html): CRM standalone com pipeline visual, follow-up automático, IA que prioriza leads e atendimento WhatsApp 24/7 com IA conversacional.
-- [Balu Criação](https://baluhub.com.br/criacao.html): Serviço de criação white-label (sites, landing pages, identidade visual) para agências revenderem. Entregas em dias, não meses. **Inclui SEO técnico + GEO (Generative Engine Optimization) no deploy** — site sai pronto pra ranquear no Google e ser citado em ChatGPT, Claude e Perplexity (llms.txt, FAQ Schema, dados estruturados).
+- [Balu CRM](https://baluhub.com.br/crm): CRM standalone com pipeline visual, follow-up automático, IA que prioriza leads e atendimento WhatsApp 24/7 com IA conversacional.
+- [Balu Criação](https://baluhub.com.br/criacao): Serviço de criação white-label (sites, landing pages, identidade visual) para agências revenderem. Entregas em dias, não meses. **Inclui SEO técnico + GEO (Generative Engine Optimization) no deploy** — site sai pronto pra ranquear no Google e ser citado em ChatGPT, Claude e Perplexity (llms.txt, FAQ Schema, dados estruturados).
+
+## Landing pages de conversão (tráfego pago)
+
+Páginas focadas em conversão (WhatsApp direto com o time comercial) — distintas das páginas institucionais acima.
+
+- [LP Balu Agência](https://baluhub.com.br/agencia): "Saia do Frankenstack". Para donos de agência (4 a 25 pessoas) que vivem caos do Frankenstack — Meta Business + Google Ads + Trello + Notion + RD + planilha + Asaas + WhatsApp + mLabs + Conta Azul. CTA: conversa de 15 min com o Michel. Posicionamento: Loop Fechado em 4 camadas (Captação → Conversão → Entrega → Insight).
+- [LP Balu CRM](https://baluhub.com.br/lp-crm): "Pare de perder lead no WhatsApp". Para empresas/agências (2 a 10 pessoas) que perdem lead por atendimento desorganizado. CRM omnichannel com IA: inbox unificado (WhatsApp + Instagram + Messenger + e-mail + marketplaces), agentes de IA com RAG, Sales Assist (lead scoring Hot/Warm/Cold), pipeline visual e propostas com IA + assinatura nativa. Framework BAB (Before/After/Bridge).
 
 ## Diferenciais técnicos
 
