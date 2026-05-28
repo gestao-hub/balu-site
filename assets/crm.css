@@ -44,3 +44,10 @@
 .caso-card h3{margin-bottom:8px;font-size:18px}
 .caso-card p{font-size:15px;color:var(--text-secondary);line-height:1.55}
 @media (min-width:768px){.casos-grid{grid-template-columns:repeat(3,1fr)}}
+
+/* ===== Overrides de fundo (ritmo alternado pra ordem do CRM) ===== */
+.depoimentos{background:var(--bg-surface)}
+.comparativo{background:var(--bg-base)}
+.oferta{background:radial-gradient(70% 60% at 0% 100%,rgba(31,136,194,.05),transparent 55%),var(--bg-surface)}
+.faq{background:var(--bg-base)}
+.ponte{background:radial-gradient(90% 70% at 100% 0%,rgba(31,136,194,.07),transparent 55%),var(--bg-surface)}
