@@ -25,3 +25,13 @@
 @media (prefers-reduced-motion:reduce){
   .ba-mark.check-pop{transform:scale(1);transition:none}
 }
+
+/* ===== A Ponte (3 passos) ===== */
+.ponte h2{margin:10px 0 28px}
+.ponte-grid{display:grid;grid-template-columns:1fr;gap:16px}
+.ponte-card{background:var(--bg-base);border:1px solid var(--border);border-radius:var(--radius-md);padding:24px;box-shadow:var(--shadow-sm);position:relative}
+.ponte-step{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:var(--primary-bg);color:var(--primary);font-weight:800;font-family:var(--font-mono);margin-bottom:12px}
+.ponte-card h3{margin-bottom:8px}
+.ponte-card p{font-size:15px;color:var(--text-secondary)}
+.ponte-card strong{color:var(--primary)}
+@media (min-width:768px){.ponte-grid{grid-template-columns:repeat(3,1fr)}}
