@@ -2,3 +2,26 @@
    Tokens, fontes, base, hero, marquee, efeitos e ritmo geral vêm de
    assets/agencia.css. Aqui ficam APENAS Before/After, Ponte, Casos de uso
    e overrides de background pro ritmo correto na ordem do CRM. */
+
+/* ===== Before / After ===== */
+.before-after h2{margin:10px 0 28px}
+.ba-grid{display:grid;grid-template-columns:1fr;gap:20px}
+.ba-col{background:var(--bg-base);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 18px}
+.ba-col-head{font-family:var(--font-display);font-weight:600;font-size:18px;margin-bottom:14px;letter-spacing:-.01em}
+.ba-antes{border-left:3px solid var(--danger)}
+.ba-depois{border-left:3px solid var(--success)}
+.ba-antes .ba-col-head{color:var(--danger)}
+.ba-depois .ba-col-head{color:var(--success)}
+.ba-col ul{list-style:none;margin:0;padding:0}
+.ba-item{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--border)}
+.ba-item:first-child{border-top:0}
+.ba-mark{flex:none;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;line-height:1;margin-top:2px}
+.ba-mark.cross{background:rgba(224,82,82,.12);color:var(--danger)}
+.ba-mark.check-pop{background:rgba(34,200,122,.14);color:var(--success);transform:scale(0);transition:transform .35s cubic-bezier(.34,1.56,.64,1) .15s}
+.ba-item.visible .ba-mark.check-pop{transform:scale(1)}
+.ba-text{font-size:15px;color:var(--text-secondary);line-height:1.55}
+.ba-text strong{color:var(--primary)}
+@media (min-width:768px){.ba-grid{grid-template-columns:1fr 1fr;gap:24px}}
+@media (prefers-reduced-motion:reduce){
+  .ba-mark.check-pop{transform:scale(1);transition:none}
+}
