@@ -124,7 +124,62 @@
         </div>
       </div>
     </section>
-    <!-- 2. 3 produtos -->
+    <!-- 2. 3 produtos em destaque -->
+<section id="produtos" class="section-band theme-light">
+  <div class="container">
+    <div class="sec-head" data-reveal>
+      <span class="eyebrow"><span class="dot"></span> 3 produtos, 1 marca</span>
+      <h2>Escolha por onde <span class="display-glow">começar.</span></h2>
+      <p class="lede">Cada produto resolve uma dor específica. Juntos, formam o loop fechado completo.</p>
+    </div>
+
+    <div class="produtos-grid">
+      <article class="produto-card" data-reveal>
+        <div class="produto-icon" aria-hidden="true">
+          <img src="assets/screenshots/agencia-dashboard.png" alt="" loading="lazy" />
+        </div>
+        <h3>Balu Agência</h3>
+        <p>Plataforma operacional completa pra agência. CRM + projetos + financeiro + Squad de IA num loop fechado.</p>
+        <a href="https://lp.baluhub.com.br/agencia" class="btn btn-ghost magnetic">
+          Conheça <svg class="arrow" width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 7h8m0 0L7 3m4 4l-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </article>
+
+      <article class="produto-card featured" data-reveal style="--reveal-delay:80ms">
+        <div class="produto-icon" aria-hidden="true">
+          <img src="assets/screenshots/crm-conversations.png" alt="" loading="lazy" />
+        </div>
+        <h3>Balu CRM</h3>
+        <p>CRM omnichannel com IA. Inbox unificado (WhatsApp + Instagram + e-mail + marketplaces) + agentes IA + pipeline visual.</p>
+        <a href="https://lp.baluhub.com.br/crm" class="btn btn-ghost magnetic">
+          Conheça <svg class="arrow" width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 7h8m0 0L7 3m4 4l-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </article>
+
+      <article class="produto-card" data-reveal style="--reveal-delay:160ms">
+        <div class="produto-icon" aria-hidden="true">
+          <img src="og-image-criacao.png" alt="" loading="lazy" />
+        </div>
+        <h3>Balu Criação</h3>
+        <p>Sites e landing pages white-label pra agências revenderem. Entregas em dias, não meses. SEO + GEO incluso.</p>
+        <a href="/criacao" class="btn btn-ghost magnetic">
+          Conheça <svg class="arrow" width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 7h8m0 0L7 3m4 4l-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .produtos-grid{display:grid;grid-template-columns:1fr;gap:20px;margin-top:40px}
+  .produto-card{padding:24px;border:1px solid rgba(255,255,255,.08);border-radius:16px;background:rgba(255,255,255,.02)}
+  .produto-card.featured{border-color:rgba(69,118,255,.3);background:rgba(69,118,255,.04)}
+  .produto-icon{width:100%;aspect-ratio:16/10;overflow:hidden;border-radius:10px;margin-bottom:18px;background:rgba(0,0,0,.2)}
+  .produto-icon img{width:100%;height:100%;object-fit:cover;display:block}
+  .produto-card h3{font-family:var(--font-display);font-size:22px;margin-bottom:8px}
+  .produto-card p{font-size:15px;color:var(--text-2);line-height:1.55;margin-bottom:18px}
+  @media (min-width:768px){.produtos-grid{grid-template-columns:repeat(3,1fr)}}
+</style>
     <!-- 3. Manifesto -->
     <!-- 4. Logos -->
     <!-- 5. Depoimentos -->
