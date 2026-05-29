@@ -1,6 +1,6 @@
 # Balu
 
-> Plataforma única com IA para gestão de agências de marketing. Une CRM, projetos, financeiro, criação e Squad de IA num só loop fechado. Substitui de 5 a 7 ferramentas (mLabs, RD Station, ClickUp, Asana, Trello, planilhas).
+> Balu é uma plataforma com IA pra agências, e-commerces e prestadores de serviço. 3 produtos integrados em loop fechado: Agência (CRM + projetos + financeiro + IA), CRM (atendimento omnichannel com WhatsApp + agentes IA + pipeline) e Criação (sites e LPs white-label com SEO + GEO).
 
 Balu é uma SaaS brasileira sediada em Florianópolis (Sapiens Parque), fundada em 2025 por Eduardo Bovo. Atende agências de marketing no Brasil em modelo SaaS multitenant.
 
