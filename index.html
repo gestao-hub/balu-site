@@ -429,7 +429,65 @@
 </style>
   </main>
 
-  <!-- 9. Footer (próxima task) -->
+  <footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col footer-brand">
+        <a href="/" class="brand" aria-label="Balu home">
+          <img src="assets/logo-white.svg" alt="Balu" height="32" />
+        </a>
+        <p class="footer-tagline">Plataforma única com IA pra agências, e-commerces e prestadores de serviço.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Produtos</h4>
+        <ul>
+          <li><a href="https://lp.baluhub.com.br/agencia" target="_blank" rel="noopener">Balu Agência</a></li>
+          <li><a href="https://lp.baluhub.com.br/crm" target="_blank" rel="noopener">Balu CRM</a></li>
+          <li><a href="/criacao">Balu Criação</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Comparativos</h4>
+        <ul>
+          <li><a href="/balu-vs-mlabs">Balu vs mLabs</a></li>
+          <li><a href="/balu-vs-rdstation">Balu vs RD Station</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Empresa</h4>
+        <ul>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="https://wa.me/5512991548086" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a href="mailto:contato@balu.com.br">contato@balu.com.br</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="/politica-de-privacidade">Privacidade</a></li>
+          <li><a href="/termos-de-uso">Termos</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Balu · Florianópolis, SC · Sapiens Parque</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer{background:rgba(0,0,0,.2);border-top:1px solid rgba(255,255,255,.06);padding:48px 0 24px;margin-top:48px}
+  .footer-grid{display:grid;grid-template-columns:1fr;gap:32px;margin-bottom:32px}
+  .footer-brand .brand{display:inline-block;margin-bottom:14px}
+  .footer-tagline{font-size:14px;color:var(--text-3);line-height:1.55}
+  .footer-col h4{font-family:var(--font-mono);font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--text-3);margin-bottom:14px}
+  .footer-col ul{list-style:none;padding:0;margin:0}
+  .footer-col li{margin-bottom:8px}
+  .footer-col a{color:var(--text-2);font-size:14px;text-decoration:none;transition:color .2s}
+  .footer-col a:hover{color:var(--text)}
+  .footer-bottom{padding-top:24px;border-top:1px solid rgba(255,255,255,.06);font-size:13px;color:var(--text-3);text-align:center}
+  @media (min-width:768px){.footer-grid{grid-template-columns:2fr 1fr 1fr 1fr 1fr}}
+</style>
 
   <script src="assets/main.js?v=ee210d4" defer></script>
 </body>
