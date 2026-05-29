@@ -289,7 +289,68 @@
   .testimonial-grid{display:grid;grid-template-columns:1fr;gap:20px;margin-top:32px}
   @media (min-width:768px){.testimonial-grid{grid-template-columns:repeat(3,1fr)}}
 </style>
-    <!-- 6. Planos -->
+<!-- 6. Resumo de planos -->
+<section id="planos" class="section-band theme-light">
+  <div class="container">
+    <div class="sec-head" data-reveal>
+      <span class="eyebrow"><span class="dot"></span> Preço honesto</span>
+      <h2>Plano que <span class="display-glow">cresce com você.</span></h2>
+      <p class="lede">Sem cartão · 14 dias grátis · Onboarding em 15 min · Cancele quando quiser.</p>
+    </div>
+
+    <div class="plans-grid">
+      <article class="plan-card" data-reveal>
+        <div class="plan-name">Solo</div>
+        <div class="plan-price">R$ 297 <small>/mês</small></div>
+        <p class="plan-desc">Freelancer ou consultor solo, até 5 clientes.</p>
+        <ul class="plan-features">
+          <li>1 usuário</li>
+          <li>5 clientes ativos</li>
+          <li>Suporte por e-mail</li>
+        </ul>
+        <a href="https://wa.me/5512991548086?text=Quero%20conhecer%20o%20plano%20Solo" target="_blank" rel="noopener" class="btn btn-ghost magnetic">Falar com a gente</a>
+      </article>
+
+      <article class="plan-card featured" data-reveal style="--reveal-delay:80ms">
+        <span class="badge">Mais escolhido</span>
+        <div class="plan-name">Estúdio</div>
+        <div class="plan-price">R$ 697 <small>/mês</small></div>
+        <p class="plan-desc">Agência boutique, até 25 clientes e 8 usuários.</p>
+        <ul class="plan-features">
+          <li>8 usuários</li>
+          <li>25 clientes ativos</li>
+          <li>Suporte prioritário</li>
+          <li>Squad de IA inclusa</li>
+        </ul>
+        <a href="https://wa.me/5512991548086?text=Quero%20conhecer%20o%20plano%20Est%C3%BAdio" target="_blank" rel="noopener" class="btn btn-accent magnetic">Falar com a gente</a>
+      </article>
+
+      <article class="plan-card" data-reveal style="--reveal-delay:160ms">
+        <div class="plan-name">Holding</div>
+        <div class="plan-price">Sob consulta</div>
+        <p class="plan-desc">Grupos com múltiplas agências, custom limits, white-label.</p>
+        <ul class="plan-features">
+          <li>Usuários ilimitados</li>
+          <li>Clientes ilimitados</li>
+          <li>Multi-tenant</li>
+          <li>SLA dedicado</li>
+        </ul>
+        <a href="https://wa.me/5512991548086?text=Quero%20conhecer%20o%20plano%20Holding" target="_blank" rel="noopener" class="btn btn-ghost magnetic">Falar com a gente</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .plans-grid{display:grid;grid-template-columns:1fr;gap:20px;margin-top:40px}
+  .plan-card.featured{border-color:var(--accent);background:rgba(69,118,255,.04);position:relative}
+  .plan-card .badge{position:absolute;top:-12px;right:20px;background:var(--accent);color:#fff;font-size:11px;padding:4px 12px;border-radius:999px;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.08em}
+  .plan-features{list-style:none;padding:0;margin:18px 0 24px}
+  .plan-features li{padding:6px 0;font-size:14px;color:var(--text-2);border-top:1px solid rgba(255,255,255,.06)}
+  .plan-features li:first-child{border-top:0}
+  .plan-desc{font-size:14px;color:var(--text-3);margin-bottom:6px}
+  @media (min-width:768px){.plans-grid{grid-template-columns:repeat(3,1fr)}}
+</style>
     <!-- 7. FAQ -->
     <!-- 8. CTA final -->
   </main>
