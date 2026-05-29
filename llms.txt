@@ -16,8 +16,8 @@ A diferença central da Balu vs concorrentes (mLabs, RD Station): em vez de foca
 
 Páginas focadas em conversão (WhatsApp direto com o time comercial) — distintas das páginas institucionais acima.
 
-- [LP Balu Agência](https://baluhub.com.br/agencia): "Saia do Frankenstack". Para donos de agência (4 a 25 pessoas) que vivem caos do Frankenstack — Meta Business + Google Ads + Trello + Notion + RD + planilha + Asaas + WhatsApp + mLabs + Conta Azul. CTA: conversa de 15 min com o Michel. Posicionamento: Loop Fechado em 4 camadas (Captação → Conversão → Entrega → Insight).
-- [LP Balu CRM](https://baluhub.com.br/lp-crm): "Pare de perder lead no WhatsApp". Para empresas/agências (2 a 10 pessoas) que perdem lead por atendimento desorganizado. CRM omnichannel com IA: inbox unificado (WhatsApp + Instagram + Messenger + e-mail + marketplaces), agentes de IA com RAG, Sales Assist (lead scoring Hot/Warm/Cold), pipeline visual e propostas com IA + assinatura nativa. Framework BAB (Before/After/Bridge).
+- [LP Balu Agência](https://lp.baluhub.com.br/agencia): "Saia do Frankenstack". Para donos de agência (4 a 25 pessoas) que vivem caos do Frankenstack — Meta Business + Google Ads + Trello + Notion + RD + planilha + Asaas + WhatsApp + mLabs + Conta Azul. CTA: conversa de 15 min com o Michel. Posicionamento: Loop Fechado em 4 camadas (Captação → Conversão → Entrega → Insight).
+- [LP Balu CRM](https://lp.baluhub.com.br/crm): "Pare de perder lead no WhatsApp". Para empresas/agências (2 a 10 pessoas) que perdem lead por atendimento desorganizado. CRM omnichannel com IA: inbox unificado (WhatsApp + Instagram + Messenger + e-mail + marketplaces), agentes de IA com RAG, Sales Assist (lead scoring Hot/Warm/Cold), pipeline visual e propostas com IA + assinatura nativa. Framework BAB (Before/After/Bridge).
 
 ## Diferenciais técnicos
 

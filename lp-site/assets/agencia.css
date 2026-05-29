@@ -1,0 +1,273 @@
+/* ===== Balu Agência LP — tema claro ===== */
+/* Cal Sans self-hosted (display). Origem: @fontsource/cal-sans. Range 400-700
+   declarado p/ evitar faux-bold ao usar font-weight:600 ("semibold"). */
+@font-face{
+  font-family:"Cal Sans";
+  font-style:normal;
+  font-weight:400 700;
+  font-display:swap;
+  src:url("fonts/cal-sans-latin-400.woff2") format("woff2");
+  unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+    U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC,
+    U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+:root{
+  --bg-base:#FFFFFF; --bg-dark:#0A1628; --bg-surface:#F5F7FB; --border:#E2E8F0;
+  --border-dark:rgba(255,255,255,.08);
+  --primary:#1F88C2; --primary-deep:#14507E; --primary-light:#2FA3D9; --primary-bg:rgba(31,136,194,.10);
+  --cta:#C94E1E; --cta-hover:#A83D17; /* laranja escurecido p/ passar WCAG AA (4.57:1 c/ texto branco) */
+  --danger:#E05252; --success:#22C87A;
+  --text-primary:#0A1628; --text-secondary:#5A6B82; --text-muted:#94A3B8;
+  --text-on-dark:#F0F4FA; --text-secondary-on-dark:#94A3B8;
+  --radius-sm:8px; --radius-md:12px; --radius-lg:16px; --radius-xl:24px;
+  /* curvas de easing customizadas (Emil Kowalski) — mais "punch" que os defaults do CSS */
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --ease-in-out:cubic-bezier(.77,0,.175,1);
+  /* trocar "Manrope" por "Axiforma" quando os arquivos forem self-hosted */
+  --font-display:'Cal Sans','Manrope','Inter',sans-serif;
+  --font-ui:'Manrope','Inter',system-ui,sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --shadow-sm:0 1px 3px rgba(10,22,40,.06),0 1px 2px rgba(10,22,40,.04);
+  --shadow-md:0 8px 24px rgba(10,22,40,.08);
+  --maxw:1120px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+html{font-family:var(--font-ui)}
+body{font-family:var(--font-ui);font-size:16px;line-height:1.6;color:var(--text-primary);background:var(--bg-base);-webkit-font-smoothing:antialiased}
+img,video{max-width:100%;display:block;height:auto}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+section{padding:56px 0}
+.eyebrow{font-family:var(--font-mono);font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--primary)}
+h1,h2{font-family:var(--font-display);font-weight:600;line-height:1.1;letter-spacing:-.02em}
+h1{font-size:clamp(30px,7vw,56px)}
+h2{font-size:clamp(24px,5vw,40px)}
+h3{font-family:var(--font-display);font-weight:600;font-size:clamp(18px,2.4vw,20px);letter-spacing:-.01em}
+.display-accent{color:var(--primary)}
+.muted{color:var(--text-secondary)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
+.reveal.visible{opacity:1;transform:none}
+/* botões */
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-ui);font-weight:700;border-radius:var(--radius-md);padding:16px 28px;font-size:16px;line-height:1;transition:background .18s var(--ease-out),transform .12s var(--ease-out),box-shadow .2s var(--ease-out);cursor:pointer;border:0}
+.btn:active{transform:translateY(1px)}
+.btn-cta{background:var(--cta);color:#fff;box-shadow:var(--shadow-md)}
+.btn-cta:hover{background:var(--cta-hover)}
+.btn-secondary{background:var(--primary-bg);color:var(--primary);border:1px solid var(--primary)}
+/* barra urgência */
+.urgency-bar{background:var(--primary-deep);color:var(--text-on-dark);font-size:13px;text-align:center;padding:10px 16px}
+.urgency-bar a{color:#fff;font-weight:600;border-bottom:1px solid rgba(255,255,255,.5)}
+/* hero */
+.hero{padding-top:40px}
+.hero-grid{display:grid;gap:32px;align-items:center}
+.hero-copy>*+*{margin-top:18px}
+.hero-sub{font-size:clamp(16px,2.2vw,18px);color:var(--text-secondary);max-width:46ch}
+.hero-sub strong{color:var(--primary)}
+.btn-cta{width:100%;justify-content:center}
+.hero-microcopy{font-size:13px;color:var(--text-muted)}
+.hero-secondary-link{display:inline-block;color:var(--primary);font-weight:600;font-size:14px}
+.hero-visual img{border-radius:var(--radius-lg);box-shadow:var(--shadow-md);border:1px solid var(--border)}
+.stats-strip{display:grid;grid-template-columns:1fr;gap:14px;margin-top:40px}
+.stat{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:18px 20px;text-align:center}
+.stat-num{display:block;font-family:var(--font-display);font-size:30px;color:var(--primary)}
+.stat-lbl{font-size:13px;color:var(--text-secondary)}
+@media (min-width:768px){
+  .hero-grid{grid-template-columns:1.05fr .95fr}
+  .btn-cta{width:auto}
+  .stats-strip{grid-template-columns:repeat(3,1fr)}
+}
+.logobar{padding:32px 0;background:var(--bg-surface);border-block:1px solid var(--border)}
+.logobar-label{text-align:center;font-size:13px;color:var(--text-secondary);margin-bottom:24px;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.1em}
+.marquee{overflow:hidden}
+.marquee-track{display:flex;gap:48px;align-items:center;justify-content:center;flex-wrap:wrap}
+.marquee-track img{height:36px;width:auto;opacity:.6;filter:grayscale(1);transition:opacity .2s}
+.marquee-track img:hover{opacity:1;filter:none}
+
+/* foco visível (acessibilidade) */
+:focus-visible{outline:3px solid var(--primary);outline-offset:3px;border-radius:2px}
+.btn:focus-visible{outline-color:#fff;outline-offset:-3px}
+
+/* 3. Problema / Agitação */
+.problema h2{margin:10px 0 18px}
+.problema-story{max-width:60ch;font-size:17px;margin-bottom:32px}
+.frankenstack-box{background:var(--bg-dark);color:var(--text-on-dark);border-radius:var(--radius-lg);padding:32px 24px;text-align:center;margin-bottom:32px}
+.frankenstack-tools{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:20px}
+.frankenstack-tools span{font-family:var(--font-mono);font-size:13px;color:var(--text-secondary-on-dark);border:1px dashed rgba(224,82,82,.5);border-radius:var(--radius-sm);padding:6px 12px}
+.frankenstack-name{font-family:var(--font-display);font-size:clamp(22px,4vw,30px)}
+.frankenstack-name strong{color:var(--danger);font-weight:600}
+.frankenstack-sub{color:var(--text-secondary-on-dark);max-width:54ch;margin:12px auto 0;font-size:15px}
+.dor-grid{display:grid;grid-template-columns:1fr;gap:16px}
+.dor-card{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:22px}
+.dor-card h3{color:var(--danger);margin-bottom:8px;font-size:18px}
+.dor-card p{font-size:15px;color:var(--text-secondary)}
+@media (min-width:768px){.dor-grid{grid-template-columns:repeat(3,1fr)}}
+
+/* 4. Solução — Método BALU */
+.metodo-sub{max-width:54ch;margin:10px 0 32px}
+.metodo-grid{display:grid;grid-template-columns:1fr;gap:16px}
+.metodo-card{background:var(--bg-base);border:1px solid var(--border);border-radius:var(--radius-md);padding:24px;box-shadow:var(--shadow-sm);position:relative}
+.metodo-step{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:var(--primary-bg);color:var(--primary);font-weight:800;font-family:var(--font-mono);margin-bottom:12px}
+.metodo-card h3{margin-bottom:8px}
+.metodo-card p{font-size:15px;color:var(--text-secondary)}
+.metodo-card strong{color:var(--primary)}
+.loop-indicator{margin-top:24px;text-align:center;font-family:var(--font-mono);font-size:13px;color:var(--primary);letter-spacing:.04em}
+@media (min-width:768px){.metodo-grid{grid-template-columns:repeat(4,1fr)}}
+
+/* 5. Demonstração */
+.demo h2{margin:10px 0 28px}
+.demo-video video{width:100%;height:auto;border-radius:var(--radius-lg);border:1px solid var(--border);box-shadow:var(--shadow-md);background:#000}
+.demo-shots{display:grid;grid-template-columns:1fr;gap:20px;margin-top:32px}
+.demo-shots figure img{border-radius:var(--radius-md);border:1px solid var(--border);box-shadow:var(--shadow-sm);height:auto}
+.demo-shots figcaption{font-size:14px;color:var(--text-secondary);margin-top:10px}
+@media (min-width:768px){.demo-shots{grid-template-columns:repeat(3,1fr)}}
+
+/* 6. Benefícios */
+.beneficios h2{margin:10px 0 28px}
+.benef-grid{display:grid;grid-template-columns:1fr;gap:16px}
+.benef-card{background:var(--bg-base);border:1px solid var(--border);border-radius:var(--radius-md);padding:22px;box-shadow:var(--shadow-sm)}
+.benef-card h3{font-size:16px;margin-bottom:6px;color:var(--primary)}
+.benef-card p{font-size:14px;color:var(--text-secondary)}
+.benef-sub{display:block;margin-top:10px;font-family:var(--font-mono);font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em}
+@media (min-width:640px){.benef-grid{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:960px){.benef-grid{grid-template-columns:repeat(4,1fr)}}
+
+/* 7. Depoimentos + KPIs */
+.depoimentos h2{margin:10px 0 28px}
+.depo-highlight{background:var(--bg-dark);color:var(--text-on-dark);border-radius:var(--radius-lg);padding:32px 28px;margin-bottom:20px}
+.depo-bignum{font-family:var(--font-display);font-size:clamp(36px,8vw,56px);color:var(--primary-light);line-height:1}
+.depo-highlight blockquote{font-size:18px;margin:16px 0 20px;max-width:52ch}
+.depo-grid{display:grid;grid-template-columns:1fr;gap:16px}
+.depo-card{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:22px}
+.depo-card blockquote{font-size:15px;margin-bottom:16px}
+.depo-meta{display:flex;align-items:center;gap:12px}
+.depo-meta .avatar{width:40px;height:40px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0}
+.depo-meta strong{display:block;font-size:14px}
+.depo-meta div span{font-size:12px;color:var(--text-muted)}
+.depo-highlight .depo-meta div span{color:var(--text-secondary-on-dark)}
+.kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:28px}
+.kpi{text-align:center;background:var(--bg-base);border:1px solid var(--border);border-radius:var(--radius-md);padding:18px}
+.kpi-val{display:block;font-family:var(--font-display);font-size:30px;color:var(--primary)}
+.kpi-lbl{font-size:12px;color:var(--text-secondary)}
+
+.comparativo h2{margin:10px 0 28px}
+.compare-table{display:grid;grid-template-columns:1fr;gap:16px}
+.compare-col{border-radius:var(--radius-lg);padding:24px;border:1px solid var(--border)}
+.compare-bad{background:var(--bg-surface)}
+.compare-good{background:var(--primary-bg);border-color:var(--primary)}
+.compare-head{font-weight:800;font-size:16px;margin-bottom:14px}
+.compare-good .compare-head{color:var(--primary-deep)}
+.compare-col ul{list-style:none}
+.compare-col li{padding:10px 0;border-top:1px solid var(--border);font-size:14px;color:var(--text-secondary)}
+.compare-good li{color:var(--text-primary)}
+@media (min-width:768px){.depo-grid{grid-template-columns:repeat(2,1fr)}.kpi-grid{grid-template-columns:repeat(4,1fr)}.compare-table{grid-template-columns:1fr 1fr}}
+
+/* 9. Oferta dupla */
+.oferta h2{margin:10px 0 28px}
+.oferta-grid{display:grid;grid-template-columns:1fr;gap:20px}
+.oferta-main{background:var(--bg-dark);color:var(--text-on-dark);border-radius:var(--radius-xl);padding:32px 28px}
+.oferta-main h3{font-size:24px;margin-bottom:12px}
+.oferta-main p{color:var(--text-secondary-on-dark);margin-bottom:20px;max-width:46ch}
+.oferta-main .btn-cta{width:100%;justify-content:center}
+.oferta-microcopy{font-size:13px;color:var(--text-secondary-on-dark);margin-top:12px}
+.oferta-side{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:26px}
+.oferta-side h3{font-size:18px;margin-bottom:10px}
+.oferta-side p{font-size:14px;color:var(--text-secondary);margin-bottom:16px}
+.oferta-side strong{color:var(--primary)}
+.oferta-side .btn{width:100%;justify-content:center;font-size:15px;padding:14px}
+.oferta-bumps{font-size:12px;color:var(--text-muted);margin-top:10px}
+@media (min-width:768px){.oferta-grid{grid-template-columns:1.4fr 1fr;align-items:start}}
+/* FAQ */
+.faq h2{margin:10px 0 28px}
+.faq-list{max-width:760px;margin:0 auto}
+.faq details{border-bottom:1px solid var(--border)}
+.faq details:first-child{border-top:1px solid var(--border)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 0;font-weight:600;font-size:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq .faq-chevron{transition:transform .2s;color:var(--primary);font-size:20px}
+.faq details[open] .faq-chevron{transform:rotate(180deg)}
+.faq details p{padding:0 0 18px;color:var(--text-secondary);font-size:15px;max-width:64ch}
+/* CTA Final */
+.cta-final{text-align:center;background:var(--bg-surface)}
+.cta-final-sub{max-width:50ch;margin:14px auto 24px}
+.cta-final .btn-cta{margin:0 auto}
+.cta-final-tripwire{display:inline-block;margin-top:16px;color:var(--primary);font-weight:600;font-size:14px;border-bottom:1px solid var(--primary)}
+/* Footer */
+.site-footer{background:var(--bg-dark);color:var(--text-secondary-on-dark);padding:32px 0}
+.footer-inner{display:flex;flex-direction:column;gap:14px;align-items:center;text-align:center}
+.footer-links{display:flex;gap:18px;flex-wrap:wrap;justify-content:center}
+.footer-links a{font-size:14px;color:var(--text-on-dark)}
+.footer-copy{font-size:13px}
+/* Sticky CTA */
+.sticky-cta{position:fixed;bottom:0;left:0;right:0;z-index:99;padding:12px 16px;background:var(--bg-base);border-top:1px solid var(--border);display:none;box-shadow:0 -4px 16px rgba(10,22,40,.08)}
+.sticky-cta .btn-cta{width:100%;justify-content:center;padding:14px}
+.sticky-cta.show{display:block}
+@media (min-width:769px){.sticky-cta{display:none!important}}
+@media (max-width:768px){body{padding-bottom:84px}}
+
+/* ========== Efeitos & animações ========== */
+/* Barra de progresso de scroll */
+.scroll-progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:200;pointer-events:none}
+.scroll-progress>span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--primary-light))}
+
+/* A — Hero: mesh sutil, glow e mockup com moldura de browser + float */
+.hero{position:relative;overflow-x:clip;background:radial-gradient(120% 80% at 100% 0%,rgba(31,136,194,.06),transparent 50%)}
+.hero-visual{position:relative;isolation:isolate}
+.hero-visual::before{content:"";position:absolute;inset:-14% -10%;z-index:-1;background:radial-gradient(60% 60% at 60% 40%,rgba(31,136,194,.22),transparent 70%);filter:blur(22px)}
+.hero-mockup{animation:float 6s ease-in-out infinite;will-change:transform}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.browser-frame{border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow-md);background:#fff}
+.browser-frame img{border:0;border-radius:0;box-shadow:none}
+.browser-bar{display:flex;align-items:center;gap:7px;padding:10px 14px;background:#F1F4F9;border-bottom:1px solid var(--border)}
+.browser-bar .dot{width:10px;height:10px;border-radius:50%;background:#CDD5E0}
+.browser-bar .dot:nth-child(1){background:#FF5F57}.browser-bar .dot:nth-child(2){background:#FEBC2E}.browser-bar .dot:nth-child(3){background:#28C840}
+.browser-url{margin-left:10px;font-family:var(--font-mono);font-size:11px;color:var(--text-muted);background:#fff;border:1px solid var(--border);border-radius:6px;padding:3px 12px}
+
+/* B — count-up: largura estável */
+.stat-num,.kpi-val,.depo-bignum{font-variant-numeric:tabular-nums}
+
+/* C — Loop Fechado animado + marquee contínuo */
+.loop-flow{height:3px;border-radius:3px;margin:28px auto 0;max-width:520px;background:linear-gradient(90deg,var(--primary-bg),var(--primary),var(--primary-bg));background-size:200% 100%;animation:loopflow 3s linear infinite}
+@keyframes loopflow{to{background-position:-200% 0}}
+.loop-icon{display:inline-block;color:var(--primary);animation:spin 7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loop-indicator strong{color:var(--primary)}
+.marquee{-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.marquee-track{flex-wrap:nowrap;justify-content:flex-start;gap:0;width:max-content;animation:marquee 32s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.marquee-track img,.marquee-track .client-name{flex:none;margin-right:56px}
+.client-name{font-family:var(--font-display);font-weight:600;font-size:clamp(18px,4.5vw,22px);line-height:1;letter-spacing:-.01em;color:var(--text-secondary);white-space:nowrap;transition:color .2s}
+.client-name:hover{color:var(--primary-deep)}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* D — micro-interações */
+.dor-card,.metodo-card,.benef-card,.depo-card{transition:transform .22s var(--ease-out),box-shadow .22s var(--ease-out)}
+.dor-card:hover,.metodo-card:hover,.benef-card:hover,.depo-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+.btn-cta{position:relative;overflow:hidden}
+.btn-cta::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);transition:left .5s ease}
+.btn-cta:hover::after{left:120%}
+/* sticky CTA: uma única pulsada suave ao aparecer (não infinita — Emil: nada anima em loop pra algo visto 100×/dia) */
+.sticky-cta.show .btn-cta{animation:ctashine 1.1s var(--ease-out) 1}
+@keyframes ctashine{0%{box-shadow:0 0 0 0 rgba(201,78,30,0)}55%{box-shadow:0 0 0 8px rgba(201,78,30,.22)}100%{box-shadow:0 0 0 0 rgba(201,78,30,0)}}
+.faq details[open]>p{animation:faqIn .28s ease}
+@keyframes faqIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+
+/* Acessibilidade: respeitar prefers-reduced-motion */
+@media (prefers-reduced-motion:reduce){
+  .hero-mockup,.loop-icon,.loop-flow,.marquee-track,.sticky-cta .btn-cta{animation:none!important}
+  .btn-cta::after{display:none}
+  .marquee-track{flex-wrap:wrap;justify-content:center;width:auto;row-gap:20px}
+  .marquee{-webkit-mask-image:none;mask-image:none}
+  .marquee-track [aria-hidden="true"]{display:none}
+  .dor-card:hover,.metodo-card:hover,.benef-card:hover,.depo-card:hover{transform:none}
+}
+
+/* ========== Ritmo de fundo das seções (alternância clara + ambiente sutil) ========== */
+.metodo{background:radial-gradient(90% 70% at 100% 0%,rgba(31,136,194,.07),transparent 55%),var(--bg-surface)}
+.beneficios{background:var(--bg-surface)}
+.comparativo{background:var(--bg-surface)}
+.faq{background:var(--bg-surface)}
+.oferta{background:radial-gradient(70% 60% at 0% 100%,rgba(31,136,194,.05),transparent 55%)}
+.cta-final{background:radial-gradient(120% 100% at 50% 0%,var(--primary-bg),var(--bg-surface) 60%)}
