@@ -51,7 +51,7 @@
     { re: /\b(migra(r|ção|cao)|mlabs|rd\s*station|pipedrive|hubspot)\b/i, tag: "interesse-migracao" },
   ];
 
-  async function callPublicChat({ message, visitorId, sessionId }) {
+  async function callPublicChat({ message, visitorId, sessionId, lead }) {
     const resp = await fetch(CFG.BACKEND_URL, {
       method: "POST",
       headers: {
@@ -64,6 +64,8 @@
         message,
         visitor_id: visitorId,
         session_id: sessionId || undefined,
+        // Lead data estruturado pra backend criar contato/deal sem precisar parsear texto.
+        lead: lead || undefined,
       }),
     });
     return resp;
@@ -429,15 +431,25 @@
     // visitorId estável por email (reusa sessão se voltar)
     lead.visitorId = `lp-${lead.email}`;
 
-    // INIT silenciosa: cria sessão no Balu CRM + injeta dados do lead como user message
-    // pro atendente ver os dados de cara na aba Conversas. public-chat-guarded detecta
-    // first-turn, retorna o welcome (que ignoramos — já mostramos local) e devolve X-Session-Id.
-    const initMsg = `[LEAD CAPTURADO via LP] Nome: ${lead.name} · WhatsApp: ${lead.whatsapp} · Email: ${lead.email} · Origem: ${lead.sourceUrl}`;
+    // INIT silenciosa: cria sessão no Balu CRM + envia lead estruturado pra backend
+    // criar contato (whatsapp_contacts) + deal no funil Leads LP. Backend detecta
+    // first-turn, retorna welcome (ignoramos — já mostramos local) e devolve X-Session-Id.
+    const initMsg = `[LEAD CAPTURADO via LP] ${lead.name} · ${lead.whatsapp} · ${lead.email} · Origem: ${lead.sourceUrl}`;
+    const leadPayload = {
+      name: lead.name,
+      whatsapp: lead.whatsapp,
+      email: lead.email,
+      source_page: lead.sourcePage,
+      source_url: lead.sourceUrl,
+      source_title: lead.sourceTitle,
+      first_touch: true,
+    };
     try {
       const initResp = await callPublicChat({
         message: initMsg,
         visitorId: lead.visitorId,
         sessionId: null,
+        lead: leadPayload,
       });
       const initData = await readChatReply(initResp);
       lead.sessionId = initData.sessionId || null;
@@ -562,18 +574,20 @@
       const oldQR = bodyEl.querySelector(".balu-quick-replies");
       if (oldQR) oldQR.remove();
 
-      // Intent tags (item 10): prefixa msg com [TAGS:...] pra backend logar no lead
+      // Intent tags (item 10): detecta interesse e envia separado pra backend taggear contato+deal
       const tags = detectIntentTags(text);
       const enrichedText = tags.length ? `[INTENT:${tags.join(",")}] ${text}` : text;
+      // Lead payload leve: backend usa pra atualizar tags do contato existente
+      const leadPayload = tags.length ? { intent_tags: tags } : undefined;
 
       try {
         // Retry automático 1x em falha de rede (item 15)
         const fetchWithRetry = async () => {
           try {
-            return await callPublicChat({ message: enrichedText, visitorId: state.lead.visitorId, sessionId: state.lead.sessionId });
+            return await callPublicChat({ message: enrichedText, visitorId: state.lead.visitorId, sessionId: state.lead.sessionId, lead: leadPayload });
           } catch (err) {
             await new Promise(r => setTimeout(r, 800));
-            return await callPublicChat({ message: enrichedText, visitorId: state.lead.visitorId, sessionId: state.lead.sessionId });
+            return await callPublicChat({ message: enrichedText, visitorId: state.lead.visitorId, sessionId: state.lead.sessionId, lead: leadPayload });
           }
         };
         const resp = await fetchWithRetry();
